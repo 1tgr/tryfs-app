@@ -16,6 +16,8 @@
 		892B982DBBF00613315B35D0 /* CouchCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 892B982DBBF00613315B35CF /* CouchCocoa.framework */; };
 		892B982DBBF00613315B35D3 /* SnippetViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 892B982DBBF00613315B35D2 /* SnippetViewController.m */; };
 		892B982DBBF00613315B35D5 /* SnippetViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 892B982DBBF00613315B35D4 /* SnippetViewController.xib */; };
+		892B982DBBF00613315B35D7 /* icon_command_line.png in Resources */ = {isa = PBXBuildFile; fileRef = 892B982DBBF00613315B35D6 /* icon_command_line.png */; };
+		892B982DBBF00613315B35D9 /* icon_document.png in Resources */ = {isa = PBXBuildFile; fileRef = 892B982DBBF00613315B35D8 /* icon_document.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,6 +35,8 @@
 		892B982DBBF00613315B35D1 /* SnippetViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SnippetViewController.h; sourceTree = "<group>"; };
 		892B982DBBF00613315B35D2 /* SnippetViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SnippetViewController.m; sourceTree = "<group>"; };
 		892B982DBBF00613315B35D4 /* SnippetViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SnippetViewController.xib; sourceTree = "<group>"; };
+		892B982DBBF00613315B35D6 /* icon_command_line.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_command_line.png; sourceTree = "<group>"; };
+		892B982DBBF00613315B35D8 /* icon_document.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_document.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,6 +85,8 @@
 		892B982DBBF00613315B35C3 /* TryFS */ = {
 			isa = PBXGroup;
 			children = (
+				892B982DBBF00613315B35D8 /* icon_document.png */,
+				892B982DBBF00613315B35D6 /* icon_command_line.png */,
 				892B982DBBF00613315B35D4 /* SnippetViewController.xib */,
 				892B982DBBF00613315B35D2 /* SnippetViewController.m */,
 				892B982DBBF00613315B35D1 /* SnippetViewController.h */,
@@ -154,6 +160,8 @@
 			files = (
 				892B982DBBF00613315B35C8 /* InfoPlist.strings in Resources */,
 				892B982DBBF00613315B35D5 /* SnippetViewController.xib in Resources */,
+				892B982DBBF00613315B35D7 /* icon_command_line.png in Resources */,
+				892B982DBBF00613315B35D9 /* icon_document.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

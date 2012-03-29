@@ -105,9 +105,11 @@
 {
     UIViewController *controller1 = [[[UIViewController alloc] init] autorelease];
     controller1.title = @"Edit";
+    controller1.tabBarItem.image = [UIImage imageNamed:@"icon_document.png"];
 
     UIViewController *controller2 = [[[UIViewController alloc] init] autorelease];
     controller2.title = @"REPL";
+    controller2.tabBarItem.image = [UIImage imageNamed:@"icon_command_line.png"];
 
     UITabBarController *detailController = [[[UITabBarController alloc] init] autorelease];
     detailController.title = @"Snippet";

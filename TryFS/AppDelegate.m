@@ -7,11 +7,11 @@
 //
 
 #import "AppDelegate.h"
+#import "SnippetViewController.h"
 
 @implementation AppDelegate
 
 @synthesize window = _window;
-
 
 - (void)dealloc
 {
@@ -21,10 +21,12 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    self.window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
-    // Override point for customization after application launch.
-    self.window.backgroundColor = [UIColor whiteColor];
-    [self.window makeKeyAndVisible];
+    UIViewController *mainController = [[[SnippetViewController alloc] initWithNibName:@"SnippetViewController" bundle:nil] autorelease];
+    UINavigationController *navigationController = [[[UINavigationController alloc] initWithRootViewController:mainController] autorelease];
+    UIWindow *window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
+    window.rootViewController = navigationController;
+    [window makeKeyAndVisible];
+    self.window = window;
     return YES;
 }
 

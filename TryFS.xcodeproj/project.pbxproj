@@ -14,6 +14,8 @@
 		892B982DBBF00613315B35CA /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 892B982DBBF00613315B35C9 /* main.m */; };
 		892B982DBBF00613315B35CE /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 892B982DBBF00613315B35CD /* AppDelegate.m */; };
 		892B982DBBF00613315B35D0 /* CouchCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 892B982DBBF00613315B35CF /* CouchCocoa.framework */; };
+		892B982DBBF00613315B35D3 /* SnippetViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 892B982DBBF00613315B35D2 /* SnippetViewController.m */; };
+		892B982DBBF00613315B35D5 /* SnippetViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 892B982DBBF00613315B35D4 /* SnippetViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +30,9 @@
 		892B982DBBF00613315B35CC /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		892B982DBBF00613315B35CD /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		892B982DBBF00613315B35CF /* CouchCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CouchCocoa.framework; path = "/Users/tim/Git/tryfs-app/CouchCocoa.framework"; sourceTree = "<absolute>"; };
+		892B982DBBF00613315B35D1 /* SnippetViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SnippetViewController.h; sourceTree = "<group>"; };
+		892B982DBBF00613315B35D2 /* SnippetViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SnippetViewController.m; sourceTree = "<group>"; };
+		892B982DBBF00613315B35D4 /* SnippetViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SnippetViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,6 +81,9 @@
 		892B982DBBF00613315B35C3 /* TryFS */ = {
 			isa = PBXGroup;
 			children = (
+				892B982DBBF00613315B35D4 /* SnippetViewController.xib */,
+				892B982DBBF00613315B35D2 /* SnippetViewController.m */,
+				892B982DBBF00613315B35D1 /* SnippetViewController.h */,
 				892B982DBBF00613315B35CD /* AppDelegate.m */,
 				892B982DBBF00613315B35CC /* AppDelegate.h */,
 				892B982DBBF00613315B35C4 /* Supporting Files */,
@@ -145,6 +153,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				892B982DBBF00613315B35C8 /* InfoPlist.strings in Resources */,
+				892B982DBBF00613315B35D5 /* SnippetViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -157,6 +166,7 @@
 			files = (
 				892B982DBBF00613315B35CA /* main.m in Sources */,
 				892B982DBBF00613315B35CE /* AppDelegate.m in Sources */,
+				892B982DBBF00613315B35D3 /* SnippetViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -28,6 +28,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.title = @"Snippet";
     [self.view becomeFirstResponder];
     self.navigationItem.rightBarButtonItem = self.runButton;
 }
@@ -46,9 +47,7 @@
 
 - (IBAction)didRunButton
 {
-    ReplViewController *controller = [[[ReplViewController alloc] initWithNibName:@"ReplViewController" bundle:nil] autorelease];
-    controller.title = @"REPL";
-    [self.navigationController pushViewController:controller animated:YES];
+    [self.navigationController pushViewController:[[[ReplViewController alloc] initWithNibName:@"ReplViewController" bundle:nil] autorelease] animated:YES];
 }
 
 @end

@@ -15,16 +15,15 @@
 
 @implementation SnippetViewController
 
+- (void)dealloc
+{
+    [super dealloc];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     self.title = @"Snippets";
-
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
- 
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 
 - (void)viewDidUnload
@@ -104,9 +103,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    EditViewController *controller = [[[EditViewController alloc] init] autorelease];
-    controller.title = @"Snippet";
-    [self.navigationController pushViewController:controller animated:YES];
+    [self.navigationController pushViewController:[[[EditViewController alloc] init] autorelease] animated:YES];
 }
 
 @end

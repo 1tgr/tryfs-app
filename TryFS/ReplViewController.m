@@ -27,6 +27,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.title = @"REPL";
     [self.textField becomeFirstResponder];
 }
 

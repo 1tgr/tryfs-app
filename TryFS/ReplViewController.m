@@ -1,30 +1,33 @@
 //
-//  SnippetViewController.m
+//  ReplViewController.m
 //  TryFS
 //
-//  Created by Tim Robinson on 03/29/12.
+//  Created by Tim Robinson on 03/30/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
-#import "SnippetViewController.h"
-#import "EditViewController.h"
+#import "ReplViewController.h"
 
-@interface SnippetViewController ()
+@interface ReplViewController ()
 
 @end
 
-@implementation SnippetViewController
+@implementation ReplViewController
+{
+}
+
+@synthesize textField = _textField;
+
+- (void)dealloc
+{
+    [_textField release];
+    [super dealloc];
+}
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.title = @"Snippets";
-
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
- 
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    [self.textField becomeFirstResponder];
 }
 
 - (void)viewDidUnload
@@ -43,21 +46,25 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 1;
+#warning Potentially incomplete method implementation.
+    // Return the number of sections.
+    return 0;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 1;
+#warning Incomplete method implementation.
+    // Return the number of rows in the section.
+    return 0;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"Cell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (cell == nil)
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
-
+    
+    // Configure the cell...
+    
     return cell;
 }
 
@@ -104,9 +111,13 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    EditViewController *controller = [[[EditViewController alloc] init] autorelease];
-    controller.title = @"Snippet";
-    [self.navigationController pushViewController:controller animated:YES];
+    // Navigation logic may go here. Create and push another view controller.
+    /*
+     <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
+     // ...
+     // Pass the selected object to the new view controller.
+     [self.navigationController pushViewController:detailViewController animated:YES];
+     */
 }
 
 @end

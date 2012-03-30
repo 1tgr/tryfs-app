@@ -8,27 +8,39 @@
 
 #import "EditViewController.h"
 #import "ReplViewController.h"
-
-@interface EditViewController ()
-
-@end
+#import "SnippetInfo.h"
 
 @implementation EditViewController
 {
+    SnippetInfo *_snippet;
 }
 
 @synthesize runButton = _runButton;
 
+- (id)initWithSnippet:(SnippetInfo *)snippet
+{
+    self = [super init];
+    if (self)
+    {
+        _snippet = [snippet retain];
+    }
+
+    return self;
+//To change the template use AppCode | Preferences | File Templates.
+}
+
+
 - (void)dealloc
 {
     [_runButton release];
+    [_snippet release];
     [super dealloc];
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.title = @"Snippet";
+    self.title = _snippet.title;
     [self.view becomeFirstResponder];
     self.navigationItem.rightBarButtonItem = self.runButton;
 }

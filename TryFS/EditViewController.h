@@ -8,10 +8,13 @@
 
 
 
+@class SnippetInfo;
+
 @interface EditViewController : UIViewController
 
 @property(nonatomic, retain) IBOutlet UIBarButtonItem *runButton;
 
+- (id)initWithSnippet:(SnippetInfo *)snippet;
 -(IBAction)didRunButton;
 
 @end

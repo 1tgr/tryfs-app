@@ -17,11 +17,32 @@
 
 @implementation SnippetViewController
 {
+    SnippetInfo *_emptySnippet;
     NSArray *_snippets;
+}
+
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self)
+    {
+        _emptySnippet = [[SnippetInfo alloc] initWithId:nil
+                                                    rev:nil
+                                                 author:nil
+                                                  title:@"New Snippet"
+                                            description:nil
+                                                   date:[NSDate date]];
+
+        _snippets = [NSArray arrayWithObject:_emptySnippet];
+    }
+
+    return self;
+//To change the template use AppCode | Preferences | File Templates.
 }
 
 - (void)dealloc
 {
+    [_emptySnippet release];
     [_snippets release];
     [super dealloc];
 }
@@ -43,6 +64,8 @@
         app.networkActivityIndicatorVisible = NO;
 
         NSMutableArray *snippets = [[[NSMutableArray alloc] init] autorelease];
+        [snippets addObject:_emptySnippet];
+
         for (CouchQueryRow *row in query.rows)
         {
             NSDictionary *v = row.value;
@@ -94,7 +117,10 @@
     SnippetInfo *s = [_snippets objectAtIndex:(NSUInteger) indexPath.row];
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:s.id];
     if (cell == nil)
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:s.id] autorelease];
+    {
+        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:s.id] autorelease];
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    }
 
     cell.textLabel.text = s.title;
     cell.detailTextLabel.text = s.author;
@@ -144,7 +170,8 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [self.navigationController pushViewController:[[[EditViewController alloc] init] autorelease] animated:YES];
+    SnippetInfo *s = [_snippets objectAtIndex:(NSUInteger) indexPath.row];
+    [self.navigationController pushViewController:[[[EditViewController alloc] initWithSnippet:s] autorelease] animated:YES];
 }
 
 @end

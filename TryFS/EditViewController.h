@@ -9,9 +9,11 @@
 
 
 @class SnippetInfo;
+@class CouchDatabase;
 
 @interface EditViewController : UIViewController
 
+@property(nonatomic, retain) CouchDatabase *database;
 @property(nonatomic, retain) SnippetInfo *snippet;
 
 @end

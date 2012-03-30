@@ -6,6 +6,7 @@
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
+#import <CouchCocoa/CouchCocoa.h>
 #import "AppDelegate.h"
 #import "SnippetViewController.h"
 
@@ -21,8 +22,11 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    UIViewController *mainController = [[[SnippetViewController alloc] initWithNibName:@"SnippetViewController" bundle:nil] autorelease];
-    UINavigationController *navigationController = [[[UINavigationController alloc] initWithRootViewController:mainController] autorelease];
+    CouchServer *server = [[[CouchServer alloc] initWithURL:[NSURL URLWithString:@"http://ec2.partario.com:5984"]] autorelease];
+    SnippetViewController *controller = [[[SnippetViewController alloc] initWithNibName:@"SnippetViewController" bundle:nil] autorelease];
+    controller.database = [server databaseNamed:@"tryfs"];
+
+    UINavigationController *navigationController = [[[UINavigationController alloc] initWithRootViewController:controller] autorelease];
     UIWindow *window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
     window.rootViewController = navigationController;
     [window makeKeyAndVisible];

@@ -21,6 +21,8 @@
     NSArray *_snippets;
 }
 
+@synthesize database = _database;
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -37,13 +39,13 @@
     }
 
     return self;
-//To change the template use AppCode | Preferences | File Templates.
 }
 
 - (void)dealloc
 {
     [_emptySnippet release];
     [_snippets release];
+    [_database release];
     [super dealloc];
 }
 
@@ -52,8 +54,7 @@
     [super viewDidLoad];
     self.title = @"Snippets";
 
-    CouchServer *server = [[[CouchServer alloc] initWithURL:[NSURL URLWithString:@"http://ec2.partario.com:5984"]] autorelease];
-    CouchQuery *query = [[[server databaseNamed:@"tryfs"] designDocumentWithName:@"app"] queryViewNamed:@"snippets"];
+    CouchQuery *query = [[_database designDocumentWithName:@"app"] queryViewNamed:@"snippets"];
     query.descending = YES;
 
     UIApplication *app = [UIApplication sharedApplication];
@@ -171,6 +172,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     EditViewController *controller = [[[EditViewController alloc] initWithNibName:@"EditViewController" bundle:nil] autorelease];
+    controller.database = _database;
     controller.snippet = [_snippets objectAtIndex:(NSUInteger) indexPath.row];
     [self.navigationController pushViewController:controller animated:YES];
 }

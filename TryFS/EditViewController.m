@@ -6,6 +6,7 @@
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
+#import <CouchCocoa/CouchCocoa.h>
 #import "EditViewController.h"
 #import "ReplViewController.h"
 #import "SnippetInfo.h"
@@ -16,10 +17,12 @@
     SnippetInfo *_snippet;
 }
 
+@synthesize database = _database;
 @synthesize snippet = _snippet;
 
 - (void)dealloc
 {
+    [_database release];
     [_snippet release];
     [super dealloc];
 }
@@ -38,7 +41,20 @@
 
     UITextView *textView = (UITextView *) self.view;
     textView.inputAccessoryView = self.navigationController.toolbar;
-    [self.view becomeFirstResponder];
+    [textView becomeFirstResponder];
+
+    if (_snippet.id != nil)
+    {
+        CouchDocument *doc = [_database documentWithID:_snippet.id];
+        UIApplication *app = [UIApplication sharedApplication];
+        app.networkActivityIndicatorVisible = YES;
+
+        RESTOperation *op = doc.GET;
+        [op onCompletion:^{
+            app.networkActivityIndicatorVisible = NO;
+            textView.text = [doc propertyForKey:@"code"];
+        }];
+    }
 }
 
 - (void)viewDidUnload

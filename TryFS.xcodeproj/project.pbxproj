@@ -20,6 +20,7 @@
 		892B982DBBF00613315B35DE /* EditViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 892B982DBBF00613315B35DD /* EditViewController.xib */; };
 		892B982DBBF00613315B35E1 /* ReplViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 892B982DBBF00613315B35E0 /* ReplViewController.m */; };
 		892B982DBBF00613315B35E3 /* ReplViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 892B982DBBF00613315B35E2 /* ReplViewController.xib */; };
+		892B982DBBF00613315B35E5 /* SnippetInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 892B982DBBF00613315B35E4 /* SnippetInfo.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -43,6 +44,8 @@
 		892B982DBBF00613315B35DF /* ReplViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReplViewController.h; sourceTree = "<group>"; };
 		892B982DBBF00613315B35E0 /* ReplViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReplViewController.m; sourceTree = "<group>"; };
 		892B982DBBF00613315B35E2 /* ReplViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ReplViewController.xib; sourceTree = "<group>"; };
+		892B982DBBF00613315B35E4 /* SnippetInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SnippetInfo.m; sourceTree = "<group>"; };
+		892B982DBBF00613315B35E6 /* SnippetInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SnippetInfo.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -91,6 +94,8 @@
 		892B982DBBF00613315B35C3 /* TryFS */ = {
 			isa = PBXGroup;
 			children = (
+				892B982DBBF00613315B35E6 /* SnippetInfo.h */,
+				892B982DBBF00613315B35E4 /* SnippetInfo.m */,
 				892B982DBBF00613315B35E2 /* ReplViewController.xib */,
 				892B982DBBF00613315B35E0 /* ReplViewController.m */,
 				892B982DBBF00613315B35DF /* ReplViewController.h */,
@@ -187,6 +192,7 @@
 				892B982DBBF00613315B35D3 /* SnippetViewController.m in Sources */,
 				892B982DBBF00613315B35DC /* EditViewController.m in Sources */,
 				892B982DBBF00613315B35E1 /* ReplViewController.m in Sources */,
+				892B982DBBF00613315B35E5 /* SnippetInfo.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

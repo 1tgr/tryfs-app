@@ -6,17 +6,23 @@
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
+#import <CouchCocoa/CouchCocoa.h>
 #import "SnippetViewController.h"
 #import "EditViewController.h"
+#import "SnippetInfo.h"
 
 @interface SnippetViewController ()
 
 @end
 
 @implementation SnippetViewController
+{
+    NSArray *_snippets;
+}
 
 - (void)dealloc
 {
+    [_snippets release];
     [super dealloc];
 }
 
@@ -24,6 +30,39 @@
 {
     [super viewDidLoad];
     self.title = @"Snippets";
+
+    CouchServer *server = [[[CouchServer alloc] initWithURL:[NSURL URLWithString:@"http://ec2.partario.com:5984"]] autorelease];
+    CouchQuery *query = [[[server databaseNamed:@"tryfs"] designDocumentWithName:@"app"] queryViewNamed:@"snippets"];
+    query.descending = YES;
+
+    UIApplication *app = [UIApplication sharedApplication];
+    app.networkActivityIndicatorVisible = YES;
+
+    RESTOperation *op = [query start];
+    [op onCompletion:^{
+        app.networkActivityIndicatorVisible = NO;
+
+        NSMutableArray *snippets = [[[NSMutableArray alloc] init] autorelease];
+        for (CouchQueryRow *row in query.rows)
+        {
+            NSDictionary *v = row.value;
+            NSString *userId = [v objectForKey:@"userId"];
+            if ([userId isEqualToString:@"fssnip"])
+            {
+                SnippetInfo *s = [[[SnippetInfo alloc] initWithId:row.documentID
+                                                          rev:[v objectForKey:@"_rev"]
+                                                       author:[v objectForKey:@"author"]
+                                                        title:[v objectForKey:@"title"]
+                                                  description:[v objectForKey:@"description"]
+                                                         date:[v objectForKey:@"date"]] autorelease];
+
+                [snippets addObject:s];
+            }
+        }
+
+        _snippets = [snippets retain];
+        [self.tableView reloadData];
+    }];
 }
 
 - (void)viewDidUnload
@@ -47,16 +86,18 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 1;
+    return _snippets.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"Cell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    SnippetInfo *s = [_snippets objectAtIndex:(NSUInteger) indexPath.row];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:s.id];
     if (cell == nil)
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:s.id] autorelease];
 
+    cell.textLabel.text = s.title;
+    cell.detailTextLabel.text = s.author;
     return cell;
 }
 

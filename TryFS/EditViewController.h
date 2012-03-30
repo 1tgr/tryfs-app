@@ -12,9 +12,9 @@
 
 @interface EditViewController : UIViewController
 
+@property(nonatomic, retain) SnippetInfo *snippet;
 @property(nonatomic, retain) IBOutlet UIBarButtonItem *runButton;
 
-- (id)initWithSnippet:(SnippetInfo *)snippet;
 -(IBAction)didRunButton;
 
 @end

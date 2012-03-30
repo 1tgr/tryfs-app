@@ -16,18 +16,7 @@
 }
 
 @synthesize runButton = _runButton;
-
-- (id)initWithSnippet:(SnippetInfo *)snippet
-{
-    self = [super init];
-    if (self)
-    {
-        _snippet = [snippet retain];
-    }
-
-    return self;
-//To change the template use AppCode | Preferences | File Templates.
-}
+@synthesize snippet = _snippet;
 
 
 - (void)dealloc

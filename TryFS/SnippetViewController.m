@@ -170,8 +170,9 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    SnippetInfo *s = [_snippets objectAtIndex:(NSUInteger) indexPath.row];
-    [self.navigationController pushViewController:[[[EditViewController alloc] initWithSnippet:s] autorelease] animated:YES];
+    EditViewController *controller = [[[EditViewController alloc] initWithNibName:@"EditViewController" bundle:nil] autorelease];
+    controller.snippet = [_snippets objectAtIndex:(NSUInteger) indexPath.row];
+    [self.navigationController pushViewController:controller animated:YES];
 }
 
 @end

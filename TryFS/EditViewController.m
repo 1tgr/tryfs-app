@@ -78,7 +78,9 @@
 {
     SnippetDetailViewController *controller = [[[SnippetDetailViewController alloc] initWithNibName:@"SnippetDetailViewController" bundle:nil] autorelease];
     controller.snippet = _snippet;
-    [self presentViewController:controller animated:YES completion:nil];
+
+    UINavigationController *navigationController = [[[UINavigationController alloc] initWithRootViewController:controller] autorelease];
+    [self presentViewController:navigationController animated:YES completion:nil];
 }
 
 - (IBAction)didRunButton

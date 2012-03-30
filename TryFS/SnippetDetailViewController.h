@@ -13,7 +13,7 @@
 @interface SnippetDetailViewController : UIViewController
 
 @property(nonatomic, retain) SnippetInfo *snippet;
-@property(nonatomic, retain) IBOutlet UITextView *descriptionView;
+@property(nonatomic, retain) IBOutlet UIBarButtonItem *doneButton;
 
 -(IBAction)didDoneButton;
 

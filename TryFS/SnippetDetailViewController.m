@@ -12,29 +12,23 @@
 @implementation SnippetDetailViewController
 
 @synthesize snippet = _snippet;
-@synthesize descriptionView = _descriptionView;
-
-
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self != nil)
-        self.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
-
-    return self;
-}
+@synthesize doneButton = _doneButton;
 
 - (void)dealloc
 {
     [_snippet release];
-    [_descriptionView release];
+    [_doneButton release];
     [super dealloc];
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.descriptionView.text = _snippet.description;
+    self.navigationItem.rightBarButtonItem = _doneButton;
+    self.title = _snippet.title;
+
+    UITextView *textView = (UITextView *) self.view;
+    textView.text = [_snippet.description stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 }
 
 - (void)viewDidUnload

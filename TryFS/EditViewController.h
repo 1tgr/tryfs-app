@@ -10,11 +10,13 @@
 
 @class SnippetInfo;
 
-@interface EditViewController : UIViewController
+@interface EditViewController : UIViewController <UIActionSheetDelegate>
 
 @property(nonatomic, retain) SnippetInfo *snippet;
+@property(nonatomic, retain) IBOutlet UIBarButtonItem *actionButton;
 @property(nonatomic, retain) IBOutlet UIBarButtonItem *runButton;
 
+-(IBAction)didActionButton;
 -(IBAction)didRunButton;
 
 @end

@@ -9,20 +9,17 @@
 #import "EditViewController.h"
 #import "ReplViewController.h"
 #import "SnippetInfo.h"
+#import "SnippetDetailViewController.h"
 
 @implementation EditViewController
 {
     SnippetInfo *_snippet;
 }
 
-@synthesize actionButton = _actionButton;
-@synthesize runButton = _runButton;
 @synthesize snippet = _snippet;
 
 - (void)dealloc
 {
-    [_actionButton release];
-    [_runButton release];
     [_snippet release];
     [super dealloc];
 }
@@ -31,8 +28,17 @@
 {
     [super viewDidLoad];
     self.title = _snippet.title;
+    self.navigationController.toolbarHidden = NO;
+
+    UIBarButtonItem *space = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil] autorelease];
+    UIBarButtonItem *editButton = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(didEditButton)] autorelease];
+    UIBarButtonItem *runButton = [[[UIBarButtonItem alloc] initWithTitle:@"Run" style:UIBarButtonItemStyleBordered target:self action:@selector(didRunButton)] autorelease];
+    UIBarButtonItem *continueButton = [[[UIBarButtonItem alloc] initWithTitle:@"Continue" style:UIBarButtonItemStyleBordered target:self action:@selector(didContinueButton)] autorelease];
+    self.toolbarItems = [NSArray arrayWithObjects:editButton, space, runButton, continueButton, nil];
+
+    UITextView *textView = (UITextView *) self.view;
+    textView.inputAccessoryView = self.navigationController.toolbar;
     [self.view becomeFirstResponder];
-    self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:self.runButton, self.actionButton, nil];
 }
 
 - (void)viewDidUnload
@@ -52,33 +58,21 @@
     [self.navigationController pushViewController:[[[ReplViewController alloc] initWithNibName:@"ReplViewController" bundle:nil] autorelease] animated:YES];
 }
 
-- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+- (IBAction)didEditButton
 {
-    switch (buttonIndex)
-    {
-    case 0:
-        [self showReplWithReset:YES];
-        break;
-
-    case 1:
-        [self showReplWithReset:NO];
-        break;
-    }
-}
-
-- (IBAction)didActionButton
-{
-    UIActionSheet *sheet = [[[UIActionSheet alloc] initWithTitle:nil
-                                                        delegate:self
-                                               cancelButtonTitle:@"Cancel"
-                                          destructiveButtonTitle:nil
-                                               otherButtonTitles:@"Run", @"Continue", nil] autorelease];
-    [sheet showFromBarButtonItem:_runButton animated:YES];
+    SnippetDetailViewController *controller = [[[SnippetDetailViewController alloc] initWithNibName:@"SnippetDetailViewController" bundle:nil] autorelease];
+    controller.snippet = _snippet;
+    [self presentViewController:controller animated:YES completion:nil];
 }
 
 - (IBAction)didRunButton
 {
     [self showReplWithReset:YES];
+}
+
+- (IBAction)didContinueButton
+{
+    [self showReplWithReset:NO];
 }
 
 @end

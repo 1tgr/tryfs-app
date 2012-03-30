@@ -1,5 +1,5 @@
 //
-//  EditViewController.h
+//  SnippetDetailViewController.h
 //  TryFS
 //
 //  Created by Tim Robinson on 03/30/12.
@@ -10,8 +10,11 @@
 
 @class SnippetInfo;
 
-@interface EditViewController : UIViewController
+@interface SnippetDetailViewController : UIViewController
 
 @property(nonatomic, retain) SnippetInfo *snippet;
+@property(nonatomic, retain) IBOutlet UITextView *descriptionView;
+
+-(IBAction)didDoneButton;
 
 @end

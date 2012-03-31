@@ -7,13 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		22D028071526F58C00FB04D0 /* libCouchCocoa.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 892B982DBBF00613315B35FB /* libCouchCocoa.a */; };
 		892B982DBBF00613315B35BE /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 892B982DBBF00613315B35BD /* UIKit.framework */; };
 		892B982DBBF00613315B35C0 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 892B982DBBF00613315B35BF /* Foundation.framework */; };
 		892B982DBBF00613315B35C2 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 892B982DBBF00613315B35C1 /* CoreGraphics.framework */; };
 		892B982DBBF00613315B35C8 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 892B982DBBF00613315B35C7 /* InfoPlist.strings */; };
 		892B982DBBF00613315B35CA /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 892B982DBBF00613315B35C9 /* main.m */; };
 		892B982DBBF00613315B35CE /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 892B982DBBF00613315B35CD /* AppDelegate.m */; };
-		892B982DBBF00613315B35D0 /* CouchCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 892B982DBBF00613315B35CF /* CouchCocoa.framework */; };
 		892B982DBBF00613315B35D3 /* SnippetViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 892B982DBBF00613315B35D2 /* SnippetViewController.m */; };
 		892B982DBBF00613315B35D5 /* SnippetViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 892B982DBBF00613315B35D4 /* SnippetViewController.xib */; };
 		892B982DBBF00613315B35DC /* EditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 892B982DBBF00613315B35DB /* EditViewController.m */; };
@@ -24,6 +24,58 @@
 		892B982DBBF00613315B35E9 /* SnippetDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 892B982DBBF00613315B35E8 /* SnippetDetailViewController.m */; };
 		892B982DBBF00613315B35EB /* SnippetDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 892B982DBBF00613315B35EA /* SnippetDetailViewController.xib */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		892B982DBBF00613315B35F0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 892B982DBBF00613315B35EE /* CouchCocoa.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 74CD20473B2948D304C2FDA5;
+			remoteInfo = "Mac Framework";
+		};
+		892B982DBBF00613315B35F2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 892B982DBBF00613315B35EE /* CouchCocoa.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = DBE748A39315B534D6FD1F22;
+			remoteInfo = "Mac Tests";
+		};
+		892B982DBBF00613315B35F4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 892B982DBBF00613315B35EE /* CouchCocoa.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C2BF4344BA3BB9B586D3A5F1;
+			remoteInfo = "Demo-Addresses";
+		};
+		892B982DBBF00613315B35F6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 892B982DBBF00613315B35EE /* CouchCocoa.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 821157B5685E2A3A7FBE4D50;
+			remoteInfo = "Demo-Shopping";
+		};
+		892B982DBBF00613315B35F8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 892B982DBBF00613315B35EE /* CouchCocoa.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1876E0E37652B01D4CFA1BF4;
+			remoteInfo = "iOS Framework";
+		};
+		892B982DBBF00613315B35FA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 892B982DBBF00613315B35EE /* CouchCocoa.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 490C97D57B6F89054E9B7BB4;
+			remoteInfo = "iOS Library";
+		};
+		892B982DBBF00613315B35FC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 892B982DBBF00613315B35EE /* CouchCocoa.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 05D1289182B06B6C560A4038;
+			remoteInfo = "iOS Tests";
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		892B982DBBF00613315B35B4 /* TryFS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TryFS.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -36,7 +88,6 @@
 		892B982DBBF00613315B35CB /* TryFS-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TryFS-Prefix.pch"; sourceTree = "<group>"; };
 		892B982DBBF00613315B35CC /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		892B982DBBF00613315B35CD /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		892B982DBBF00613315B35CF /* CouchCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CouchCocoa.framework; path = "/Users/tim/Git/tryfs-app/CouchCocoa.framework"; sourceTree = "<absolute>"; };
 		892B982DBBF00613315B35D1 /* SnippetViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SnippetViewController.h; sourceTree = "<group>"; };
 		892B982DBBF00613315B35D2 /* SnippetViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SnippetViewController.m; sourceTree = "<group>"; };
 		892B982DBBF00613315B35D4 /* SnippetViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SnippetViewController.xib; sourceTree = "<group>"; };
@@ -51,6 +102,7 @@
 		892B982DBBF00613315B35E7 /* SnippetDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SnippetDetailViewController.h; sourceTree = "<group>"; };
 		892B982DBBF00613315B35E8 /* SnippetDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SnippetDetailViewController.m; sourceTree = "<group>"; };
 		892B982DBBF00613315B35EA /* SnippetDetailViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SnippetDetailViewController.xib; sourceTree = "<group>"; };
+		892B982DBBF00613315B35EE /* CouchCocoa.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CouchCocoa.xcodeproj; path = CouchCocoa/CouchCocoa.xcodeproj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,10 +110,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				22D028071526F58C00FB04D0 /* libCouchCocoa.a in Frameworks */,
 				892B982DBBF00613315B35BE /* UIKit.framework in Frameworks */,
 				892B982DBBF00613315B35C0 /* Foundation.framework in Frameworks */,
 				892B982DBBF00613315B35C2 /* CoreGraphics.framework in Frameworks */,
-				892B982DBBF00613315B35D0 /* CouchCocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -71,6 +123,7 @@
 		892B982DBBF00613315B35B0 = {
 			isa = PBXGroup;
 			children = (
+				892B982DBBF00613315B35EE /* CouchCocoa.xcodeproj */,
 				892B982DBBF00613315B35B1 /* Products */,
 				892B982DBBF00613315B35BC /* Frameworks */,
 				892B982DBBF00613315B35C3 /* TryFS */,
@@ -88,7 +141,6 @@
 		892B982DBBF00613315B35BC /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				892B982DBBF00613315B35CF /* CouchCocoa.framework */,
 				892B982DBBF00613315B35C1 /* CoreGraphics.framework */,
 				892B982DBBF00613315B35BF /* Foundation.framework */,
 				892B982DBBF00613315B35BD /* UIKit.framework */,
@@ -131,6 +183,20 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		892B982DBBF00613315B35EF /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				892B982DBBF00613315B35F1 /* CouchCocoa.framework */,
+				892B982DBBF00613315B35F3 /* Mac Tests.octest */,
+				892B982DBBF00613315B35F5 /* Addresses.app */,
+				892B982DBBF00613315B35F7 /* Shopping.app */,
+				892B982DBBF00613315B35F9 /* CouchCocoa.framework */,
+				892B982DBBF00613315B35FB /* libCouchCocoa.a */,
+				892B982DBBF00613315B35FD /* iOS Tests.octest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -169,12 +235,70 @@
 			mainGroup = 892B982DBBF00613315B35B0;
 			productRefGroup = 892B982DBBF00613315B35B1 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 892B982DBBF00613315B35EF /* Products */;
+					ProjectRef = 892B982DBBF00613315B35EE /* CouchCocoa.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				892B982DBBF00613315B35B5 /* TryFS */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		892B982DBBF00613315B35F1 /* CouchCocoa.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = CouchCocoa.framework;
+			remoteRef = 892B982DBBF00613315B35F0 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		892B982DBBF00613315B35F3 /* Mac Tests.octest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "Mac Tests.octest";
+			remoteRef = 892B982DBBF00613315B35F2 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		892B982DBBF00613315B35F5 /* Addresses.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = Addresses.app;
+			remoteRef = 892B982DBBF00613315B35F4 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		892B982DBBF00613315B35F7 /* Shopping.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = Shopping.app;
+			remoteRef = 892B982DBBF00613315B35F6 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		892B982DBBF00613315B35F9 /* CouchCocoa.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = CouchCocoa.framework;
+			remoteRef = 892B982DBBF00613315B35F8 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		892B982DBBF00613315B35FB /* libCouchCocoa.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libCouchCocoa.a;
+			remoteRef = 892B982DBBF00613315B35FA /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		892B982DBBF00613315B35FD /* iOS Tests.octest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "iOS Tests.octest";
+			remoteRef = 892B982DBBF00613315B35FC /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		892B982DBBF00613315B35BB /* Resources */ = {
@@ -273,6 +397,7 @@
 				GCC_PREFIX_HEADER = "TryFS/TryFS-Prefix.pch";
 				INFOPLIST_FILE = "TryFS/TryFS-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = "\"${PROJECT_DIR}/CouchCocoa/**";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -285,6 +410,7 @@
 				GCC_PREFIX_HEADER = "TryFS/TryFS-Prefix.pch";
 				INFOPLIST_FILE = "TryFS/TryFS-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = "\"${PROJECT_DIR}/CouchCocoa/**";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;

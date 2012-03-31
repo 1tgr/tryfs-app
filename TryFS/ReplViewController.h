@@ -8,8 +8,12 @@
 
 
 
+@class CouchDocument;
+
 @interface ReplViewController : UITableViewController
 
 @property(nonatomic, retain) IBOutlet UITextField *textField;
+
+-(void)subscribeToSession:(CouchDocument *)sessionDoc;
 
 @end

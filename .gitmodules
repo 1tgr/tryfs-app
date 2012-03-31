@@ -1,0 +1,3 @@
+[submodule "CouchCocoa"]
+	path = CouchCocoa
+	url = git://github.com/couchbaselabs/CouchCocoa

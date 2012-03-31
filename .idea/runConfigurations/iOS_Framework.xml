@@ -1,0 +1,6 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="iOS Framework" type="AppleRunConfiguration" factoryName="Application" SCHEME_NAME="iOS Framework" PROJECT_NAME="CouchCocoa" TARGET_NAME="iOS Framework" CONFIG_NAME="Debug" DESTINATION_ID="iphonesimulator_5.1_1" DEBUGGER="GDB" WORKING_DIR="" PASS_PARENT_ENVS="FALSE" MAKE_ACTIVE="TRUE" WAIT_FOR="FALSE">
+    <envs />
+    <method />
+  </configuration>
+</component>

@@ -6,7 +6,7 @@
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
-#import <CouchCocoa/CouchCocoa.h>
+#import "CouchCocoa.h"
 #import "EditViewController.h"
 #import "ReplViewController.h"
 #import "SnippetInfo.h"
@@ -15,6 +15,7 @@
 @implementation EditViewController
 {
     SnippetInfo *_snippet;
+    CouchDocument *_sessionDoc;
 }
 
 @synthesize database = _database;
@@ -24,7 +25,13 @@
 {
     [_database release];
     [_snippet release];
+    [_sessionDoc release];
     [super dealloc];
+}
+
+- (UITextView *)textView
+{
+    return (UITextView *) self.view;
 }
 
 - (void)viewDidLoad
@@ -39,9 +46,8 @@
     UIBarButtonItem *continueButton = [[[UIBarButtonItem alloc] initWithTitle:@"Continue" style:UIBarButtonItemStyleBordered target:self action:@selector(didContinueButton)] autorelease];
     self.toolbarItems = [NSArray arrayWithObjects:editButton, space, runButton, continueButton, nil];
 
-    UITextView *textView = (UITextView *) self.view;
-    textView.inputAccessoryView = self.navigationController.toolbar;
-    [textView becomeFirstResponder];
+    self.textView.inputAccessoryView = self.navigationController.toolbar;
+    [self.textView becomeFirstResponder];
 
     if (_snippet.id != nil)
     {
@@ -52,7 +58,7 @@
         RESTOperation *op = doc.GET;
         [op onCompletion:^{
             app.networkActivityIndicatorVisible = NO;
-            textView.text = [doc propertyForKey:@"code"];
+            self.textView.text = [doc propertyForKey:@"code"];
         }];
     }
 }
@@ -71,7 +77,34 @@
 
 - (void)showReplWithReset:(BOOL)reset
 {
-    [self.navigationController pushViewController:[[[ReplViewController alloc] initWithNibName:@"ReplViewController" bundle:nil] autorelease] animated:YES];
+    ReplViewController *controller = [[[ReplViewController alloc] initWithNibName:@"ReplViewController" bundle:nil] autorelease];
+
+    if (reset || _sessionDoc == nil)
+    {
+        NSString *code = self.textView.text;
+        NSDictionary *props =
+            [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                @"session", @"type",
+                [NSArray arrayWithObject:@"init"], @"initNames",
+                [NSArray arrayWithObject:code], @"initTexts",
+                nil];
+
+        CouchDocument *doc = _database.untitledDocument;
+        _sessionDoc = [doc retain];
+
+        UIApplication *app = [UIApplication sharedApplication];
+        app.networkActivityIndicatorVisible = YES;
+
+        RESTOperation *op = [doc putProperties:props];
+        [op onCompletion:^{
+            app.networkActivityIndicatorVisible = NO;
+            [controller subscribeToSession:doc];
+        }];
+    }
+    else
+        [controller subscribeToSession:_sessionDoc];
+
+    [self.navigationController pushViewController:controller animated:YES];
 }
 
 - (IBAction)didEditButton

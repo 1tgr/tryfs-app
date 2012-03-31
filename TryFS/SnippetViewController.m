@@ -6,7 +6,7 @@
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
-#import <CouchCocoa/CouchCocoa.h>
+#import "CouchCocoa.h"
 #import "SnippetViewController.h"
 #import "EditViewController.h"
 #import "SnippetInfo.h"

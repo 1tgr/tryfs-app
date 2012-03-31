@@ -8,9 +8,11 @@
 
 
 
+#import "CouchUITableSource.h"
+
 @class CouchDocument;
 
-@interface ReplViewController : UITableViewController
+@interface ReplViewController : UIViewController <CouchUITableDelegate>
 
 @property(nonatomic, retain) IBOutlet UITextField *textField;
 

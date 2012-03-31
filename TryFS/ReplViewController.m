@@ -11,7 +11,7 @@
 
 @implementation ReplViewController
 {
-    NSMutableArray *_lines;
+    CouchUITableSource *_source;
 }
 
 @synthesize textField = _textField;
@@ -20,7 +20,10 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self)
-        _lines = [[NSMutableArray alloc] init];
+    {
+        _source = [[CouchUITableSource alloc] init];
+        _source.labelProperty = @"message";
+    }
 
     return self;
 }
@@ -28,7 +31,7 @@
 - (void)dealloc
 {
     [_textField release];
-    [_lines release];
+    [_source release];
     [super dealloc];
 }
 
@@ -36,14 +39,21 @@
 {
     [super viewDidLoad];
     self.title = @"REPL";
+
+    UITableView *view = (UITableView *) self.view;
+    _source.tableView = view;
+    view.dataSource = _source;
+
     [self.textField becomeFirstResponder];
 }
 
 - (void)viewDidUnload
 {
     [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
+
+    UITableView *view = (UITableView *) self.view;
+    _source.tableView = nil;
+    view.dataSource = nil;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -51,35 +61,27 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
-#pragma mark - Table view data source
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
-    return 1;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    return _lines.count;
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    static NSString *CellIdentifier = @"Cell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    
-    // Configure the cell...
-    
-    return cell;
-}
-
 - (void)subscribeToSession:(CouchDocument *)sessionDoc
 {
+    NSLog(@"Subscribing to %@", sessionDoc.documentID);
     self.title = sessionDoc.documentID;
 
-    /*CouchQuery *query = [[sessionDoc.database designDocumentWithName:@"app"] queryViewNamed:@"messages"];
-    query.startKey = query.endKey = sessionDoc.documentID;
-    CouchLiveQuery *liveQuery = query.asLiveQuery;*/
+    CouchQuery *query = [[sessionDoc.database designDocumentWithName:@"app"] queryViewNamed:@"session"];
+    query.keys = [NSArray arrayWithObject:sessionDoc.documentID];
+    CouchLiveQuery *liveQuery = query.asLiveQuery;
+
+    RESTOperation *op = [liveQuery start];
+    [op onCompletion:^{
+        _source.query = liveQuery;
+    }];
+}
+
+- (void)couchTableSource:(CouchUITableSource *)source willUseCell:(UITableViewCell *)cell forRow:(CouchQueryRow *)row
+{
+    cell.textLabel.textColor = self.textField.textColor;
+    cell.textLabel.font = self.textField.font;
+    cell.textLabel.lineBreakMode = UILineBreakModeWordWrap;
+    cell.textLabel.numberOfLines = 0;
 }
 
 @end

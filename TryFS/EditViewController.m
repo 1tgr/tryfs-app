@@ -91,8 +91,8 @@
     if (reset || self.sessionDoc == nil)
     {
         NSString *code = self.textView.text;
-        NSDictionary *props =
-            [NSMutableDictionary dictionaryWithObjectsAndKeys:
+        NSDictionary *sessionProps =
+            [NSDictionary dictionaryWithObjectsAndKeys:
                 @"session", @"type",
                 [NSArray arrayWithObject:@"init"], @"initNames",
                 [NSArray arrayWithObject:code], @"initTexts",
@@ -103,11 +103,23 @@
         UIApplication *app = [UIApplication sharedApplication];
         app.networkActivityIndicatorVisible = YES;
 
-        RESTOperation *op = [self.sessionDoc putProperties:props];
+        RESTOperation *op = [self.sessionDoc putProperties:sessionProps];
         [op onCompletion:^{
             app.networkActivityIndicatorVisible = NO;
             if (op.error == nil)
+            {
+                NSDictionary *messageProps =
+                    [NSDictionary dictionaryWithObjectsAndKeys:
+                        @"in", @"messageType",
+                        @"", @"message",
+                        self.sessionDoc.documentID, @"sessionId",
+                        nil];
+
+                CouchDocument *messageDoc = [_database untitledDocument];
+                [messageDoc putProperties:messageProps];
+
                 [controller subscribeToSession:self.sessionDoc];
+            }
             else
             {
                 self.sessionDoc = nil;

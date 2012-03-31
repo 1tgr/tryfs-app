@@ -12,14 +12,20 @@
 #import "SnippetInfo.h"
 #import "SnippetDetailViewController.h"
 
+@interface EditViewController ()
+
+@property(nonatomic, retain) CouchDocument *sessionDoc;
+
+@end
+
 @implementation EditViewController
 {
     SnippetInfo *_snippet;
-    CouchDocument *_sessionDoc;
 }
 
 @synthesize database = _database;
 @synthesize snippet = _snippet;
+@synthesize sessionDoc = _sessionDoc;
 
 - (void)dealloc
 {
@@ -79,7 +85,7 @@
 {
     ReplViewController *controller = [[[ReplViewController alloc] initWithNibName:@"ReplViewController" bundle:nil] autorelease];
 
-    if (reset || _sessionDoc == nil)
+    if (reset || self.sessionDoc == nil)
     {
         NSString *code = self.textView.text;
         NSDictionary *props =
@@ -89,20 +95,25 @@
                 [NSArray arrayWithObject:code], @"initTexts",
                 nil];
 
-        CouchDocument *doc = _database.untitledDocument;
-        _sessionDoc = [doc retain];
+        self.sessionDoc = [_database untitledDocument];
 
         UIApplication *app = [UIApplication sharedApplication];
         app.networkActivityIndicatorVisible = YES;
 
-        RESTOperation *op = [doc putProperties:props];
+        RESTOperation *op = [self.sessionDoc putProperties:props];
         [op onCompletion:^{
             app.networkActivityIndicatorVisible = NO;
-            [controller subscribeToSession:doc];
+            if (op.error == nil)
+                [controller subscribeToSession:self.sessionDoc];
+            else
+            {
+                self.sessionDoc = nil;
+                [[[[UIAlertView alloc] initWithTitle:op.error.localizedDescription message:nil delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] autorelease] show];
+            }
         }];
     }
     else
-        [controller subscribeToSession:_sessionDoc];
+        [controller subscribeToSession:self.sessionDoc];
 
     [self.navigationController pushViewController:controller animated:YES];
 }

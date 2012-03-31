@@ -52,8 +52,9 @@
     UIBarButtonItem *continueButton = [[[UIBarButtonItem alloc] initWithTitle:@"Continue" style:UIBarButtonItemStyleBordered target:self action:@selector(didContinueButton)] autorelease];
     self.toolbarItems = [NSArray arrayWithObjects:editButton, space, runButton, continueButton, nil];
 
-    self.textView.inputAccessoryView = self.navigationController.toolbar;
-    [self.textView becomeFirstResponder];
+    NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
+    [center addObserver:self selector:@selector(keyboardWillShown:) name:UIKeyboardWillShowNotification object:nil];
+    [center addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
 
     if (_snippet.id != nil)
     {
@@ -64,7 +65,10 @@
         RESTOperation *op = doc.GET;
         [op onCompletion:^{
             app.networkActivityIndicatorVisible = NO;
-            self.textView.text = [doc propertyForKey:@"code"];
+
+            UITextView *textView = self.textView;
+            textView.text = [doc propertyForKey:@"code"];
+            textView.selectedTextRange = [textView textRangeFromPosition:textView.beginningOfDocument toPosition:textView.beginningOfDocument];
         }];
     }
 }
@@ -72,8 +76,7 @@
 - (void)viewDidUnload
 {
     [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -135,6 +138,51 @@
 - (IBAction)didContinueButton
 {
     [self showReplWithReset:NO];
+}
+
+- (void) moveTextViewForKeyboard:(NSNotification*)aNotification up:(BOOL)up
+{
+    NSDictionary* userInfo = [aNotification userInfo];
+    NSTimeInterval animationDuration;
+    UIViewAnimationCurve animationCurve;
+    CGRect keyboardEndFrame;
+
+    [[userInfo objectForKey:UIKeyboardAnimationCurveUserInfoKey] getValue:&animationCurve];
+    [[userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey] getValue:&animationDuration];
+    [[userInfo objectForKey:UIKeyboardFrameEndUserInfoKey] getValue:&keyboardEndFrame];
+
+    UITextView *textView = self.textView;
+    CGRect newFrame = textView.frame;
+    CGRect keyboardFrame = [textView convertRect:keyboardEndFrame toView:nil];
+    CGRect accessoryFrame = textView.inputAccessoryView.frame;
+    newFrame.size.height -= (keyboardFrame.size.height - accessoryFrame.size.height) * (up?1:-1);
+
+    [UIView beginAnimations:nil context:nil];
+    [UIView setAnimationDuration:animationDuration];
+    [UIView setAnimationCurve:animationCurve];
+    textView.frame = newFrame;
+    [UIView commitAnimations];
+}
+
+- (BOOL)textViewShouldBeginEditing:(UITextView *)textView
+{
+    self.textView.inputAccessoryView = self.navigationController.toolbar;
+    return YES;
+}
+
+- (void)keyboardWillShown:(NSNotification*)aNotification
+{
+    [self moveTextViewForKeyboard:aNotification up:YES];
+}
+
+- (void)keyboardWillHide:(NSNotification*)aNotification
+{
+    [self moveTextViewForKeyboard:aNotification up:NO];
+}
+
+- (void)textViewDidEndEditing:(UITextView *)textView
+{
+    self.textView.inputAccessoryView = nil;
 }
 
 @end

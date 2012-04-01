@@ -8,10 +8,11 @@
 
 #import "CouchCocoa.h"
 #import "ReplViewController.h"
-#import "Utils.h"
+#import "KeyboardResizeMonitor.h"
 
 @implementation ReplViewController
 {
+    KeyboardResizeMonitor *_monitor;
     CouchUITableSource *_source;
 }
 
@@ -33,6 +34,7 @@
 {
     [_textField release];
     [_source release];
+    [_monitor release];
     [super dealloc];
 }
 
@@ -41,23 +43,30 @@
     [super viewDidLoad];
     self.title = @"REPL";
 
-    UITableView *view = (UITableView *) self.view;
-    _source.tableView = view;
-    view.dataSource = _source;
+    UITableView *tableView = (UITableView *) self.view;
+    _source.tableView = tableView;
+    tableView.dataSource = _source;
 
-    NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
-    [center addObserver:self selector:@selector(keyboardWillShown:) name:UIKeyboardWillShowNotification object:nil];
-    [center addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
+    _monitor = [[KeyboardResizeMonitor alloc] initWithView:self.view scrollView:tableView];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [_monitor registerForKeyboardNotifications];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [_monitor cancelKeyboardNotifications];
 }
 
 - (void)viewDidUnload
 {
     [super viewDidUnload];
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
 
-    UITableView *view = (UITableView *) self.view;
+    UITableView *tableView = (UITableView *) self.view;
     _source.tableView = nil;
-    view.dataSource = nil;
+    tableView.dataSource = nil;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -99,17 +108,7 @@
     labelSize.height = tableView.frame.size.height;
 
     CGSize size = [text sizeWithFont:font constrainedToSize:labelSize lineBreakMode:UILineBreakModeWordWrap];
-    return size.height + font.lineHeight;
-}
-
-- (void)keyboardWillShown:(NSNotification*)notification
-{
-    [Utils moveTextViewForKeyboard:self.view notification:notification up:YES];
-}
-
-- (void)keyboardWillHide:(NSNotification*)notification
-{
-    [Utils moveTextViewForKeyboard:self.view notification:notification up:NO];
+    return size.height;
 }
 
 @end

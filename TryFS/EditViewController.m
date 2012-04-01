@@ -11,7 +11,7 @@
 #import "ReplViewController.h"
 #import "SnippetInfo.h"
 #import "SnippetDetailViewController.h"
-#import "Utils.h"
+#import "KeyboardResizeMonitor.h"
 
 @interface EditViewController ()
 
@@ -21,6 +21,7 @@
 
 @implementation EditViewController
 {
+    KeyboardResizeMonitor *_monitor;
     SnippetInfo *_snippet;
 }
 
@@ -33,6 +34,7 @@
     [_database release];
     [_snippet release];
     [_sessionDoc release];
+    [_monitor release];
     [super dealloc];
 }
 
@@ -46,15 +48,14 @@
     [super viewDidLoad];
     self.title = _snippet.title;
 
-    UIBarButtonItem *space = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil] autorelease];
+    /*UIBarButtonItem *space = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil] autorelease];
     UIBarButtonItem *editButton = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(didEditButton)] autorelease];
-    UIBarButtonItem *runButton = [[[UIBarButtonItem alloc] initWithTitle:@"Run" style:UIBarButtonItemStyleBordered target:self action:@selector(didRunButton)] autorelease];
+    UIBarButtonItem *runButton = [[[UIBarButtonItem alloc] initWithTitle:@"Run" style:UIBarButtonItemStyleBordered target:self action:@selector(didRunButton)] autorelease];*/
     UIBarButtonItem *continueButton = [[[UIBarButtonItem alloc] initWithTitle:@"Continue" style:UIBarButtonItemStyleBordered target:self action:@selector(didContinueButton)] autorelease];
-    self.toolbarItems = [NSArray arrayWithObjects:editButton, space, runButton, continueButton, nil];
+    /*self.toolbarItems = [NSArray arrayWithObjects:editButton, space, runButton, continueButton, nil];*/
+    self.navigationItem.rightBarButtonItem = continueButton;
 
-    NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
-    [center addObserver:self selector:@selector(keyboardWillShown:) name:UIKeyboardWillShowNotification object:nil];
-    [center addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
+    _monitor = [[KeyboardResizeMonitor alloc] initWithView:self.view scrollView:self.textView];
 
     if (_snippet.id != nil)
     {
@@ -73,10 +74,14 @@
     }
 }
 
-- (void)viewDidUnload
+- (void)viewWillAppear:(BOOL)animated
 {
-    [super viewDidUnload];
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [_monitor registerForKeyboardNotifications];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [_monitor cancelKeyboardNotifications];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -154,23 +159,13 @@
 
 - (BOOL)textViewShouldBeginEditing:(UITextView *)textView
 {
-    self.textView.inputAccessoryView = self.navigationController.toolbar;
+    //self.textView.inputAccessoryView = self.navigationController.toolbar;
     return YES;
-}
-
-- (void)keyboardWillShown:(NSNotification*)notification
-{
-    [Utils moveTextViewForKeyboard:self.view notification:notification up:YES];
-}
-
-- (void)keyboardWillHide:(NSNotification*)notification
-{
-    [Utils moveTextViewForKeyboard:self.view notification:notification up:NO];
 }
 
 - (void)textViewDidEndEditing:(UITextView *)textView
 {
-    self.textView.inputAccessoryView = nil;
+    //self.textView.inputAccessoryView = nil;
 }
 
 @end

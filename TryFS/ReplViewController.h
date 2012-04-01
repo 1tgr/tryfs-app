@@ -12,7 +12,7 @@
 
 @class CouchDocument;
 
-@interface ReplViewController : UIViewController <CouchUITableDelegate>
+@interface ReplViewController : UIViewController <UITableViewDelegate, CouchUITableDelegate>
 
 @property(nonatomic, retain) IBOutlet UITextField *textField;
 

@@ -84,4 +84,18 @@
     cell.textLabel.numberOfLines = 0;
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell *cell = [_source tableView:tableView cellForRowAtIndexPath:indexPath];
+    NSString *text = cell.textLabel.text;
+    UIFont *font = cell.textLabel.font;
+
+    CGSize labelSize;
+    labelSize.width = cell.frame.size.width;
+    labelSize.height = tableView.frame.size.height;
+
+    CGSize size = [text sizeWithFont:font constrainedToSize:labelSize lineBreakMode:UILineBreakModeWordWrap];
+    return size.height + font.lineHeight;
+}
+
 @end

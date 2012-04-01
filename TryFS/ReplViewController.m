@@ -8,6 +8,7 @@
 
 #import "CouchCocoa.h"
 #import "ReplViewController.h"
+#import "Utils.h"
 
 @implementation ReplViewController
 {
@@ -44,12 +45,15 @@
     _source.tableView = view;
     view.dataSource = _source;
 
-    [self.textField becomeFirstResponder];
+    NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
+    [center addObserver:self selector:@selector(keyboardWillShown:) name:UIKeyboardWillShowNotification object:nil];
+    [center addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
 }
 
 - (void)viewDidUnload
 {
     [super viewDidUnload];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 
     UITableView *view = (UITableView *) self.view;
     _source.tableView = nil;
@@ -96,6 +100,16 @@
 
     CGSize size = [text sizeWithFont:font constrainedToSize:labelSize lineBreakMode:UILineBreakModeWordWrap];
     return size.height + font.lineHeight;
+}
+
+- (void)keyboardWillShown:(NSNotification*)notification
+{
+    [Utils moveTextViewForKeyboard:self.view notification:notification up:YES];
+}
+
+- (void)keyboardWillHide:(NSNotification*)notification
+{
+    [Utils moveTextViewForKeyboard:self.view notification:notification up:NO];
 }
 
 @end

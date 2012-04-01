@@ -11,6 +11,7 @@
 #import "ReplViewController.h"
 #import "SnippetInfo.h"
 #import "SnippetDetailViewController.h"
+#import "Utils.h"
 
 @interface EditViewController ()
 
@@ -44,7 +45,6 @@
 {
     [super viewDidLoad];
     self.title = _snippet.title;
-    self.navigationController.toolbarHidden = NO;
 
     UIBarButtonItem *space = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil] autorelease];
     UIBarButtonItem *editButton = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(didEditButton)] autorelease];
@@ -152,44 +152,20 @@
     [self showReplWithReset:NO];
 }
 
-- (void) moveTextViewForKeyboard:(NSNotification*)aNotification up:(BOOL)up
-{
-    NSDictionary* userInfo = [aNotification userInfo];
-    NSTimeInterval animationDuration;
-    UIViewAnimationCurve animationCurve;
-    CGRect keyboardEndFrame;
-
-    [[userInfo objectForKey:UIKeyboardAnimationCurveUserInfoKey] getValue:&animationCurve];
-    [[userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey] getValue:&animationDuration];
-    [[userInfo objectForKey:UIKeyboardFrameEndUserInfoKey] getValue:&keyboardEndFrame];
-
-    UITextView *textView = self.textView;
-    CGRect newFrame = textView.frame;
-    CGRect keyboardFrame = [textView convertRect:keyboardEndFrame toView:nil];
-    CGRect accessoryFrame = textView.inputAccessoryView.frame;
-    newFrame.size.height -= (keyboardFrame.size.height - accessoryFrame.size.height) * (up?1:-1);
-
-    [UIView beginAnimations:nil context:nil];
-    [UIView setAnimationDuration:animationDuration];
-    [UIView setAnimationCurve:animationCurve];
-    textView.frame = newFrame;
-    [UIView commitAnimations];
-}
-
 - (BOOL)textViewShouldBeginEditing:(UITextView *)textView
 {
     self.textView.inputAccessoryView = self.navigationController.toolbar;
     return YES;
 }
 
-- (void)keyboardWillShown:(NSNotification*)aNotification
+- (void)keyboardWillShown:(NSNotification*)notification
 {
-    [self moveTextViewForKeyboard:aNotification up:YES];
+    [Utils moveTextViewForKeyboard:self.view notification:notification up:YES];
 }
 
-- (void)keyboardWillHide:(NSNotification*)aNotification
+- (void)keyboardWillHide:(NSNotification*)notification
 {
-    [self moveTextViewForKeyboard:aNotification up:NO];
+    [Utils moveTextViewForKeyboard:self.view notification:notification up:NO];
 }
 
 - (void)textViewDidEndEditing:(UITextView *)textView

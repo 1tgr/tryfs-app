@@ -23,6 +23,7 @@
 		892B982DBBF00613315B35E5 /* SnippetInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 892B982DBBF00613315B35E4 /* SnippetInfo.m */; };
 		892B982DBBF00613315B35E9 /* SnippetDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 892B982DBBF00613315B35E8 /* SnippetDetailViewController.m */; };
 		892B982DBBF00613315B35EB /* SnippetDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 892B982DBBF00613315B35EA /* SnippetDetailViewController.xib */; };
+		892B982DBBF00613315B35FF /* Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 892B982DBBF00613315B35FE /* Utils.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -103,6 +104,8 @@
 		892B982DBBF00613315B35E8 /* SnippetDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SnippetDetailViewController.m; sourceTree = "<group>"; };
 		892B982DBBF00613315B35EA /* SnippetDetailViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SnippetDetailViewController.xib; sourceTree = "<group>"; };
 		892B982DBBF00613315B35EE /* CouchCocoa.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CouchCocoa.xcodeproj; path = CouchCocoa/CouchCocoa.xcodeproj; sourceTree = "<group>"; };
+		892B982DBBF00613315B35FE /* Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Utils.m; sourceTree = "<group>"; };
+		892B982DBBF00613315B3600 /* Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utils.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -151,6 +154,8 @@
 		892B982DBBF00613315B35C3 /* TryFS */ = {
 			isa = PBXGroup;
 			children = (
+				892B982DBBF00613315B3600 /* Utils.h */,
+				892B982DBBF00613315B35FE /* Utils.m */,
 				892B982DBBF00613315B35EA /* SnippetDetailViewController.xib */,
 				892B982DBBF00613315B35E8 /* SnippetDetailViewController.m */,
 				892B982DBBF00613315B35E7 /* SnippetDetailViewController.h */,
@@ -327,6 +332,7 @@
 				892B982DBBF00613315B35E1 /* ReplViewController.m in Sources */,
 				892B982DBBF00613315B35E5 /* SnippetInfo.m in Sources */,
 				892B982DBBF00613315B35E9 /* SnippetDetailViewController.m in Sources */,
+				892B982DBBF00613315B35FF /* Utils.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

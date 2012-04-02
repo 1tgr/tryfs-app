@@ -10,7 +10,6 @@
 #import "EditViewController.h"
 #import "ReplViewController.h"
 #import "SnippetInfo.h"
-#import "SnippetDetailViewController.h"
 #import "KeyboardResizeMonitor.h"
 
 @interface EditViewController ()
@@ -47,13 +46,7 @@
 {
     [super viewDidLoad];
     self.title = _snippet.title;
-
-    /*UIBarButtonItem *space = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil] autorelease];
-    UIBarButtonItem *editButton = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(didEditButton)] autorelease];
-    UIBarButtonItem *runButton = [[[UIBarButtonItem alloc] initWithTitle:@"Run" style:UIBarButtonItemStyleBordered target:self action:@selector(didRunButton)] autorelease];*/
-    UIBarButtonItem *continueButton = [[[UIBarButtonItem alloc] initWithTitle:@"Continue" style:UIBarButtonItemStyleBordered target:self action:@selector(didContinueButton)] autorelease];
-    /*self.toolbarItems = [NSArray arrayWithObjects:editButton, space, runButton, continueButton, nil];*/
-    self.navigationItem.rightBarButtonItem = continueButton;
+    self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:@"Run" style:UIBarButtonItemStyleBordered target:self action:@selector(didContinueButton)] autorelease];
 
     _monitor = [[KeyboardResizeMonitor alloc] initWithView:self.view scrollView:self.textView];
 
@@ -89,11 +82,11 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
-- (void)showReplWithReset:(BOOL)reset
+- (IBAction)didContinueButton
 {
     ReplViewController *controller = [[[ReplViewController alloc] initWithNibName:@"ReplViewController" bundle:nil] autorelease];
 
-    if (reset || self.sessionDoc == nil)
+    if (self.sessionDoc == nil)
     {
         NSString *code = self.textView.text;
         NSDictionary *sessionProps =
@@ -103,6 +96,7 @@
                 [NSArray arrayWithObject:code], @"initTexts",
                 nil];
 
+        self.navigationItem.rightBarButtonItem.title = @"Continue";
         self.sessionDoc = [_database untitledDocument];
 
         UIApplication *app = [UIApplication sharedApplication];
@@ -136,36 +130,6 @@
         [controller subscribeToSession:self.sessionDoc];
 
     [self.navigationController pushViewController:controller animated:YES];
-}
-
-- (IBAction)didEditButton
-{
-    SnippetDetailViewController *controller = [[[SnippetDetailViewController alloc] initWithNibName:@"SnippetDetailViewController" bundle:nil] autorelease];
-    controller.snippet = _snippet;
-
-    UINavigationController *navigationController = [[[UINavigationController alloc] initWithRootViewController:controller] autorelease];
-    [self presentViewController:navigationController animated:YES completion:nil];
-}
-
-- (IBAction)didRunButton
-{
-    [self showReplWithReset:YES];
-}
-
-- (IBAction)didContinueButton
-{
-    [self showReplWithReset:NO];
-}
-
-- (BOOL)textViewShouldBeginEditing:(UITextView *)textView
-{
-    //self.textView.inputAccessoryView = self.navigationController.toolbar;
-    return YES;
-}
-
-- (void)textViewDidEndEditing:(UITextView *)textView
-{
-    //self.textView.inputAccessoryView = nil;
 }
 
 @end

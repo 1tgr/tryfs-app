@@ -27,8 +27,6 @@
     controller.database = [server databaseNamed:@"tryfs"];
 
     UINavigationController *navigationController = [[[UINavigationController alloc] initWithRootViewController:controller] autorelease];
-    //navigationController.toolbarHidden = NO;
-
     UIWindow *window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
     window.rootViewController = navigationController;
     [window makeKeyAndVisible];

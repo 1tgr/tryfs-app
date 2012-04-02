@@ -42,8 +42,6 @@ static int nextIndex = 1;
 
 - (void)registerForKeyboardNotifications
 {
-    NSLog(@"[%d registerForKeyboardNotifications]", _index);
-
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(keyboardWasShown:)
                                                  name:UIKeyboardDidShowNotification object:nil];
@@ -56,14 +54,11 @@ static int nextIndex = 1;
 
 - (void)cancelKeyboardNotifications
 {
-    NSLog(@"[%d cancelKeyboardNotifications]", _index);
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)keyboardWasShown:(NSNotification*)aNotification
 {
-    NSLog(@"[%d keyboardWasShown]", _index);
-
     NSDictionary* info = [aNotification userInfo];
     CGSize kbSize = [[info objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
 
@@ -83,8 +78,6 @@ static int nextIndex = 1;
 
 - (void)keyboardWillBeHidden:(NSNotification*)aNotification
 {
-    NSLog(@"[%d keyboardWillBeHidden]", _index);
-
     UIEdgeInsets contentInsets = UIEdgeInsetsZero;
     _scrollView.contentInset = contentInsets;
     _scrollView.scrollIndicatorInsets = contentInsets;

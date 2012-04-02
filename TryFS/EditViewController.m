@@ -22,14 +22,25 @@
 {
     KeyboardResizeMonitor *_monitor;
     SnippetInfo *_snippet;
+    ReplViewController *_replViewController;
 }
 
 @synthesize database = _database;
 @synthesize snippet = _snippet;
 @synthesize sessionDoc = _sessionDoc;
 
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self)
+        _replViewController = [[ReplViewController alloc] initWithNibName:@"ReplViewController" bundle:nil];
+
+    return self;
+}
+
 - (void)dealloc
 {
+    [_replViewController release];
     [_database release];
     [_snippet release];
     [_sessionDoc release];
@@ -84,8 +95,6 @@
 
 - (IBAction)didContinueButton
 {
-    ReplViewController *controller = [[[ReplViewController alloc] initWithNibName:@"ReplViewController" bundle:nil] autorelease];
-
     if (self.sessionDoc == nil)
     {
         NSString *code = self.textView.text;
@@ -96,7 +105,6 @@
                 [NSArray arrayWithObject:code], @"initTexts",
                 nil];
 
-        self.navigationItem.rightBarButtonItem.title = @"Continue";
         self.sessionDoc = [_database untitledDocument];
 
         UIApplication *app = [UIApplication sharedApplication];
@@ -117,7 +125,8 @@
                 CouchDocument *messageDoc = [_database untitledDocument];
                 [messageDoc putProperties:messageProps];
 
-                [controller subscribeToSession:self.sessionDoc];
+                self.navigationItem.rightBarButtonItem.title = @"Continue";
+                [_replViewController subscribeToSession:self.sessionDoc];
             }
             else
             {
@@ -126,10 +135,8 @@
             }
         }];
     }
-    else
-        [controller subscribeToSession:self.sessionDoc];
 
-    [self.navigationController pushViewController:controller animated:YES];
+    [self.navigationController pushViewController:_replViewController animated:YES];
 }
 
 @end

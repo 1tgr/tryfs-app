@@ -6,13 +6,11 @@
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
-
-
-#import "CouchUITableSource.h"
+#import "CouchChangeTracker.h"
 
 @class CouchDocument;
 
-@interface ReplViewController : UIViewController <UITableViewDelegate, CouchUITableDelegate>
+@interface ReplViewController : UITableViewController <CouchChangeDelegate>
 
 @property(nonatomic, retain) IBOutlet UITextField *textField;
 

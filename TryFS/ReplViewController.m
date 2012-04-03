@@ -128,18 +128,14 @@
 {
     NSDictionary *doc = [change objectForKey:@"doc"];
     NSString *message = [doc objectForKey:@"message"];
-    NSUInteger startIndex = _lines.count;
     [_lines addObjectsFromArray:[message componentsSeparatedByString:@"\n"]];
+    [self.tableView reloadData];
 
-    NSUInteger endIndex = _lines.count;
-    NSMutableArray *indexPaths = [[[NSMutableArray alloc] initWithCapacity:endIndex - startIndex] autorelease];
-    for (NSUInteger i = startIndex; i < endIndex; i++)
-        [indexPaths addObject:[NSIndexPath indexPathForRow:i inSection:0]];
-
-    UITableView *view = self.tableView;
-    [view beginUpdates];
-    [view insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationAutomatic];
-    [view endUpdates];
+    if (_lines.count > 0)
+    {
+        NSIndexPath *lastIndexPath = [NSIndexPath indexPathForRow:_lines.count - 1 inSection:0];
+        [self.tableView scrollToRowAtIndexPath:lastIndexPath atScrollPosition:UITableViewScrollPositionBottom animated:YES];
+    }
 }
 
 @end

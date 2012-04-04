@@ -22,7 +22,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    CouchServer *server = [[[CouchServer alloc] initWithURL:[NSURL URLWithString:@"http://ec2.partario.com:5984"]] autorelease];
+    CouchServer *server = [[[CouchServer alloc] initWithURL:[NSURL URLWithString:@"http://tryfs.net"]] autorelease];
     SnippetViewController *controller = [[[SnippetViewController alloc] initWithNibName:@"SnippetViewController" bundle:nil] autorelease];
     controller.database = [server databaseNamed:@"tryfs"];
 

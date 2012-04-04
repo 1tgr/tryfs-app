@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		22D028071526F58C00FB04D0 /* libCouchCocoa.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 892B982DBBF00613315B35FB /* libCouchCocoa.a */; };
+		22D02865152CB53B00FB04D0 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 22D02864152CB53B00FB04D0 /* Icon.png */; };
+		22D02867152CB53E00FB04D0 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 22D02866152CB53E00FB04D0 /* Icon@2x.png */; };
+		22D02869152CB54A00FB04D0 /* Icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = 22D02868152CB54A00FB04D0 /* Icon-72.png */; };
+		22D0286B152CB54D00FB04D0 /* Icon-72@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 22D0286A152CB54D00FB04D0 /* Icon-72@2x.png */; };
 		892B982DBBF00613315B35BE /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 892B982DBBF00613315B35BD /* UIKit.framework */; };
 		892B982DBBF00613315B35C0 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 892B982DBBF00613315B35BF /* Foundation.framework */; };
 		892B982DBBF00613315B35C2 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 892B982DBBF00613315B35C1 /* CoreGraphics.framework */; };
@@ -80,6 +84,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		22D02864152CB53B00FB04D0 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
+		22D02866152CB53E00FB04D0 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
+		22D02868152CB54A00FB04D0 /* Icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72.png"; sourceTree = "<group>"; };
+		22D0286A152CB54D00FB04D0 /* Icon-72@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72@2x.png"; sourceTree = "<group>"; };
 		892B982DBBF00613315B35B4 /* TryFS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TryFS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		892B982DBBF00613315B35BD /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		892B982DBBF00613315B35BF /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -129,6 +137,10 @@
 		892B982DBBF00613315B35B0 = {
 			isa = PBXGroup;
 			children = (
+				22D0286A152CB54D00FB04D0 /* Icon-72@2x.png */,
+				22D02868152CB54A00FB04D0 /* Icon-72.png */,
+				22D02866152CB53E00FB04D0 /* Icon@2x.png */,
+				22D02864152CB53B00FB04D0 /* Icon.png */,
 				892B982DBBF00613315B35EE /* CouchCocoa.xcodeproj */,
 				892B982DBBF00613315B35B1 /* Products */,
 				892B982DBBF00613315B35BC /* Frameworks */,
@@ -320,6 +332,10 @@
 				892B982DBBF00613315B35DE /* EditViewController.xib in Resources */,
 				892B982DBBF00613315B35E3 /* ReplViewController.xib in Resources */,
 				892B982DBBF00613315B35EB /* SnippetDetailViewController.xib in Resources */,
+				22D02865152CB53B00FB04D0 /* Icon.png in Resources */,
+				22D02867152CB53E00FB04D0 /* Icon@2x.png in Resources */,
+				22D02869152CB54A00FB04D0 /* Icon-72.png in Resources */,
+				22D0286B152CB54D00FB04D0 /* Icon-72@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

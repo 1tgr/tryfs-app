@@ -27,6 +27,8 @@
     controller.database = [server databaseNamed:@"tryfs"];
 
     UINavigationController *navigationController = [[[UINavigationController alloc] initWithRootViewController:controller] autorelease];
+    navigationController.navigationBar.tintColor = [UIColor colorWithRed:1 green:0.7 blue:0 alpha:1];
+
     UIWindow *window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
     window.rootViewController = navigationController;
     [window makeKeyAndVisible];

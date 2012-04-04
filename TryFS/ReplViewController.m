@@ -167,6 +167,7 @@
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
+    [self.session send:[textField.text stringByAppendingString:@";;"]];
     textField.text = @"";
     return YES;
 }

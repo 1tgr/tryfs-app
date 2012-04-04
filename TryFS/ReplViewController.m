@@ -145,12 +145,10 @@
     }
 }
 
-- (void)tracker:(CouchChangeTracker *)tracker receivedChange:(NSDictionary *)change
+- (void)writeLines:(NSArray *)lines
 {
-    NSDictionary *doc = [change objectForKey:@"doc"];
-    NSString *message = [doc objectForKey:@"message"];
     NSUInteger startIndex = _lines.count;
-    [_lines addObjectsFromArray:[message componentsSeparatedByString:@"\n"]];
+    [_lines addObjectsFromArray:lines];
 
     NSUInteger endIndex = _lines.count;
     NSMutableArray *indexPaths = [[[NSMutableArray alloc] initWithCapacity:endIndex - startIndex] autorelease];
@@ -165,9 +163,23 @@
     [self.tableView scrollToRowAtIndexPath:lastIndexPath atScrollPosition:UITableViewScrollPositionBottom animated:YES];
 }
 
+- (void)writeLine:(NSString *)line
+{
+    [self writeLines:[NSArray arrayWithObject:line]];
+}
+
+- (void)tracker:(CouchChangeTracker *)tracker receivedChange:(NSDictionary *)change
+{
+    NSDictionary *doc = [change objectForKey:@"doc"];
+    NSString *message = [doc objectForKey:@"message"];
+    [self writeLines:[message componentsSeparatedByString:@"\n"]];
+}
+
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
-    [self.session send:[textField.text stringByAppendingString:@";;"]];
+    NSString *text = [textField.text stringByAppendingString:@";;"];
+    [self.session send:text];
+    [self writeLine:text];
     textField.text = @"";
     return YES;
 }

@@ -35,7 +35,7 @@
                                             description:nil
                                                    date:[NSDate date]];
 
-        _snippets = [NSArray arrayWithObject:_emptySnippet];
+        _snippets = [[NSArray arrayWithObject:_emptySnippet] retain];
     }
 
     return self;

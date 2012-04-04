@@ -24,6 +24,7 @@
 		892B982DBBF00613315B35E9 /* SnippetDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 892B982DBBF00613315B35E8 /* SnippetDetailViewController.m */; };
 		892B982DBBF00613315B35EB /* SnippetDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 892B982DBBF00613315B35EA /* SnippetDetailViewController.xib */; };
 		892B982DBBF00613315B35FF /* KeyboardResizeMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = 892B982DBBF00613315B35FE /* KeyboardResizeMonitor.m */; };
+		892B982DBBF00613315B3602 /* Session.m in Sources */ = {isa = PBXBuildFile; fileRef = 892B982DBBF00613315B3601 /* Session.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -106,6 +107,8 @@
 		892B982DBBF00613315B35EE /* CouchCocoa.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CouchCocoa.xcodeproj; path = CouchCocoa/CouchCocoa.xcodeproj; sourceTree = "<group>"; };
 		892B982DBBF00613315B35FE /* KeyboardResizeMonitor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KeyboardResizeMonitor.m; sourceTree = "<group>"; };
 		892B982DBBF00613315B3600 /* KeyboardResizeMonitor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KeyboardResizeMonitor.h; sourceTree = "<group>"; };
+		892B982DBBF00613315B3601 /* Session.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Session.m; sourceTree = "<group>"; };
+		892B982DBBF00613315B3603 /* Session.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Session.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -154,6 +157,8 @@
 		892B982DBBF00613315B35C3 /* TryFS */ = {
 			isa = PBXGroup;
 			children = (
+				892B982DBBF00613315B3603 /* Session.h */,
+				892B982DBBF00613315B3601 /* Session.m */,
 				892B982DBBF00613315B3600 /* KeyboardResizeMonitor.h */,
 				892B982DBBF00613315B35FE /* KeyboardResizeMonitor.m */,
 				892B982DBBF00613315B35EA /* SnippetDetailViewController.xib */,
@@ -333,6 +338,7 @@
 				892B982DBBF00613315B35E5 /* SnippetInfo.m in Sources */,
 				892B982DBBF00613315B35E9 /* SnippetDetailViewController.m in Sources */,
 				892B982DBBF00613315B35FF /* KeyboardResizeMonitor.m in Sources */,
+				892B982DBBF00613315B3602 /* Session.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

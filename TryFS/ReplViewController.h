@@ -9,12 +9,12 @@
 #import "CouchChangeTracker.h"
 
 @class CouchDocument;
+@class Session;
 
-@interface ReplViewController : UITableViewController <CouchChangeDelegate>
+@interface ReplViewController : UITableViewController <UITextFieldDelegate, CouchChangeDelegate>
 
 @property(nonatomic, retain) IBOutlet UITextField *textField;
 @property(nonatomic, retain) IBOutlet UITableViewCell *textFieldCell;
-
--(void)subscribeToSession:(CouchDocument *)sessionDoc;
+@property(nonatomic, retain) Session *session;
 
 @end

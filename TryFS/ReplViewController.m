@@ -9,16 +9,25 @@
 #import "CouchCocoa.h"
 #import "ReplViewController.h"
 #import "KeyboardResizeMonitor.h"
+#import "Session.h"
+
+@interface ReplViewController ()
+
+@property(nonatomic, retain) CouchChangeTracker *tracker;
+
+@end
 
 @implementation ReplViewController
 {
     KeyboardResizeMonitor *_monitor;
-    CouchChangeTracker *_tracker;
     NSMutableArray *_lines;
+    Session *_session;
 }
 
 @synthesize textField = _textField;
 @synthesize textFieldCell = _textFieldCell;
+@synthesize tracker = _tracker;
+@synthesize session = _session;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -36,13 +45,13 @@
     [_monitor release];
     [_tracker release];
     [_lines release];
+    [_session release];
     [super dealloc];
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.title = @"REPL";
     _monitor = [[KeyboardResizeMonitor alloc] initWithView:self.view scrollView:self.tableView];
     _monitor.activeField = _textField;
     [_textField becomeFirstResponder];
@@ -61,9 +70,8 @@
 - (void)viewDidUnload
 {
     [super viewDidUnload];
-    [_tracker stop];
-    [_tracker release];
-    _tracker = nil;
+    [self.tracker stop];
+    self.tracker = nil;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -71,19 +79,18 @@
     return [UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad || interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown;
 }
 
-- (void)subscribeToSession:(CouchDocument *)sessionDoc
+- (void)setSession:(Session *)session
 {
-    NSLog(@"Subscribing to %@", sessionDoc.documentID);
-    self.title = sessionDoc.documentID;
+    NSLog(@"Subscribing to %@", session.sessionId);
+    self.title = session.sessionId;
 
-    [_tracker stop];
-    [_tracker release];
-    _tracker = [[CouchChangeTracker alloc] initWithDatabase:sessionDoc.database delegate:self];
-    _tracker.lastSequenceNumber = sessionDoc.database.lastSequenceNumber;
-    _tracker.filter = @"app/session";
-    [_tracker.filterParams setObject:sessionDoc.documentID forKey:@"sessionId"];
-    [_tracker.filterParams setObject:@"true" forKey:@"include_docs"];
-    [_tracker start];
+    [self.tracker stop];
+    self.tracker = nil;
+    self.tracker = [session changeTrackerWithDelegate:self];
+    [self.tracker.filterParams setObject:@"true" forKey:@"include_docs"];
+    [self.tracker start];
+    [_session release];
+    _session = [session retain];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -156,6 +163,12 @@
 
     NSIndexPath *lastIndexPath = [NSIndexPath indexPathForRow:_lines.count inSection:0];
     [self.tableView scrollToRowAtIndexPath:lastIndexPath atScrollPosition:UITableViewScrollPositionBottom animated:YES];
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    textField.text = @"";
+    return YES;
 }
 
 @end

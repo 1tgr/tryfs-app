@@ -11,10 +11,11 @@
 #import "ReplViewController.h"
 #import "SnippetInfo.h"
 #import "KeyboardResizeMonitor.h"
+#import "Session.h"
 
 @interface EditViewController ()
 
-@property(nonatomic, retain) CouchDocument *sessionDoc;
+@property(nonatomic, retain) Session *session;
 
 @end
 
@@ -27,7 +28,7 @@
 
 @synthesize database = _database;
 @synthesize snippet = _snippet;
-@synthesize sessionDoc = _sessionDoc;
+@synthesize session = _session;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -43,7 +44,7 @@
     [_replViewController release];
     [_database release];
     [_snippet release];
-    [_sessionDoc release];
+    [_session release];
     [_monitor release];
     [super dealloc];
 }
@@ -95,42 +96,25 @@
 
 - (IBAction)didContinueButton
 {
-    if (self.sessionDoc == nil)
+    if (self.session == nil)
     {
-        NSString *code = self.textView.text;
-        NSDictionary *sessionProps =
-            [NSDictionary dictionaryWithObjectsAndKeys:
-                @"session", @"type",
-                [NSArray arrayWithObject:@"init"], @"initNames",
-                [NSArray arrayWithObject:code], @"initTexts",
-                nil];
-
-        self.sessionDoc = [_database untitledDocument];
+        self.session = [[[Session alloc] initWithDatabase:_database] autorelease];
 
         UIApplication *app = [UIApplication sharedApplication];
         app.networkActivityIndicatorVisible = YES;
 
-        RESTOperation *op = [self.sessionDoc putProperties:sessionProps];
+        RESTOperation *op = [self.session startWithCode:self.textView.text];
         [op onCompletion:^{
             app.networkActivityIndicatorVisible = NO;
             if (op.error == nil)
             {
-                NSDictionary *messageProps =
-                    [NSDictionary dictionaryWithObjectsAndKeys:
-                        @"in", @"messageType",
-                        @"", @"message",
-                        self.sessionDoc.documentID, @"sessionId",
-                        nil];
-
-                CouchDocument *messageDoc = [_database untitledDocument];
-                [messageDoc putProperties:messageProps];
-
+                [self.session send:@""];
                 self.navigationItem.rightBarButtonItem.title = @"Continue";
-                [_replViewController subscribeToSession:self.sessionDoc];
+                _replViewController.session = self.session;
             }
             else
             {
-                self.sessionDoc = nil;
+                self.session = nil;
                 [[[[UIAlertView alloc] initWithTitle:op.error.localizedDescription message:nil delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] autorelease] show];
             }
         }];

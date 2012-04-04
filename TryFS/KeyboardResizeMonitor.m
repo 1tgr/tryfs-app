@@ -7,11 +7,8 @@
 
 #import "KeyboardResizeMonitor.h"
 
-static int nextIndex = 1;
-
 @implementation KeyboardResizeMonitor
 {
-    int _index;
     UIView *_view;
     UIScrollView *_scrollView;
     UIView *_activeField;
@@ -26,7 +23,6 @@ static int nextIndex = 1;
     {
         _view = [view retain];
         _scrollView = [scrollView retain];
-        _index = nextIndex++;
     }
 
     return self;

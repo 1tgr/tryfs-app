@@ -13,6 +13,7 @@
 @interface ReplViewController : UITableViewController <CouchChangeDelegate>
 
 @property(nonatomic, retain) IBOutlet UITextField *textField;
+@property(nonatomic, retain) IBOutlet UITableViewCell *textFieldCell;
 
 -(void)subscribeToSession:(CouchDocument *)sessionDoc;
 

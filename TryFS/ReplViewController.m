@@ -18,6 +18,7 @@
 }
 
 @synthesize textField = _textField;
+@synthesize textFieldCell = _textFieldCell;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -31,6 +32,7 @@
 - (void)dealloc
 {
     [_textField release];
+    [_textFieldCell release];
     [_monitor release];
     [_tracker release];
     [_lines release];
@@ -42,6 +44,8 @@
     [super viewDidLoad];
     self.title = @"REPL";
     _monitor = [[KeyboardResizeMonitor alloc] initWithView:self.view scrollView:self.tableView];
+    _monitor.activeField = _textField;
+    [_textField becomeFirstResponder];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -89,53 +93,69 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return _lines.count;
+    return _lines.count + 1;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSUInteger row = (NSUInteger) indexPath.row;
-    NSString *cellId = [[NSNumber numberWithInt:row] stringValue];
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
-    if (cell == nil)
+    if (row >= _lines.count)
+        return _textFieldCell;
+    else
     {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId] autorelease];
-        cell.textLabel.textColor = self.textField.textColor;
-        cell.textLabel.font = self.textField.font;
-        cell.textLabel.lineBreakMode = UILineBreakModeWordWrap;
-        cell.textLabel.numberOfLines = 0;
-    }
+        NSString *cellId = [[NSNumber numberWithInt:row] stringValue];
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
+        if (cell == nil)
+        {
+            cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId] autorelease];
+            cell.textLabel.textColor = self.textField.textColor;
+            cell.textLabel.font = self.textField.font;
+            cell.textLabel.lineBreakMode = UILineBreakModeWordWrap;
+            cell.textLabel.numberOfLines = 0;
+        }
 
-    cell.textLabel.text = [_lines objectAtIndex:row];
-    return cell;
+        cell.textLabel.text = [_lines objectAtIndex:row];
+        return cell;
+    }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [self tableView:tableView cellForRowAtIndexPath:indexPath];
-    NSString *text = cell.textLabel.text;
-    UIFont *font = cell.textLabel.font;
+    if (indexPath.row >= _lines.count)
+        return [super tableView:tableView heightForRowAtIndexPath:indexPath];
+    else
+    {
+        UITableViewCell *cell = [self tableView:tableView cellForRowAtIndexPath:indexPath];
+        NSString *text = cell.textLabel.text;
+        UIFont *font = cell.textLabel.font;
 
-    CGSize labelSize;
-    labelSize.width = cell.frame.size.width;
-    labelSize.height = tableView.frame.size.height;
+        CGSize labelSize;
+        labelSize.width = cell.frame.size.width;
+        labelSize.height = tableView.frame.size.height;
 
-    CGSize size = [text sizeWithFont:font constrainedToSize:labelSize lineBreakMode:UILineBreakModeWordWrap];
-    return size.height;
+        CGSize size = [text sizeWithFont:font constrainedToSize:labelSize lineBreakMode:UILineBreakModeWordWrap];
+        return size.height;
+    }
 }
 
 - (void)tracker:(CouchChangeTracker *)tracker receivedChange:(NSDictionary *)change
 {
     NSDictionary *doc = [change objectForKey:@"doc"];
     NSString *message = [doc objectForKey:@"message"];
+    NSUInteger startIndex = _lines.count;
     [_lines addObjectsFromArray:[message componentsSeparatedByString:@"\n"]];
-    [self.tableView reloadData];
 
-    if (_lines.count > 0)
-    {
-        NSIndexPath *lastIndexPath = [NSIndexPath indexPathForRow:_lines.count - 1 inSection:0];
-        [self.tableView scrollToRowAtIndexPath:lastIndexPath atScrollPosition:UITableViewScrollPositionBottom animated:YES];
-    }
+    NSUInteger endIndex = _lines.count;
+    NSMutableArray *indexPaths = [[[NSMutableArray alloc] initWithCapacity:endIndex - startIndex] autorelease];
+    for (NSUInteger row = startIndex; row < endIndex; row++)
+        [indexPaths addObject:[NSIndexPath indexPathForRow:row inSection:0]];
+
+    [self.tableView beginUpdates];
+    [self.tableView insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationNone];
+    [self.tableView endUpdates];
+
+    NSIndexPath *lastIndexPath = [NSIndexPath indexPathForRow:_lines.count inSection:0];
+    [self.tableView scrollToRowAtIndexPath:lastIndexPath atScrollPosition:UITableViewScrollPositionBottom animated:YES];
 }
 
 @end

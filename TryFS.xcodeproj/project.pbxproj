@@ -137,10 +137,6 @@
 		892B982DBBF00613315B35B0 = {
 			isa = PBXGroup;
 			children = (
-				22D0286A152CB54D00FB04D0 /* Icon-72@2x.png */,
-				22D02868152CB54A00FB04D0 /* Icon-72.png */,
-				22D02866152CB53E00FB04D0 /* Icon@2x.png */,
-				22D02864152CB53B00FB04D0 /* Icon.png */,
 				892B982DBBF00613315B35EE /* CouchCocoa.xcodeproj */,
 				892B982DBBF00613315B35B1 /* Products */,
 				892B982DBBF00613315B35BC /* Frameworks */,
@@ -197,6 +193,10 @@
 		892B982DBBF00613315B35C4 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				22D0286A152CB54D00FB04D0 /* Icon-72@2x.png */,
+				22D02868152CB54A00FB04D0 /* Icon-72.png */,
+				22D02866152CB53E00FB04D0 /* Icon@2x.png */,
+				22D02864152CB53B00FB04D0 /* Icon.png */,
 				892B982DBBF00613315B35CB /* TryFS-Prefix.pch */,
 				892B982DBBF00613315B35C9 /* main.m */,
 				892B982DBBF00613315B35C7 /* InfoPlist.strings */,

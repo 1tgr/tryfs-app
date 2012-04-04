@@ -56,7 +56,8 @@
 - (void)keyboardWasShown:(NSNotification*)aNotification
 {
     NSDictionary* info = [aNotification userInfo];
-    CGSize kbSize = [[info objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
+    CGRect kbRect = [_view convertRect:[[info objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue] toView:nil];
+    CGSize kbSize = kbRect.size;
 
     UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0, 0.0, kbSize.height, 0.0);
     _scrollView.contentInset = contentInsets;

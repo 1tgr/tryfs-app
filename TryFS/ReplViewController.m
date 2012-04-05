@@ -91,6 +91,8 @@
     [self.tracker start];
     [_session release];
     _session = [session retain];
+
+    self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:@"Restart" style:UIBarButtonItemStyleBordered target:self action:@selector(didRestartButton)] autorelease];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -177,11 +179,37 @@
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
-    NSString *text = [textField.text stringByAppendingString:@";;"];
-    [self.session send:text];
-    [self writeLine:text];
-    textField.text = @"";
-    return YES;
+    if (self.session.sessionId == nil)
+        return NO;
+    else
+    {
+        NSString *text = [textField.text stringByAppendingString:@";;"];
+        [self.session send:text];
+        [self writeLine:text];
+        textField.text = @"";
+        return YES;
+    }
+}
+
+- (void)didRestartButton
+{
+    if (self.session.sessionId != nil)
+    {
+        self.title = @"";
+
+        UIApplication *app = [UIApplication sharedApplication];
+        app.networkActivityIndicatorVisible = YES;
+
+        RESTOperation *op = [self.session reset];
+        [op onCompletion:^{
+            app.networkActivityIndicatorVisible = NO;
+            self.title = self.session.sessionId;
+            [self.tracker stop];
+            [self.tracker.filterParams setObject:self.session.sessionId forKey:@"sessionId"];
+            [self.tracker start];
+            [self.session send:@""];
+        }];
+    }
 }
 
 @end

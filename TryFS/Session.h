@@ -14,10 +14,12 @@
 @interface Session : NSObject
 
 @property(strong, readonly) CouchDocument *document;
+@property(strong, readonly) NSString *sessionId;
+@property(nonatomic, retain) NSString *code;
 
 - (id)initWithDatabase:(CouchDatabase *)database;
-- (NSString *)sessionId;
-- (RESTOperation *)startWithCode:(NSString *)code;
+- (RESTOperation *)start;
+- (RESTOperation *)reset;
 - (RESTOperation *)send:(NSString *)message;
 - (CouchChangeTracker *)changeTrackerWithDelegate:(NSObject <CouchChangeDelegate> *)delegate;
 

@@ -9,16 +9,30 @@
 #import "Session.h"
 
 @implementation Session
+{
+    NSString *_code;
+}
 
 @synthesize document = _document;
+@synthesize code = _code;
 
 - (id)initWithDatabase:(CouchDatabase *)database
 {
     self = [super init];
     if (self != nil)
-        _document = [database untitledDocument];
+    {
+        _document = [[database untitledDocument] retain];
+        _code = @"";
+    }
 
     return self;
+}
+
+- (void)dealloc
+{
+    [_code release];
+    [_document release];
+    [super dealloc];
 }
 
 - (NSString *)sessionId
@@ -26,16 +40,24 @@
     return _document.documentID;
 }
 
-- (RESTOperation *)startWithCode:(NSString *)code
+- (RESTOperation *)start
 {
     NSDictionary *sessionProps =
             [NSDictionary dictionaryWithObjectsAndKeys:
                 @"session", @"type",
                 [NSArray arrayWithObject:@"init"], @"initNames",
-                [NSArray arrayWithObject:code], @"initTexts",
+                [NSArray arrayWithObject:_code], @"initTexts",
                 nil];
 
     return [_document putProperties:sessionProps];
+}
+
+- (RESTOperation *)reset
+{
+    CouchDatabase *database = [[_document.database retain] autorelease];
+    [_document release];
+    _document = [[database untitledDocument] retain];
+    return [self start];
 }
 
 - (RESTOperation *)send:(NSString *)message

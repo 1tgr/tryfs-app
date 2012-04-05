@@ -97,13 +97,16 @@
 - (IBAction)didContinueButton
 {
     if (self.session == nil)
-    {
         self.session = [[[Session alloc] initWithDatabase:_database] autorelease];
 
+    self.session.code = self.textView.text;
+
+    if (self.session.sessionId == nil)
+    {
         UIApplication *app = [UIApplication sharedApplication];
         app.networkActivityIndicatorVisible = YES;
 
-        RESTOperation *op = [self.session startWithCode:self.textView.text];
+        RESTOperation *op = [self.session start];
         [op onCompletion:^{
             app.networkActivityIndicatorVisible = NO;
             if (op.error == nil)

@@ -87,6 +87,20 @@
 			remoteGlobalIDString = 05D1289182B06B6C560A4038;
 			remoteInfo = "iOS Tests";
 		};
+		892B982DBBF00613315B3606 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 892B982DBBF00613315B3604 /* QuickDialog.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = A22B94687C2F03879993F0C5;
+			remoteInfo = QuickDialogExample;
+		};
+		892B982DBBF00613315B3608 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 892B982DBBF00613315B3604 /* QuickDialog.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 60B3193FD014709DC58D3B1D;
+			remoteInfo = QuickDialog;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -129,6 +143,7 @@
 		892B982DBBF00613315B3600 /* KeyboardResizeMonitor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KeyboardResizeMonitor.h; sourceTree = "<group>"; };
 		892B982DBBF00613315B3601 /* Session.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Session.m; sourceTree = "<group>"; };
 		892B982DBBF00613315B3603 /* Session.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Session.h; sourceTree = "<group>"; };
+		892B982DBBF00613315B3604 /* QuickDialog.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = QuickDialog.xcodeproj; path = QuickDialog/QuickDialog.xcodeproj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -149,6 +164,7 @@
 		892B982DBBF00613315B35B0 = {
 			isa = PBXGroup;
 			children = (
+				892B982DBBF00613315B3604 /* QuickDialog.xcodeproj */,
 				892B982DBBF00613315B35EE /* CouchCocoa.xcodeproj */,
 				892B982DBBF00613315B35B1 /* Products */,
 				892B982DBBF00613315B35BC /* Frameworks */,
@@ -237,6 +253,15 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		892B982DBBF00613315B3605 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				892B982DBBF00613315B3607 /* QuickDialogExample.app */,
+				892B982DBBF00613315B3609 /* libQuickDialog.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -279,6 +304,10 @@
 				{
 					ProductGroup = 892B982DBBF00613315B35EF /* Products */;
 					ProjectRef = 892B982DBBF00613315B35EE /* CouchCocoa.xcodeproj */;
+				},
+				{
+					ProductGroup = 892B982DBBF00613315B3605 /* Products */;
+					ProjectRef = 892B982DBBF00613315B3604 /* QuickDialog.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -336,6 +365,20 @@
 			fileType = wrapper.cfbundle;
 			path = "iOS Tests.octest";
 			remoteRef = 892B982DBBF00613315B35FC /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		892B982DBBF00613315B3607 /* QuickDialogExample.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = QuickDialogExample.app;
+			remoteRef = 892B982DBBF00613315B3606 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		892B982DBBF00613315B3609 /* libQuickDialog.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libQuickDialog.a;
+			remoteRef = 892B982DBBF00613315B3608 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -444,12 +487,12 @@
 		892B982DBBF00613315B35B7 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = "\"${PROJECT_DIR}//**";
+				FRAMEWORK_SEARCH_PATHS = "\"${PROJECT_DIR}/**";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "TryFS/TryFS-Prefix.pch";
 				INFOPLIST_FILE = "TryFS/TryFS-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				USER_HEADER_SEARCH_PATHS = "\"${PROJECT_DIR}/CouchCocoa/**";
+				USER_HEADER_SEARCH_PATHS = "\"${PROJECT_DIR}/CouchCocoa\"/** \"${PROJECT_DIR}/QuickDialog\"/**";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -457,12 +500,12 @@
 		892B982DBBF00613315B35B8 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = "\"${PROJECT_DIR}//**";
+				FRAMEWORK_SEARCH_PATHS = "\"${PROJECT_DIR}/**";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "TryFS/TryFS-Prefix.pch";
 				INFOPLIST_FILE = "TryFS/TryFS-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				USER_HEADER_SEARCH_PATHS = "\"${PROJECT_DIR}/CouchCocoa/**";
+				USER_HEADER_SEARCH_PATHS = "\"${PROJECT_DIR}/CouchCocoa\"/** \"${PROJECT_DIR}/QuickDialog\"/**";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;

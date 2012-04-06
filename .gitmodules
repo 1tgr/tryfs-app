@@ -1,3 +1,6 @@
 [submodule "CouchCocoa"]
 	path = CouchCocoa
-	url = git://github.com/couchbaselabs/CouchCocoa
+	url = https://github.com/timrobinson/CouchCocoa.git
+[submodule "QuickDialog"]
+	path = QuickDialog
+	url = https://github.com/escoz/QuickDialog.git

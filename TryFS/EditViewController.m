@@ -6,6 +6,7 @@
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
+#import <QuartzCore/QuartzCore.h>
 #import "CouchCocoa.h"
 #import "EditViewController.h"
 #import "ReplViewController.h"
@@ -54,13 +55,51 @@
     return (UITextView *) self.view;
 }
 
+static UIColor *times(UIColor *colour, CGFloat f)
+{
+    CGFloat red, green, blue, alpha;
+    [colour getRed:&red green:&green blue:&blue alpha:&alpha];
+    red *= f;
+    green *= f;
+    blue *= f;
+    return [UIColor colorWithRed:red green:green blue:blue alpha:alpha];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     self.title = _snippet.title;
     self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:@"Run" style:UIBarButtonItemStyleBordered target:self action:@selector(didContinueButton)] autorelease];
 
-    _monitor = [[KeyboardResizeMonitor alloc] initWithView:self.view scrollView:self.textView];
+    UITextView *textView = self.textView;
+    CGRect frame = { { 0, 0 }, textView.frame.size };
+    UIFont *font = [UIFont systemFontOfSize:[UIFont systemFontSize]];
+    UILineBreakMode lineBreakMode = UILineBreakModeWordWrap;
+    frame.size.height = [_snippet.description sizeWithFont:font constrainedToSize:frame.size lineBreakMode:lineBreakMode].height;
+    frame.origin.y -= frame.size.height;
+
+    UILabel *label = [[[UILabel alloc] initWithFrame:frame] autorelease];
+    label.lineBreakMode = lineBreakMode;
+    label.font = font;
+    label.textColor = textView.textColor;
+    label.text = _snippet.description;
+    label.numberOfLines = 0;
+
+    UIColor *colour = textView.backgroundColor;
+    label.backgroundColor = [UIColor clearColor];
+
+    CALayer *layer = label.layer;
+    layer.backgroundColor = times(colour, 0.75).CGColor;
+    layer.shadowColor = times(colour, 0.5).CGColor;
+    layer.masksToBounds = NO;
+    layer.cornerRadius = 8;
+    [textView addSubview:label];
+
+    UIEdgeInsets inset = textView.contentInset;
+    inset.top += frame.size.height;
+    textView.contentInset = inset;
+
+    _monitor = [[KeyboardResizeMonitor alloc] initWithView:self.view scrollView:textView];
 
     if (_snippet.id != nil)
     {
@@ -71,8 +110,6 @@
         RESTOperation *op = doc.GET;
         [op onCompletion:^{
             app.networkActivityIndicatorVisible = NO;
-
-            UITextView *textView = self.textView;
             textView.text = [doc propertyForKey:@"code"];
             textView.selectedTextRange = [textView textRangeFromPosition:textView.beginningOfDocument toPosition:textView.beginningOfDocument];
         }];

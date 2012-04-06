@@ -73,11 +73,12 @@
             NSString *userId = [v objectForKey:@"userId"];
             if ([userId isEqualToString:@"fssnip"])
             {
+                NSString *description = [v objectForKey:@"description"];
                 SnippetInfo *s = [[[SnippetInfo alloc] initWithId:row.documentID
                                                           rev:[v objectForKey:@"_rev"]
                                                        author:[v objectForKey:@"author"]
                                                         title:[v objectForKey:@"title"]
-                                                  description:[v objectForKey:@"description"]
+                                                  description:[description stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]
                                                          date:[v objectForKey:@"date"]] autorelease];
 
                 [snippets addObject:s];

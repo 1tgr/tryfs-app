@@ -26,6 +26,7 @@
     KeyboardResizeMonitor *_monitor;
     SnippetInfo *_snippet;
     ReplViewController *_replViewController;
+    InsetLabel *_descriptionLabel;
 }
 
 @synthesize database = _database;
@@ -48,6 +49,7 @@
     [_snippet release];
     [_session release];
     [_monitor release];
+    [_descriptionLabel release];
     [super dealloc];
 }
 
@@ -64,6 +66,27 @@ static UIColor *times(UIColor *colour, CGFloat f)
     green *= f;
     blue *= f;
     return [UIColor colorWithRed:red green:green blue:blue alpha:alpha];
+}
+
+- (void)resizeViews
+{
+    UITextView *textView = self.textView;
+    UIEdgeInsets margin = UIEdgeInsetsMake(4, 4, 4, 4);
+    CGRect frame = { { 0, 0 }, textView.frame.size };
+    frame = UIEdgeInsetsInsetRect(frame, margin);
+
+    UIEdgeInsets padding = _descriptionLabel.inset;
+    frame.size.width -= padding.left + padding.right;
+    frame.size.height -= padding.top + padding.bottom;
+    frame.size.height = [_descriptionLabel.text sizeWithFont:_descriptionLabel.font constrainedToSize:frame.size lineBreakMode:_descriptionLabel.lineBreakMode].height;
+    frame.size.width += padding.left + padding.right;
+    frame.size.height += padding.top + padding.bottom;
+    frame.origin.y = margin.top - frame.size.height;
+    _descriptionLabel.frame = frame;
+
+    UIEdgeInsets inset = textView.contentInset;
+    inset.top = frame.size.height;
+    textView.contentInset = inset;
 }
 
 - (void)viewDidLoad
@@ -91,22 +114,7 @@ static UIColor *times(UIColor *colour, CGFloat f)
     layer.cornerRadius = 8;
     [textView addSubview:label];
 
-    UIEdgeInsets margin = UIEdgeInsetsMake(4, 4, 4, 4);
-    CGRect frame = { { 0, 0 }, textView.frame.size };
-    frame = UIEdgeInsetsInsetRect(frame, margin);
-
-    CGFloat width = frame.size.width;
-    label.frame = frame;
-    [label sizeToFit];
-    frame = label.frame;
-    frame.size.width = width;
-    frame.origin.y = margin.top - frame.size.height;
-    label.frame = frame;
-
-    UIEdgeInsets inset = textView.contentInset;
-    inset.top += frame.size.height;
-    textView.contentInset = inset;
-
+    _descriptionLabel = [label retain];
     _monitor = [[KeyboardResizeMonitor alloc] initWithView:self.view scrollView:textView];
 
     if (_snippet.id != nil)
@@ -127,6 +135,7 @@ static UIColor *times(UIColor *colour, CGFloat f)
 - (void)viewWillAppear:(BOOL)animated
 {
     [_monitor registerForKeyboardNotifications];
+    [self resizeViews];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -137,6 +146,12 @@ static UIColor *times(UIColor *colour, CGFloat f)
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     return [UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad || interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown;
+}
+
+- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    [super willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
+    [self resizeViews];
 }
 
 - (IBAction)didContinueButton

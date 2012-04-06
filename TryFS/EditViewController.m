@@ -72,28 +72,14 @@ static UIColor *times(UIColor *colour, CGFloat f)
     self.title = _snippet.title;
     self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:@"Run" style:UIBarButtonItemStyleBordered target:self action:@selector(didContinueButton)] autorelease];
 
-    UIEdgeInsets margin = UIEdgeInsetsMake(4, 4, 4, 4);
-    UIEdgeInsets padding = UIEdgeInsetsMake(8, 8, 8, 8);
     UITextView *textView = self.textView;
-    CGRect frame = { { 0, 0 }, textView.frame.size };
-    frame = UIEdgeInsetsInsetRect(frame, margin);
-    frame.size.width -= padding.left + padding.right;
-    frame.size.height -= padding.top + padding.bottom;
-
-    UIFont *font = [UIFont systemFontOfSize:[UIFont systemFontSize]];
-    UILineBreakMode lineBreakMode = UILineBreakModeWordWrap;
-    frame.size.height = [_snippet.description sizeWithFont:font constrainedToSize:frame.size lineBreakMode:lineBreakMode].height;
-    frame.size.height += padding.top + padding.bottom;
-    frame.size.width += padding.left + padding.right;
-    frame.origin.y -= frame.size.height;
-
-    InsetLabel *label = [[[InsetLabel alloc] initWithFrame:frame] autorelease];
-    label.inset = padding;
-    label.lineBreakMode = lineBreakMode;
-    label.font = font;
-    label.textColor = textView.textColor;
-    label.text = _snippet.description;
+    InsetLabel *label = [[[InsetLabel alloc] init] autorelease];
+    label.font = [UIFont systemFontOfSize:[UIFont systemFontSize]];
+    label.inset = UIEdgeInsetsMake(8, 8, 8, 8);
+    label.lineBreakMode = UILineBreakModeWordWrap;
     label.numberOfLines = 0;
+    label.text = _snippet.description;
+    label.textColor = textView.textColor;
 
     UIColor *colour = textView.backgroundColor;
     label.backgroundColor = [UIColor clearColor];
@@ -104,6 +90,18 @@ static UIColor *times(UIColor *colour, CGFloat f)
     layer.masksToBounds = NO;
     layer.cornerRadius = 8;
     [textView addSubview:label];
+
+    UIEdgeInsets margin = UIEdgeInsetsMake(4, 4, 4, 4);
+    CGRect frame = { { 0, 0 }, textView.frame.size };
+    frame = UIEdgeInsetsInsetRect(frame, margin);
+
+    CGFloat width = frame.size.width;
+    label.frame = frame;
+    [label sizeToFit];
+    frame = label.frame;
+    frame.size.width = width;
+    frame.origin.y = margin.top - frame.size.height;
+    label.frame = frame;
 
     UIEdgeInsets inset = textView.contentInset;
     inset.top += frame.size.height;

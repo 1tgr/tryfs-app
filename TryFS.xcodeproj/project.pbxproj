@@ -32,8 +32,6 @@
 		892B982DBBF00613315B35E1 /* ReplViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 892B982DBBF00613315B35E0 /* ReplViewController.m */; };
 		892B982DBBF00613315B35E3 /* ReplViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 892B982DBBF00613315B35E2 /* ReplViewController.xib */; };
 		892B982DBBF00613315B35E5 /* SnippetInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 892B982DBBF00613315B35E4 /* SnippetInfo.m */; };
-		892B982DBBF00613315B35E9 /* SnippetDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 892B982DBBF00613315B35E8 /* SnippetDetailViewController.m */; };
-		892B982DBBF00613315B35EB /* SnippetDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 892B982DBBF00613315B35EA /* SnippetDetailViewController.xib */; };
 		892B982DBBF00613315B35FF /* KeyboardResizeMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = 892B982DBBF00613315B35FE /* KeyboardResizeMonitor.m */; };
 		892B982DBBF00613315B3602 /* Session.m in Sources */ = {isa = PBXBuildFile; fileRef = 892B982DBBF00613315B3601 /* Session.m */; };
 		892B982DBBF00613315B360B /* couchdb.png in Resources */ = {isa = PBXBuildFile; fileRef = 892B982DBBF00613315B360A /* couchdb.png */; };
@@ -145,9 +143,6 @@
 		892B982DBBF00613315B35E2 /* ReplViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ReplViewController.xib; sourceTree = "<group>"; };
 		892B982DBBF00613315B35E4 /* SnippetInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SnippetInfo.m; sourceTree = "<group>"; };
 		892B982DBBF00613315B35E6 /* SnippetInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SnippetInfo.h; sourceTree = "<group>"; };
-		892B982DBBF00613315B35E7 /* SnippetDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SnippetDetailViewController.h; sourceTree = "<group>"; };
-		892B982DBBF00613315B35E8 /* SnippetDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SnippetDetailViewController.m; sourceTree = "<group>"; };
-		892B982DBBF00613315B35EA /* SnippetDetailViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SnippetDetailViewController.xib; sourceTree = "<group>"; };
 		892B982DBBF00613315B35EE /* CouchCocoa.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CouchCocoa.xcodeproj; path = CouchCocoa/CouchCocoa.xcodeproj; sourceTree = "<group>"; };
 		892B982DBBF00613315B35FE /* KeyboardResizeMonitor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KeyboardResizeMonitor.m; sourceTree = "<group>"; };
 		892B982DBBF00613315B3600 /* KeyboardResizeMonitor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KeyboardResizeMonitor.h; sourceTree = "<group>"; };
@@ -229,9 +224,6 @@
 				892B982DBBF00613315B35E2 /* ReplViewController.xib */,
 				892B982DBBF00613315B3603 /* Session.h */,
 				892B982DBBF00613315B3601 /* Session.m */,
-				892B982DBBF00613315B35E7 /* SnippetDetailViewController.h */,
-				892B982DBBF00613315B35E8 /* SnippetDetailViewController.m */,
-				892B982DBBF00613315B35EA /* SnippetDetailViewController.xib */,
 				892B982DBBF00613315B35E6 /* SnippetInfo.h */,
 				892B982DBBF00613315B35E4 /* SnippetInfo.m */,
 				892B982DBBF00613315B35D1 /* SnippetViewController.h */,
@@ -423,7 +415,6 @@
 				892B982DBBF00613315B35D5 /* SnippetViewController.xib in Resources */,
 				892B982DBBF00613315B35DE /* EditViewController.xib in Resources */,
 				892B982DBBF00613315B35E3 /* ReplViewController.xib in Resources */,
-				892B982DBBF00613315B35EB /* SnippetDetailViewController.xib in Resources */,
 				22D02865152CB53B00FB04D0 /* Icon.png in Resources */,
 				22D02867152CB53E00FB04D0 /* Icon@2x.png in Resources */,
 				22D02869152CB54A00FB04D0 /* Icon-72.png in Resources */,
@@ -458,7 +449,6 @@
 				892B982DBBF00613315B35DC /* EditViewController.m in Sources */,
 				892B982DBBF00613315B35E1 /* ReplViewController.m in Sources */,
 				892B982DBBF00613315B35E5 /* SnippetInfo.m in Sources */,
-				892B982DBBF00613315B35E9 /* SnippetDetailViewController.m in Sources */,
 				892B982DBBF00613315B35FF /* KeyboardResizeMonitor.m in Sources */,
 				892B982DBBF00613315B3602 /* Session.m in Sources */,
 				892B982DBBF00613315B3628 /* InsetLabel.m in Sources */,

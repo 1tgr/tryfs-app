@@ -10,6 +10,7 @@
 #import "AppDelegate.h"
 #import "SnippetViewController.h"
 #import "QuickDialog.h"
+#import "Crittercism.h"
 
 @implementation AppDelegate
 
@@ -44,13 +45,20 @@
     QSection *section = [[[QSection alloc] initWithTitle:nil] autorelease];
     [section addElement:snippetsElement];
 
+    QLabelElement *feedbackElement = [[[QLabelElement alloc] initWithTitle:@"Feedback" Value:nil] autorelease];
+    feedbackElement.image = [UIImage imageNamed:@"mail.png"];
+    feedbackElement.controllerAction = @"";
+    feedbackElement.onSelected = ^{
+        [Crittercism showCrittercism:navigationController];
+    };
+
     QLabelElement *couchdbElement = [[[QLabelElement alloc] initWithTitle:@"Powered by CouchDB" Value:nil] autorelease];
     couchdbElement.image = [UIImage imageNamed:@"couchdb.png"];
 
     QSection *aboutSection = [[[QSection alloc] initWithTitle:@"About Try F#"] autorelease];
     [aboutSection addElement:[AppDelegate linkElementWithTitle:@"timrobinson/try-fsharp" url:[NSURL URLWithString:@"https://github.com/timrobinson/try-fsharp"] image:[UIImage imageNamed:@"github.png"]]];
     [aboutSection addElement:[AppDelegate linkElementWithTitle:@"@tim_g_robinson" url:[NSURL URLWithString:@"http://twitter.com/tim_g_robinson"] image:[UIImage imageNamed:@"twitter.png"]]];
-    [aboutSection addElement:[AppDelegate linkElementWithTitle:@"tim@partario.com" url:[NSURL URLWithString:@"mailto:?to=tim@partario.com&subject=Try%20F#"] image:[UIImage imageNamed:@"mail.png"]]];
+    [aboutSection addElement:feedbackElement];
     [aboutSection addElement:couchdbElement];
 
     QRootElement *root = [[[QRootElement alloc] init] autorelease];
@@ -63,6 +71,10 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    [Crittercism initWithAppID:@"4f7f54f6b093150e1700003a"
+                        andKey:@"3bbskiysvyotxfhkr7omqp4tpwme"
+                     andSecret:@"iv8nhmaqdoekq6zrwgnxxco1lc3lt4ty"];
+
     CouchServer *server = [[[CouchServer alloc] initWithURL:[NSURL URLWithString:@"http://tryfs.net"]] autorelease];
     SnippetViewController *snippetsController = [[[SnippetViewController alloc] initWithNibName:@"SnippetViewController" bundle:nil] autorelease];
     snippetsController.database = [server databaseNamed:@"tryfs"];

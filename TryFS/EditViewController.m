@@ -13,6 +13,7 @@
 #import "SnippetInfo.h"
 #import "KeyboardResizeMonitor.h"
 #import "Session.h"
+#import "InsetLabel.h"
 
 @interface EditViewController ()
 
@@ -71,14 +72,23 @@ static UIColor *times(UIColor *colour, CGFloat f)
     self.title = _snippet.title;
     self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:@"Run" style:UIBarButtonItemStyleBordered target:self action:@selector(didContinueButton)] autorelease];
 
+    UIEdgeInsets margin = UIEdgeInsetsMake(4, 4, 4, 4);
+    UIEdgeInsets padding = UIEdgeInsetsMake(8, 8, 8, 8);
     UITextView *textView = self.textView;
     CGRect frame = { { 0, 0 }, textView.frame.size };
+    frame = UIEdgeInsetsInsetRect(frame, margin);
+    frame.size.width -= padding.left + padding.right;
+    frame.size.height -= padding.top + padding.bottom;
+
     UIFont *font = [UIFont systemFontOfSize:[UIFont systemFontSize]];
     UILineBreakMode lineBreakMode = UILineBreakModeWordWrap;
     frame.size.height = [_snippet.description sizeWithFont:font constrainedToSize:frame.size lineBreakMode:lineBreakMode].height;
+    frame.size.height += padding.top + padding.bottom;
+    frame.size.width += padding.left + padding.right;
     frame.origin.y -= frame.size.height;
 
-    UILabel *label = [[[UILabel alloc] initWithFrame:frame] autorelease];
+    InsetLabel *label = [[[InsetLabel alloc] initWithFrame:frame] autorelease];
+    label.inset = padding;
     label.lineBreakMode = lineBreakMode;
     label.font = font;
     label.textColor = textView.textColor;

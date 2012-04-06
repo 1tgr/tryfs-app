@@ -60,11 +60,13 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [_monitor registerForKeyboardNotifications];
+    [self.tracker start];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
     [_monitor cancelKeyboardNotifications];
+    [self.tracker stop];
 }
 
 - (void)viewDidUnload
@@ -84,10 +86,11 @@
     NSLog(@"Subscribing to %@", session.sessionId);
     self.title = session.sessionId;
 
+    CouchChangeTracker *tracker = [session changeTrackerWithDelegate:self];
+    [tracker.filterParams setObject:@"true" forKey:@"include_docs"];
+
     [self.tracker stop];
-    self.tracker = nil;
-    self.tracker = [session changeTrackerWithDelegate:self];
-    [self.tracker.filterParams setObject:@"true" forKey:@"include_docs"];
+    self.tracker = tracker;
     [self.tracker start];
     [_session release];
     _session = [session retain];
@@ -172,6 +175,10 @@
 
 - (void)tracker:(CouchChangeTracker *)tracker receivedChange:(NSDictionary *)change
 {
+    NSNumber *seq = [change objectForKey:@"seq"];
+    tracker.lastSequenceNumber = seq.unsignedIntegerValue;
+    NSLog(@"seq = %d", tracker.lastSequenceNumber);
+
     NSDictionary *doc = [change objectForKey:@"doc"];
     NSString *message = [doc objectForKey:@"message"];
     [self writeLines:[message componentsSeparatedByString:@"\n"]];

@@ -9,7 +9,7 @@
 #import "CouchCocoa.h"
 #import "SnippetViewController.h"
 #import "EditViewController.h"
-#import "SnippetInfo.h"
+#import "Snippet.h"
 
 @interface SnippetViewController ()
 
@@ -17,7 +17,7 @@
 
 @implementation SnippetViewController
 {
-    SnippetInfo *_emptySnippet;
+    Snippet *_emptySnippet;
     NSArray *_snippets;
 }
 
@@ -28,7 +28,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self)
     {
-        _emptySnippet = [[SnippetInfo alloc] initWithId:nil
+        _emptySnippet = [[Snippet alloc] initWithId:nil
                                                     rev:nil
                                                  author:nil
                                                   title:@"Scratchpad"
@@ -74,7 +74,7 @@
             if ([userId isEqualToString:@"fssnip"])
             {
                 NSString *description = [v objectForKey:@"description"];
-                SnippetInfo *s = [[[SnippetInfo alloc] initWithId:row.documentID
+                Snippet *s = [[[Snippet alloc] initWithId:row.documentID
                                                           rev:[v objectForKey:@"_rev"]
                                                        author:[v objectForKey:@"author"]
                                                         title:[v objectForKey:@"title"]
@@ -116,7 +116,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    SnippetInfo *s = [_snippets objectAtIndex:(NSUInteger) indexPath.row];
+    Snippet *s = [_snippets objectAtIndex:(NSUInteger) indexPath.row];
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:s.id];
     if (cell == nil)
     {

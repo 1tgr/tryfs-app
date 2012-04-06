@@ -8,7 +8,7 @@
 #import <Foundation/Foundation.h>
 
 
-@interface SnippetInfo : NSObject
+@interface Snippet : NSObject
 
 @property(retain, readonly) NSString *id;
 @property(retain, readonly) NSString *rev;

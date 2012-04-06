@@ -5,10 +5,10 @@
 //
 
 
-#import "SnippetInfo.h"
+#import "Snippet.h"
 
 
-@implementation SnippetInfo
+@implementation Snippet
 {
 }
 

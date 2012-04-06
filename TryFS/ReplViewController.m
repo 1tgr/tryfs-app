@@ -10,6 +10,7 @@
 #import "ReplViewController.h"
 #import "KeyboardResizeMonitor.h"
 #import "Session.h"
+#import "Snippet.h"
 
 @interface ReplViewController ()
 
@@ -27,6 +28,7 @@
 @synthesize textField = _textField;
 @synthesize textFieldCell = _textFieldCell;
 @synthesize tracker = _tracker;
+@synthesize snippet = _snippet;
 @synthesize session = _session;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -45,6 +47,7 @@
     [_monitor release];
     [_tracker release];
     [_lines release];
+    [_snippet release];
     [_session release];
     [super dealloc];
 }
@@ -52,6 +55,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.title = _snippet.title;
     _monitor = [[KeyboardResizeMonitor alloc] initWithView:self.view scrollView:self.tableView];
     _monitor.activeField = _textField;
     [_textField becomeFirstResponder];
@@ -84,7 +88,6 @@
 - (void)setSession:(Session *)session
 {
     NSLog(@"Subscribing to %@", session.sessionId);
-    self.title = session.sessionId;
 
     CouchChangeTracker *tracker = [session changeTrackerWithDelegate:self];
     [tracker.filterParams setObject:@"true" forKey:@"include_docs"];
@@ -202,15 +205,12 @@
 {
     if (self.session.sessionId != nil)
     {
-        self.title = @"";
-
         UIApplication *app = [UIApplication sharedApplication];
         app.networkActivityIndicatorVisible = YES;
 
         RESTOperation *op = [self.session reset];
         [op onCompletion:^{
             app.networkActivityIndicatorVisible = NO;
-            self.title = self.session.sessionId;
             [self.tracker stop];
             [self.tracker.filterParams setObject:self.session.sessionId forKey:@"sessionId"];
             [self.tracker start];

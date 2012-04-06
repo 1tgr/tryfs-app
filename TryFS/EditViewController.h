@@ -8,12 +8,12 @@
 
 
 
-@class SnippetInfo;
+@class Snippet;
 @class CouchDatabase;
 
 @interface EditViewController : UIViewController <UITextViewDelegate>
 
 @property(nonatomic, retain) CouchDatabase *database;
-@property(nonatomic, retain) SnippetInfo *snippet;
+@property(nonatomic, retain) Snippet *snippet;
 
 @end

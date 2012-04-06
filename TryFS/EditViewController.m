@@ -10,7 +10,7 @@
 #import "CouchCocoa.h"
 #import "EditViewController.h"
 #import "ReplViewController.h"
-#import "SnippetInfo.h"
+#import "Snippet.h"
 #import "KeyboardResizeMonitor.h"
 #import "Session.h"
 #import "InsetLabel.h"
@@ -24,7 +24,7 @@
 @implementation EditViewController
 {
     KeyboardResizeMonitor *_monitor;
-    SnippetInfo *_snippet;
+    Snippet *_snippet;
     ReplViewController *_replViewController;
     InsetLabel *_descriptionLabel;
 }
@@ -96,7 +96,9 @@ static UIColor *times(UIColor *colour, CGFloat f)
 {
     [super viewDidLoad];
     self.title = _snippet.title;
+    self.navigationItem.backBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:@"Edit" style:UIBarButtonItemStylePlain target:nil action:nil] autorelease];
     self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:@"Run" style:UIBarButtonItemStyleBordered target:self action:@selector(didContinueButton)] autorelease];
+    _replViewController.snippet = _snippet;
 
     UITextView *textView = self.textView;
     

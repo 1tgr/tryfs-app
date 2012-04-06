@@ -10,11 +10,13 @@
 
 @class CouchDocument;
 @class Session;
+@class Snippet;
 
 @interface ReplViewController : UITableViewController <UITextFieldDelegate, CouchChangeDelegate>
 
 @property(nonatomic, retain) IBOutlet UITextField *textField;
 @property(nonatomic, retain) IBOutlet UITableViewCell *textFieldCell;
+@property(nonatomic, retain) Snippet *snippet;
 @property(nonatomic, retain) Session *session;
 
 @end

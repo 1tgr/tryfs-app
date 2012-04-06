@@ -31,7 +31,7 @@
         _emptySnippet = [[SnippetInfo alloc] initWithId:nil
                                                     rev:nil
                                                  author:nil
-                                                  title:@"New Snippet"
+                                                  title:@"Scratchpad"
                                             description:nil
                                                    date:[NSDate date]];
 

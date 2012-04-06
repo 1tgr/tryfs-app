@@ -71,7 +71,7 @@ static UIColor *times(UIColor *colour, CGFloat f)
 - (void)resizeViews
 {
     UITextView *textView = self.textView;
-    UIEdgeInsets margin = UIEdgeInsetsMake(4, 4, 4, 4);
+    UIEdgeInsets margin = UIEdgeInsetsMake(4, 4, 8, 4);
     CGRect frame = { { 0, 0 }, textView.frame.size };
     frame = UIEdgeInsetsInsetRect(frame, margin);
 
@@ -81,11 +81,11 @@ static UIColor *times(UIColor *colour, CGFloat f)
     frame.size.height = [_descriptionLabel.text sizeWithFont:_descriptionLabel.font constrainedToSize:frame.size lineBreakMode:_descriptionLabel.lineBreakMode].height;
     frame.size.width += padding.left + padding.right;
     frame.size.height += padding.top + padding.bottom;
-    frame.origin.y = margin.top - frame.size.height;
+    frame.origin.y = -(frame.size.height + margin.bottom);
     _descriptionLabel.frame = frame;
 
     UIEdgeInsets inset = textView.contentInset;
-    inset.top = frame.size.height;
+    inset.top = margin.top - frame.origin.y;
     textView.contentInset = inset;
 }
 

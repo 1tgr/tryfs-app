@@ -110,6 +110,8 @@ static UIColor *times(UIColor *colour, CGFloat f)
     CALayer *layer = label.layer;
     layer.backgroundColor = times(colour, 0.75).CGColor;
     layer.shadowColor = times(colour, 0.5).CGColor;
+    layer.shadowOpacity = 1;
+    layer.shadowOffset = CGSizeMake(0, 1);
     layer.masksToBounds = NO;
     layer.cornerRadius = 8;
     [textView addSubview:label];

@@ -70,6 +70,9 @@ static UIColor *times(UIColor *colour, CGFloat f)
 
 - (void)resizeViews
 {
+    if (_descriptionLabel == nil)
+        return;
+
     UITextView *textView = self.textView;
     UIEdgeInsets margin = UIEdgeInsetsMake(4, 4, 8, 4);
     CGRect frame = { { 0, 0 }, textView.frame.size };
@@ -96,27 +99,32 @@ static UIColor *times(UIColor *colour, CGFloat f)
     self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:@"Run" style:UIBarButtonItemStyleBordered target:self action:@selector(didContinueButton)] autorelease];
 
     UITextView *textView = self.textView;
-    InsetLabel *label = [[[InsetLabel alloc] init] autorelease];
-    label.font = [UIFont systemFontOfSize:[UIFont systemFontSize]];
-    label.inset = UIEdgeInsetsMake(8, 8, 8, 8);
-    label.lineBreakMode = UILineBreakModeWordWrap;
-    label.numberOfLines = 0;
-    label.text = _snippet.description;
-    label.textColor = textView.textColor;
+    
+    if (_snippet.description != nil && _snippet.description.length > 0)
+    {
+        InsetLabel *label = [[[InsetLabel alloc] init] autorelease];
+        label.font = [UIFont systemFontOfSize:[UIFont systemFontSize]];
+        label.inset = UIEdgeInsetsMake(8, 8, 8, 8);
+        label.lineBreakMode = UILineBreakModeWordWrap;
+        label.numberOfLines = 0;
+        label.text = _snippet.description;
+        label.textColor = textView.textColor;
 
-    UIColor *colour = textView.backgroundColor;
-    label.backgroundColor = [UIColor clearColor];
+        UIColor *colour = textView.backgroundColor;
+        label.backgroundColor = [UIColor clearColor];
 
-    CALayer *layer = label.layer;
-    layer.backgroundColor = times(colour, 0.75).CGColor;
-    layer.shadowColor = times(colour, 0.5).CGColor;
-    layer.shadowOpacity = 1;
-    layer.shadowOffset = CGSizeMake(0, 1);
-    layer.masksToBounds = NO;
-    layer.cornerRadius = 8;
-    [textView addSubview:label];
+        CALayer *layer = label.layer;
+        layer.backgroundColor = times(colour, 0.75).CGColor;
+        layer.shadowColor = times(colour, 0.5).CGColor;
+        layer.shadowOpacity = 1;
+        layer.shadowOffset = CGSizeMake(0, 1);
+        layer.masksToBounds = NO;
+        layer.cornerRadius = 8;
+        [textView addSubview:label];
 
-    _descriptionLabel = [label retain];
+        _descriptionLabel = [label retain];
+    }
+
     _monitor = [[KeyboardResizeMonitor alloc] initWithView:self.view scrollView:textView];
 
     if (_snippet.id != nil)

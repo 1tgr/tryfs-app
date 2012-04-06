@@ -18,6 +18,7 @@
 		22D02886152CCF2100FB04D0 /* Default-Portrait@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 22D02885152CCF2100FB04D0 /* Default-Portrait@2x~ipad.png */; };
 		22D02888152CCF2600FB04D0 /* Default-Landscape~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 22D02887152CCF2600FB04D0 /* Default-Landscape~ipad.png */; };
 		22D0288A152CCF2700FB04D0 /* Default-Landscape@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 22D02889152CCF2700FB04D0 /* Default-Landscape@2x~ipad.png */; };
+		22D028A5152EEF9700FB04D0 /* libQuickDialog.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 892B982DBBF00613315B3609 /* libQuickDialog.a */; };
 		892B982DBBF00613315B35BE /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 892B982DBBF00613315B35BD /* UIKit.framework */; };
 		892B982DBBF00613315B35C0 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 892B982DBBF00613315B35BF /* Foundation.framework */; };
 		892B982DBBF00613315B35C2 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 892B982DBBF00613315B35C1 /* CoreGraphics.framework */; };
@@ -35,6 +36,14 @@
 		892B982DBBF00613315B35EB /* SnippetDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 892B982DBBF00613315B35EA /* SnippetDetailViewController.xib */; };
 		892B982DBBF00613315B35FF /* KeyboardResizeMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = 892B982DBBF00613315B35FE /* KeyboardResizeMonitor.m */; };
 		892B982DBBF00613315B3602 /* Session.m in Sources */ = {isa = PBXBuildFile; fileRef = 892B982DBBF00613315B3601 /* Session.m */; };
+		892B982DBBF00613315B360B /* couchdb.png in Resources */ = {isa = PBXBuildFile; fileRef = 892B982DBBF00613315B360A /* couchdb.png */; };
+		892B982DBBF00613315B3613 /* couchdb@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 892B982DBBF00613315B3612 /* couchdb@2x.png */; };
+		892B982DBBF00613315B3619 /* twitter.png in Resources */ = {isa = PBXBuildFile; fileRef = 892B982DBBF00613315B3618 /* twitter.png */; };
+		892B982DBBF00613315B361B /* twitter@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 892B982DBBF00613315B361A /* twitter@2x.png */; };
+		892B982DBBF00613315B361D /* github.png in Resources */ = {isa = PBXBuildFile; fileRef = 892B982DBBF00613315B361C /* github.png */; };
+		892B982DBBF00613315B361F /* github@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 892B982DBBF00613315B361E /* github@2x.png */; };
+		892B982DBBF00613315B3621 /* mail.png in Resources */ = {isa = PBXBuildFile; fileRef = 892B982DBBF00613315B3620 /* mail.png */; };
+		892B982DBBF00613315B3623 /* mail@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 892B982DBBF00613315B3622 /* mail@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -144,6 +153,14 @@
 		892B982DBBF00613315B3601 /* Session.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Session.m; sourceTree = "<group>"; };
 		892B982DBBF00613315B3603 /* Session.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Session.h; sourceTree = "<group>"; };
 		892B982DBBF00613315B3604 /* QuickDialog.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = QuickDialog.xcodeproj; path = QuickDialog/QuickDialog.xcodeproj; sourceTree = "<group>"; };
+		892B982DBBF00613315B360A /* couchdb.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = couchdb.png; sourceTree = "<group>"; };
+		892B982DBBF00613315B3612 /* couchdb@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "couchdb@2x.png"; sourceTree = "<group>"; };
+		892B982DBBF00613315B3618 /* twitter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = twitter.png; sourceTree = "<group>"; };
+		892B982DBBF00613315B361A /* twitter@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "twitter@2x.png"; sourceTree = "<group>"; };
+		892B982DBBF00613315B361C /* github.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = github.png; sourceTree = "<group>"; };
+		892B982DBBF00613315B361E /* github@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "github@2x.png"; sourceTree = "<group>"; };
+		892B982DBBF00613315B3620 /* mail.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mail.png; sourceTree = "<group>"; };
+		892B982DBBF00613315B3622 /* mail@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mail@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -151,6 +168,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				22D028A5152EEF9700FB04D0 /* libQuickDialog.a in Frameworks */,
 				22D028071526F58C00FB04D0 /* libCouchCocoa.a in Frameworks */,
 				892B982DBBF00613315B35BE /* UIKit.framework in Frameworks */,
 				892B982DBBF00613315B35C0 /* Foundation.framework in Frameworks */,
@@ -221,6 +239,14 @@
 		892B982DBBF00613315B35C4 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				892B982DBBF00613315B3622 /* mail@2x.png */,
+				892B982DBBF00613315B3620 /* mail.png */,
+				892B982DBBF00613315B361E /* github@2x.png */,
+				892B982DBBF00613315B361C /* github.png */,
+				892B982DBBF00613315B361A /* twitter@2x.png */,
+				892B982DBBF00613315B3618 /* twitter.png */,
+				892B982DBBF00613315B3612 /* couchdb@2x.png */,
+				892B982DBBF00613315B360A /* couchdb.png */,
 				22D02889152CCF2700FB04D0 /* Default-Landscape@2x~ipad.png */,
 				22D02887152CCF2600FB04D0 /* Default-Landscape~ipad.png */,
 				22D02885152CCF2100FB04D0 /* Default-Portrait@2x~ipad.png */,
@@ -403,6 +429,14 @@
 				22D02886152CCF2100FB04D0 /* Default-Portrait@2x~ipad.png in Resources */,
 				22D02888152CCF2600FB04D0 /* Default-Landscape~ipad.png in Resources */,
 				22D0288A152CCF2700FB04D0 /* Default-Landscape@2x~ipad.png in Resources */,
+				892B982DBBF00613315B360B /* couchdb.png in Resources */,
+				892B982DBBF00613315B3613 /* couchdb@2x.png in Resources */,
+				892B982DBBF00613315B3619 /* twitter.png in Resources */,
+				892B982DBBF00613315B361B /* twitter@2x.png in Resources */,
+				892B982DBBF00613315B361D /* github.png in Resources */,
+				892B982DBBF00613315B361F /* github@2x.png in Resources */,
+				892B982DBBF00613315B3621 /* mail.png in Resources */,
+				892B982DBBF00613315B3623 /* mail@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

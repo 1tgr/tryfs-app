@@ -9,6 +9,7 @@
 #import "CouchCocoa.h"
 #import "AppDelegate.h"
 #import "SnippetViewController.h"
+#import "QuickDialog.h"
 
 @implementation AppDelegate
 
@@ -20,14 +21,59 @@
     [super dealloc];
 }
 
++ (QLabelElement *)linkElementWithTitle:(NSString *)title url:(NSURL *)url image:(UIImage *)image
+{
+    QLabelElement *label = [[[QLabelElement alloc] initWithTitle:title Value:nil] autorelease];
+    label.image = image;
+    label.controllerAction = @"";
+    label.onSelected = ^{
+        [[UIApplication sharedApplication] openURL:url];
+    };
+
+    return label;
+}
+
++ (QRootElement *)aboutForm:(UINavigationController *)navigationController snippetsController:(SnippetViewController *)snippetsController
+{
+    QLabelElement *snippetsElement = [[[QLabelElement alloc] initWithTitle:@"Snippets" Value:nil] autorelease];
+    snippetsElement.controllerAction = @"";
+    snippetsElement.onSelected = ^{
+        [navigationController pushViewController:snippetsController animated:YES];
+    };
+
+    QSection *section = [[[QSection alloc] initWithTitle:nil] autorelease];
+    [section addElement:snippetsElement];
+
+    QLabelElement *couchdbElement = [[[QLabelElement alloc] initWithTitle:@"Powered by CouchDB" Value:nil] autorelease];
+    couchdbElement.image = [UIImage imageNamed:@"couchdb.png"];
+
+    QSection *aboutSection = [[[QSection alloc] initWithTitle:@"About Try F#"] autorelease];
+    [aboutSection addElement:[AppDelegate linkElementWithTitle:@"timrobinson/try-fsharp" url:[NSURL URLWithString:@"https://github.com/timrobinson/try-fsharp"] image:[UIImage imageNamed:@"github.png"]]];
+    [aboutSection addElement:[AppDelegate linkElementWithTitle:@"@tim_g_robinson" url:[NSURL URLWithString:@"http://twitter.com/tim_g_robinson"] image:[UIImage imageNamed:@"twitter.png"]]];
+    [aboutSection addElement:[AppDelegate linkElementWithTitle:@"tim@partario.com" url:[NSURL URLWithString:@"mailto:?to=tim@partario.com&subject=Try%20F#"] image:[UIImage imageNamed:@"mail.png"]]];
+    [aboutSection addElement:couchdbElement];
+
+    QRootElement *root = [[[QRootElement alloc] init] autorelease];
+    root.title = @"Try F#";
+    root.grouped = YES;
+    [root addSection:section];
+    [root addSection:aboutSection];
+    return root;
+}
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     CouchServer *server = [[[CouchServer alloc] initWithURL:[NSURL URLWithString:@"http://tryfs.net"]] autorelease];
-    SnippetViewController *controller = [[[SnippetViewController alloc] initWithNibName:@"SnippetViewController" bundle:nil] autorelease];
-    controller.database = [server databaseNamed:@"tryfs"];
+    SnippetViewController *snippetsController = [[[SnippetViewController alloc] initWithNibName:@"SnippetViewController" bundle:nil] autorelease];
+    snippetsController.database = [server databaseNamed:@"tryfs"];
 
-    UINavigationController *navigationController = [[[UINavigationController alloc] initWithRootViewController:controller] autorelease];
+    UINavigationController *navigationController = [[[UINavigationController alloc] init] autorelease];
     navigationController.navigationBar.tintColor = [UIColor colorWithRed:1 green:0.7 blue:0 alpha:1];
+
+    QRootElement *root = [AppDelegate aboutForm:navigationController snippetsController:snippetsController];
+    QuickDialogController *aboutController = [[[QuickDialogController alloc] initWithRoot:root] autorelease];
+    [navigationController pushViewController:aboutController animated:NO];
+    [navigationController pushViewController:snippetsController animated:NO];
 
     UIWindow *window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
     window.rootViewController = navigationController;

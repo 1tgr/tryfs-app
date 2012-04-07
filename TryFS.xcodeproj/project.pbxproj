@@ -395,6 +395,7 @@
 		892B982DBBF00613315B35C3 /* TryFS */ = {
 			isa = PBXGroup;
 			children = (
+				892B982DBBF00613315B362A /* CrittercismSDK */,
 				892B982DBBF00613315B35C4 /* Supporting Files */,
 				892B982DBBF00613315B35CC /* AppDelegate.h */,
 				892B982DBBF00613315B35CD /* AppDelegate.m */,
@@ -415,7 +416,6 @@
 				892B982DBBF00613315B35D1 /* SnippetViewController.h */,
 				892B982DBBF00613315B35D2 /* SnippetViewController.m */,
 				892B982DBBF00613315B35D4 /* SnippetViewController.xib */,
-				892B982DBBF00613315B362A /* CrittercismSDK */,
 			);
 			path = TryFS;
 			sourceTree = "<group>";

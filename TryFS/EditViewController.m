@@ -159,7 +159,7 @@ static UIColor *times(UIColor *colour, CGFloat f)
             app.networkActivityIndicatorVisible = NO;
             textView.text = [doc propertyForKey:@"code"];
             textView.selectedTextRange = [textView textRangeFromPosition:textView.beginningOfDocument toPosition:textView.beginningOfDocument];
-            self.navigationItem.rightBarButtonItem = runButton;
+            [self.navigationItem setRightBarButtonItem:runButton animated:YES];
         }];
     }
 }

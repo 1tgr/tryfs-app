@@ -53,41 +53,6 @@
 {
     [super viewDidLoad];
     self.title = @"Snippets";
-
-    CouchQuery *query = [[_database designDocumentWithName:@"app"] queryViewNamed:@"snippets"];
-    query.descending = YES;
-
-    UIApplication *app = [UIApplication sharedApplication];
-    app.networkActivityIndicatorVisible = YES;
-
-    RESTOperation *op = [query start];
-    [op onCompletion:^{
-        app.networkActivityIndicatorVisible = NO;
-
-        NSMutableArray *snippets = [[[NSMutableArray alloc] init] autorelease];
-        [snippets addObject:_emptySnippet];
-
-        for (CouchQueryRow *row in query.rows)
-        {
-            NSDictionary *v = row.value;
-            NSString *userId = [v objectForKey:@"userId"];
-            if ([userId isEqualToString:@"fssnip"])
-            {
-                NSString *description = [v objectForKey:@"description"];
-                Snippet *s = [[[Snippet alloc] initWithId:row.documentID
-                                                          rev:[v objectForKey:@"_rev"]
-                                                       author:[v objectForKey:@"author"]
-                                                        title:[v objectForKey:@"title"]
-                                                  description:[description stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]
-                                                         date:[v objectForKey:@"date"]] autorelease];
-
-                [snippets addObject:s];
-            }
-        }
-
-        _snippets = [snippets retain];
-        [self.tableView reloadData];
-    }];
 }
 
 - (void)viewDidUnload
@@ -95,6 +60,47 @@
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    CouchQuery *query = [[_database designDocumentWithName:@"app"] queryViewNamed:@"snippets"];
+    query.descending = YES;
+    
+    UIApplication *app = [UIApplication sharedApplication];
+    app.networkActivityIndicatorVisible = YES;
+    
+    RESTOperation *op = [query start];
+    [op onCompletion:^{
+        app.networkActivityIndicatorVisible = NO;
+        
+        if (op.error == nil)
+        {
+            NSMutableArray *snippets = [[[NSMutableArray alloc] init] autorelease];
+            [snippets addObject:_emptySnippet];
+            
+            for (CouchQueryRow *row in query.rows)
+            {
+                NSDictionary *v = row.value;
+                NSString *userId = [v objectForKey:@"userId"];
+                if ([userId isEqualToString:@"fssnip"])
+                {
+                    NSString *description = [v objectForKey:@"description"];
+                    Snippet *s = [[[Snippet alloc] initWithId:row.documentID
+                                                          rev:[v objectForKey:@"_rev"]
+                                                       author:[v objectForKey:@"author"]
+                                                        title:[v objectForKey:@"title"]
+                                                  description:[description stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]
+                                                         date:[v objectForKey:@"date"]] autorelease];
+                    
+                    [snippets addObject:s];
+                }
+            }
+            
+            _snippets = [snippets retain];
+            [self.tableView reloadData];
+        }
+    }];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation

@@ -130,7 +130,24 @@ static UIColor *times(UIColor *colour, CGFloat f)
 
     UIBarButtonItem *runButton = [[[UIBarButtonItem alloc] initWithTitle:@"Run" style:UIBarButtonItemStyleBordered target:self action:@selector(didContinueButton)] autorelease];
     if (_snippet.id == nil)
+    {
+        NSError *error = nil;
+        NSURL *directoryURL = [[NSFileManager defaultManager] URLForDirectory:NSDocumentDirectory inDomain:NSUserDirectory appropriateForURL:nil create:NO error:&error];
+        if (error == nil)
+        {
+            NSString *filename = [_snippet.title stringByAppendingPathExtension:@"fsx"];
+            NSURL *fileURL = [directoryURL URLByAppendingPathComponent:filename isDirectory:NO];
+            NSString *code = [NSString stringWithContentsOfURL:fileURL encoding:NSUTF8StringEncoding error:&error];
+
+            if (error == nil)
+            {
+                textView.text = code;
+                textView.selectedTextRange = [textView textRangeFromPosition:textView.beginningOfDocument toPosition:textView.beginningOfDocument];
+            }
+        }
+
         self.navigationItem.rightBarButtonItem = runButton;
+    }
     else
     {
         CouchDocument *doc = [_database documentWithID:_snippet.id];
@@ -156,6 +173,21 @@ static UIColor *times(UIColor *colour, CGFloat f)
 - (void)viewWillDisappear:(BOOL)animated
 {
     [_monitor cancelKeyboardNotifications];
+
+    if (_snippet.id == nil)
+    {
+        NSError *error = nil;
+        NSURL *directoryURL = [[NSFileManager defaultManager] URLForDirectory:NSDocumentDirectory inDomain:NSUserDirectory appropriateForURL:nil create:YES error:&error];
+        if (error == nil)
+        {
+            NSString *filename = [_snippet.title stringByAppendingPathExtension:@"fsx"];
+            NSURL *fileURL = [directoryURL URLByAppendingPathComponent:filename isDirectory:NO];
+            [self.textView.text writeToURL:fileURL atomically:NO encoding:NSUTF8StringEncoding error:&error];
+        }
+
+        if (error != nil)
+            [[[[UIAlertView alloc] initWithTitle:nil message:error.localizedDescription delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] autorelease] show];
+    }
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation

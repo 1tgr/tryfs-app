@@ -119,17 +119,31 @@
     else
     {
         NSString *cellId = [[NSNumber numberWithInt:row] stringValue];
+        UILabel *label;
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
         if (cell == nil)
         {
             cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId] autorelease];
-            cell.textLabel.textColor = self.textField.textColor;
-            cell.textLabel.font = self.textField.font;
-            cell.textLabel.lineBreakMode = UILineBreakModeWordWrap;
-            cell.textLabel.numberOfLines = 0;
-        }
 
-        cell.textLabel.text = [_lines objectAtIndex:row];
+            CGRect frame = cell.frame;
+            frame.origin = CGPointMake(8, 2);
+            frame.size.width -= frame.origin.x * 2;
+            frame.size.height -= frame.origin.y;
+
+            label = [[[UILabel alloc] initWithFrame:frame] autorelease];
+            label.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+            label.backgroundColor = [UIColor clearColor];
+            label.font = self.textField.font;
+            label.lineBreakMode = UILineBreakModeWordWrap;
+            label.numberOfLines = 0;
+            label.textColor = self.textField.textColor;
+
+            [cell.contentView addSubview:label];
+        }
+        else
+            label = [cell.contentView.subviews objectAtIndex:0];
+
+        label.text = [_lines objectAtIndex:row];
         return cell;
     }
 }
@@ -141,7 +155,16 @@
     else
     {
         UITableViewCell *cell = [self tableView:tableView cellForRowAtIndexPath:indexPath];
-        return [cell.textLabel.text sizeWithFont:cell.textLabel.font constrainedToSize:tableView.frame.size lineBreakMode:cell.textLabel.lineBreakMode].height;
+        UILabel *label = [cell.contentView.subviews objectAtIndex:0];
+        CGSize tableSize = tableView.frame.size;
+        CGSize cellSize = cell.frame.size;
+        CGSize labelSize = label.frame.size;
+        CGSize size = tableSize;
+        size.width -= cellSize.width - labelSize.width;
+
+        CGFloat rowHeight = [label.text sizeWithFont:label.font constrainedToSize:size lineBreakMode:label.lineBreakMode].height;
+        rowHeight += cellSize.height - labelSize.height;
+        return rowHeight;
     }
 }
 

@@ -97,7 +97,6 @@ static UIColor *times(UIColor *colour, CGFloat f)
     [super viewDidLoad];
     self.title = _snippet.title;
     self.navigationItem.backBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:@"Edit" style:UIBarButtonItemStylePlain target:nil action:nil] autorelease];
-    self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:@"Run" style:UIBarButtonItemStyleBordered target:self action:@selector(didContinueButton)] autorelease];
     _replViewController.snippet = _snippet;
 
     UITextView *textView = self.textView;
@@ -129,7 +128,10 @@ static UIColor *times(UIColor *colour, CGFloat f)
 
     _monitor = [[KeyboardResizeMonitor alloc] initWithView:self.view scrollView:textView];
 
-    if (_snippet.id != nil)
+    UIBarButtonItem *runButton = [[[UIBarButtonItem alloc] initWithTitle:@"Run" style:UIBarButtonItemStyleBordered target:self action:@selector(didContinueButton)] autorelease];
+    if (_snippet.id == nil)
+        self.navigationItem.rightBarButtonItem = runButton;
+    else
     {
         CouchDocument *doc = [_database documentWithID:_snippet.id];
         UIApplication *app = [UIApplication sharedApplication];
@@ -140,6 +142,7 @@ static UIColor *times(UIColor *colour, CGFloat f)
             app.networkActivityIndicatorVisible = NO;
             textView.text = [doc propertyForKey:@"code"];
             textView.selectedTextRange = [textView textRangeFromPosition:textView.beginningOfDocument toPosition:textView.beginningOfDocument];
+            self.navigationItem.rightBarButtonItem = runButton;
         }];
     }
 }

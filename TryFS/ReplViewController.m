@@ -91,6 +91,7 @@
 
     CouchChangeTracker *tracker = [session changeTrackerWithDelegate:self];
     [tracker.filterParams setObject:@"true" forKey:@"include_docs"];
+    tracker.feed = CouchChangeFeedLongPoll;
 
     [self.tracker stop];
     self.tracker = tracker;

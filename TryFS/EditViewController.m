@@ -136,7 +136,7 @@ static UIColor *times(UIColor *colour, CGFloat f)
         if (error == nil)
         {
             NSString *filename = [_snippet.title stringByAppendingPathExtension:@"fsx"];
-            NSURL *fileURL = [directoryURL URLByAppendingPathComponent:filename isDirectory:NO];
+            NSURL *fileURL = [directoryURL URLByAppendingPathComponent:filename];
             NSString *code = [NSString stringWithContentsOfURL:fileURL encoding:NSUTF8StringEncoding error:&error];
 
             if (error == nil)
@@ -181,7 +181,7 @@ static UIColor *times(UIColor *colour, CGFloat f)
         if (error == nil)
         {
             NSString *filename = [_snippet.title stringByAppendingPathExtension:@"fsx"];
-            NSURL *fileURL = [directoryURL URLByAppendingPathComponent:filename isDirectory:NO];
+            NSURL *fileURL = [directoryURL URLByAppendingPathComponent:filename];
             [self.textView.text writeToURL:fileURL atomically:NO encoding:NSUTF8StringEncoding error:&error];
         }
 

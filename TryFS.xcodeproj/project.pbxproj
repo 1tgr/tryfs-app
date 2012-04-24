@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		222856031557074A006D8A02 /* SnippetQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 222856021557074A006D8A02 /* SnippetQuery.m */; };
 		22D028071526F58C00FB04D0 /* libCouchCocoa.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 892B982DBBF00613315B35FB /* libCouchCocoa.a */; };
 		22D02865152CB53B00FB04D0 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 22D02864152CB53B00FB04D0 /* Icon.png */; };
 		22D02867152CB53E00FB04D0 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 22D02866152CB53E00FB04D0 /* Icon@2x.png */; };
@@ -193,6 +194,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		222856011557074A006D8A02 /* SnippetQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SnippetQuery.h; sourceTree = "<group>"; };
+		222856021557074A006D8A02 /* SnippetQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SnippetQuery.m; sourceTree = "<group>"; };
 		22D02864152CB53B00FB04D0 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		22D02866152CB53E00FB04D0 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
 		22D02868152CB54A00FB04D0 /* Icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72.png"; sourceTree = "<group>"; };
@@ -410,6 +413,8 @@
 		892B982DBBF00613315B35C3 /* TryFS */ = {
 			isa = PBXGroup;
 			children = (
+				222856011557074A006D8A02 /* SnippetQuery.h */,
+				222856021557074A006D8A02 /* SnippetQuery.m */,
 				892B982DBBF00613315B36FC /* EditReplSplitViewController.h */,
 				892B982DBBF00613315B36FA /* EditReplSplitViewController.m */,
 				892B982DBBF00613315B36F9 /* SnippetViewModel.h */,
@@ -884,6 +889,7 @@
 				892B982DBBF00613315B36F6 /* MGSplitViewController.m in Sources */,
 				892B982DBBF00613315B36F8 /* SnippetViewModel.m in Sources */,
 				892B982DBBF00613315B36FB /* EditReplSplitViewController.m in Sources */,
+				222856031557074A006D8A02 /* SnippetQuery.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

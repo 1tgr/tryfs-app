@@ -11,6 +11,7 @@
 #import "SnippetListViewController.h"
 #import "QuickDialog.h"
 #import "Crittercism.h"
+#import "SnippetQuery.h"
 
 @interface SmallLabelElement : QLabelElement
 
@@ -116,8 +117,11 @@
                      andSecret:@"iv8nhmaqdoekq6zrwgnxxco1lc3lt4ty"];
 
     CouchServer *server = [[[CouchServer alloc] initWithURL:[NSURL URLWithString:@"http://tryfs.net"]] autorelease];
+    SnippetQuery *query = [[[SnippetQuery alloc] initWithDatabase:[server databaseNamed:@"tryfs"]] autorelease];
+    [query refresh];
+
     SnippetListViewController *snippetsController = [[[SnippetListViewController alloc] initWithNibName:@"SnippetListViewController" bundle:nil] autorelease];
-    snippetsController.database = [server databaseNamed:@"tryfs"];
+    snippetsController.query = query;
 
     UINavigationController *navigationController = [[[UINavigationController alloc] init] autorelease];
     navigationController.navigationBar.tintColor = [UIColor colorWithRed:1 green:0.7 blue:0 alpha:1];

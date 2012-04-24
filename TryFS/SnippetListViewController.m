@@ -14,42 +14,15 @@
 #import "ReplViewController.h"
 #import "SnippetViewModel.h"
 #import "EditReplSplitViewController.h"
-
-@interface SnippetListViewController ()
-
-@end
+#import "SnippetQuery.h"
 
 @implementation SnippetListViewController
-{
-    Snippet *_emptySnippet;
-    NSArray *_snippets;
-}
 
-@synthesize database = _database;
-
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self)
-    {
-        _emptySnippet = [[Snippet alloc] initWithId:nil
-                                                    rev:nil
-                                                 author:nil
-                                                  title:@"Scratchpad"
-                                            description:nil
-                                                   date:[NSDate date]];
-
-        _snippets = [[NSArray arrayWithObject:_emptySnippet] retain];
-    }
-
-    return self;
-}
+@synthesize query = _query;
 
 - (void)dealloc
 {
-    [_emptySnippet release];
-    [_snippets release];
-    [_database release];
+    [_query release];
     [super dealloc];
 }
 
@@ -61,48 +34,26 @@
 
 - (void)viewDidAppear:(BOOL)animated
 {
-    CouchQuery *query = [[_database designDocumentWithName:@"app"] queryViewNamed:@"snippets"];
-    query.descending = YES;
-    
-    UIApplication *app = [UIApplication sharedApplication];
-    app.networkActivityIndicatorVisible = YES;
-    
-    RESTOperation *op = [query start];
-    [op onCompletion:^{
-        app.networkActivityIndicatorVisible = NO;
-        
-        if (op.error == nil)
-        {
-            NSMutableArray *snippets = [[[NSMutableArray alloc] init] autorelease];
-            [snippets addObject:_emptySnippet];
-            
-            for (CouchQueryRow *row in query.rows)
-            {
-                NSDictionary *v = row.value;
-                NSString *userId = [v objectForKey:@"userId"];
-                if ([userId isEqualToString:@"fssnip"])
-                {
-                    NSString *description = [v objectForKey:@"description"];
-                    Snippet *s = [[[Snippet alloc] initWithId:row.documentID
-                                                          rev:[v objectForKey:@"_rev"]
-                                                       author:[v objectForKey:@"author"]
-                                                        title:[v objectForKey:@"title"]
-                                                  description:[description stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]
-                                                         date:[v objectForKey:@"date"]] autorelease];
-                    
-                    [snippets addObject:s];
-                }
-            }
-            
-            _snippets = [snippets retain];
-            [self.tableView reloadData];
-        }
-    }];
+    [super viewDidAppear:animated];
+    [_query refresh];
+    [_query addObserver:self forKeyPath:@"snippets" options:0 context:NULL];
+}
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    [_query removeObserver:self forKeyPath:@"snippets"];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     return [UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad || interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown;
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    if (keyPath == @"snippets" && object == _query)
+        [self.tableView reloadData];
 }
 
 #pragma mark - Table view data source
@@ -114,12 +65,12 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return _snippets.count;
+    return _query.snippets.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    Snippet *s = [_snippets objectAtIndex:(NSUInteger) indexPath.row];
+    Snippet *s = [_query.snippets objectAtIndex:(NSUInteger) indexPath.row];
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:s.id];
     if (cell == nil)
     {
@@ -175,11 +126,11 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    Snippet *snippet = [_snippets objectAtIndex:(NSUInteger) indexPath.row];
+    Snippet *snippet = [_query.snippets objectAtIndex:(NSUInteger) indexPath.row];
     BOOL isSplit = [UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad;
     EditViewController *editController = [[[EditViewController alloc] initWithNibName:@"EditViewController" bundle:nil] autorelease];
     ReplViewController *replController = [[[ReplViewController alloc] initWithNibName:@"ReplViewController" bundle:nil] autorelease];
-    SnippetViewModel *viewModel = [[[SnippetViewModel alloc] initWithDatabase:_database snippet:snippet isSplit:isSplit editViewController:editController replViewController:replController] autorelease];
+    SnippetViewModel *viewModel = [[[SnippetViewModel alloc] initWithDatabase:_query.database snippet:snippet isSplit:isSplit editViewController:editController replViewController:replController] autorelease];
 
     editController.viewModel = viewModel;
     replController.viewModel = viewModel;

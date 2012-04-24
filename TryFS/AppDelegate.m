@@ -11,6 +11,7 @@
 #import "SnippetViewController.h"
 #import "QuickDialog.h"
 #import "Crittercism.h"
+#import "BlankViewController.h"
 
 @implementation AppDelegate
 
@@ -79,16 +80,30 @@
     SnippetViewController *snippetsController = [[[SnippetViewController alloc] initWithNibName:@"SnippetViewController" bundle:nil] autorelease];
     snippetsController.database = [server databaseNamed:@"tryfs"];
 
-    UINavigationController *navigationController = [[[UINavigationController alloc] init] autorelease];
-    navigationController.navigationBar.tintColor = [UIColor colorWithRed:1 green:0.7 blue:0 alpha:1];
+    UIColor *tintColour = [UIColor colorWithRed:1 green:0.7 blue:0 alpha:1];
+    UINavigationController *menuNavigationController = [[[UINavigationController alloc] init] autorelease];
+    menuNavigationController.navigationBar.tintColor = tintColour;
 
-    QRootElement *root = [AppDelegate aboutForm:navigationController snippetsController:snippetsController];
+    QRootElement *root = [AppDelegate aboutForm:menuNavigationController snippetsController:snippetsController];
     QuickDialogController *aboutController = [[[QuickDialogController alloc] initWithRoot:root] autorelease];
-    [navigationController pushViewController:aboutController animated:NO];
-    [navigationController pushViewController:snippetsController animated:NO];
+    [menuNavigationController pushViewController:aboutController animated:NO];
+    [menuNavigationController pushViewController:snippetsController animated:NO];
+
+    UIViewController *rootViewController;
+    if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad)
+    {
+        UINavigationController *editNavigationController = [[[UINavigationController alloc] initWithRootViewController:[[[BlankViewController alloc] init] autorelease]] autorelease];
+        editNavigationController.navigationBar.tintColor = tintColour;
+
+        UISplitViewController *splitViewController = [[[UISplitViewController alloc] init] autorelease];
+        splitViewController.viewControllers = [NSArray arrayWithObjects:menuNavigationController, editNavigationController, nil];
+        rootViewController = splitViewController;
+    }
+    else
+        rootViewController = menuNavigationController;
 
     UIWindow *window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
-    window.rootViewController = navigationController;
+    window.rootViewController = rootViewController;
     [window makeKeyAndVisible];
     self.window = window;
     return YES;

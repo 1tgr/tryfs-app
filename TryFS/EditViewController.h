@@ -11,7 +11,7 @@
 @class Snippet;
 @class CouchDatabase;
 
-@interface EditViewController : UIViewController <UITextViewDelegate>
+@interface EditViewController : UIViewController <UITextViewDelegate, UISplitViewControllerDelegate>
 
 @property(nonatomic, retain) CouchDatabase *database;
 @property(nonatomic, retain) Snippet *snippet;

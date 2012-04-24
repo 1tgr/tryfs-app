@@ -49,10 +49,30 @@
     [super dealloc];
 }
 
+- (void)didSelectSnippet:(Snippet *)snippet
+{
+    EditViewController *editController = [[[EditViewController alloc] initWithNibName:@"EditViewController" bundle:nil] autorelease];
+    editController.database = _database;
+    editController.snippet = snippet;
+
+    UISplitViewController *splitController = self.splitViewController;
+    if (splitController == nil)
+        [self.navigationController pushViewController:editController animated:YES];
+    else
+    {
+        UINavigationController *navigationController = [splitController.viewControllers objectAtIndex:1];
+        [navigationController popToRootViewControllerAnimated:NO];
+        [navigationController pushViewController:editController animated:NO];
+    }
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     self.title = @"Snippets";
+
+    if (self.splitViewController != nil && _snippets.count > 0)
+        [self didSelectSnippet:[_snippets objectAtIndex:0]];
 }
 
 - (void)viewDidUnload
@@ -96,7 +116,8 @@
                     [snippets addObject:s];
                 }
             }
-            
+
+            [_snippets autorelease];
             _snippets = [snippets retain];
             [self.tableView reloadData];
         }
@@ -178,10 +199,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    EditViewController *controller = [[[EditViewController alloc] initWithNibName:@"EditViewController" bundle:nil] autorelease];
-    controller.database = _database;
-    controller.snippet = [_snippets objectAtIndex:(NSUInteger) indexPath.row];
-    [self.navigationController pushViewController:controller animated:YES];
+    [self didSelectSnippet:[_snippets objectAtIndex:(NSUInteger) indexPath.row]];
 }
 
 @end

@@ -18,6 +18,7 @@
 @interface EditViewController ()
 
 @property(nonatomic, retain) Session *session;
+@property(nonatomic, retain) UIPopoverController *splitPopoverController;
 
 @end
 
@@ -32,6 +33,7 @@
 @synthesize database = _database;
 @synthesize snippet = _snippet;
 @synthesize session = _session;
+@synthesize splitPopoverController = _splitPopoverController;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -48,6 +50,7 @@
     [_database release];
     [_snippet release];
     [_session release];
+    [_splitPopoverController release];
     [_monitor release];
     [_descriptionLabel release];
     [super dealloc];
@@ -96,6 +99,10 @@ static UIColor *times(UIColor *colour, CGFloat f)
 {
     [super viewDidLoad];
     self.title = _snippet.title;
+
+    if (self.splitViewController != nil)
+        self.navigationItem.hidesBackButton = YES;
+
     self.navigationItem.backBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:@"Edit" style:UIBarButtonItemStylePlain target:nil action:nil] autorelease];
     _replViewController.snippet = _snippet;
 
@@ -168,11 +175,20 @@ static UIColor *times(UIColor *colour, CGFloat f)
 {
     [_monitor registerForKeyboardNotifications];
     [self resizeViews];
+    self.splitViewController.delegate = self;
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
     [_monitor cancelKeyboardNotifications];
+    [self.splitPopoverController dismissPopoverAnimated:YES];
+
+    UISplitViewController *splitViewController = self.splitViewController;
+    if (splitViewController != nil)
+    {
+        NSAssert(splitViewController.delegate == self, @"This view controller should be the split view controller's delegate");
+        splitViewController.delegate = nil;
+    }
 
     if (_snippet.id == nil)
     {
@@ -199,6 +215,19 @@ static UIColor *times(UIColor *colour, CGFloat f)
 {
     [super willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
     [self resizeViews];
+}
+
+- (void)splitViewController:(UISplitViewController *)splitController willHideViewController:(UIViewController *)viewController withBarButtonItem:(UIBarButtonItem *)barButtonItem forPopoverController:(UIPopoverController *)popoverController
+{
+    barButtonItem.title = @"Snippets";
+    [self.navigationItem setLeftBarButtonItem:barButtonItem animated:YES];
+    self.splitPopoverController = popoverController;
+}
+
+- (void)splitViewController:(UISplitViewController *)splitController willShowViewController:(UIViewController *)viewController invalidatingBarButtonItem:(UIBarButtonItem *)barButtonItem
+{
+    [self.navigationItem setLeftBarButtonItem:nil animated:YES];
+    self.splitPopoverController = nil;
 }
 
 - (IBAction)didContinueButton

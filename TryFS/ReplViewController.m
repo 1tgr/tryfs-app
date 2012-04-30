@@ -23,6 +23,7 @@
 {
     KeyboardResizeMonitor *_monitor;
     NSMutableArray *_lines;
+    BOOL _isObserving;
 }
 
 @synthesize viewModel = _viewModel;
@@ -68,9 +69,8 @@
     {
         _monitor = [[KeyboardResizeMonitor alloc] initWithView:self.view scrollView:self.tableView];
         _monitor.activeField = _textField;
+        [_textField becomeFirstResponder];
     }
-
-    [_textField becomeFirstResponder];
 }
 
 - (void)subscribe
@@ -101,15 +101,26 @@
     [_monitor registerForKeyboardNotifications];
     [self subscribe];
     [self updateNavigationItem:animated];
-    [self.viewModel addObserver:self forKeyPath:@"session" options:0 context:NULL];
-    [self.viewModel addObserver:self forKeyPath:@"replBarButtonItem" options:0 context:NULL];
+
+    if (!_isObserving)
+    {
+        [self.viewModel addObserver:self forKeyPath:@"session" options:0 context:NULL];
+        [self.viewModel addObserver:self forKeyPath:@"replBarButtonItem" options:0 context:NULL];
+        _isObserving = YES;
+    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
     [_monitor cancelKeyboardNotifications];
-    [self.viewModel removeObserver:self forKeyPath:@"session"];
-    [self.viewModel removeObserver:self forKeyPath:@"replBarButtonItem"];
+
+    if (_isObserving)
+    {
+        _isObserving = NO;
+        [self.viewModel removeObserver:self forKeyPath:@"session"];
+        [self.viewModel removeObserver:self forKeyPath:@"replBarButtonItem"];
+    }
+
     [self.tracker stop];
 }
 

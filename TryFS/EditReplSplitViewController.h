@@ -5,10 +5,11 @@
 //
 
 #import "MGSplitViewController.h"
+#import "KeyboardResizeMonitor.h"
 
 @class SnippetViewModel;
 
-@interface EditReplSplitViewController : MGSplitViewController
+@interface EditReplSplitViewController : MGSplitViewController <KeyboardResizeAdapter, MGSplitViewControllerDelegate>
 
 @property(nonatomic, retain) SnippetViewModel *viewModel;
 

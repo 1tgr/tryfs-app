@@ -188,9 +188,10 @@
     if (isSplit)
     {
         EditReplSplitViewController *splitViewController = [[[EditReplSplitViewController alloc] init] autorelease];
+        splitViewController.masterBeforeDetail = NO;
         splitViewController.showsMasterInPortrait = YES;
         splitViewController.vertical = NO;
-        splitViewController.viewControllers = [NSArray arrayWithObjects:editController, replController, nil];
+        splitViewController.viewControllers = [NSArray arrayWithObjects:replController, editController, nil];
         splitViewController.viewModel = viewModel;
         controller = splitViewController;
     }

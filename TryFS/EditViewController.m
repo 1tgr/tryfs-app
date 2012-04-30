@@ -20,6 +20,7 @@
 {
     KeyboardResizeMonitor *_monitor;
     InsetLabel *_descriptionLabel;
+    BOOL _isObserving;
 }
 
 @synthesize viewModel = _viewModel;
@@ -159,13 +160,23 @@ static UIColor *times(UIColor *colour, CGFloat f)
     [_monitor registerForKeyboardNotifications];
     [self resizeViews];
     [self updateNavigationItem:animated];
-    [self.viewModel addObserver:self forKeyPath:@"editBarButtonItem" options:0 context:NULL];
+
+    if (!_isObserving)
+    {
+        [self.viewModel addObserver:self forKeyPath:@"editBarButtonItem" options:0 context:NULL];
+        _isObserving = YES;
+    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
     [_monitor cancelKeyboardNotifications];
-    [self.viewModel removeObserver:self forKeyPath:@"editBarButtonItem"];
+
+    if (_isObserving)
+    {
+        _isObserving = NO;
+        [self.viewModel removeObserver:self forKeyPath:@"editBarButtonItem"];
+    }
 
     Snippet *snippet = self.viewModel.snippet;
     if (snippet.id == nil)

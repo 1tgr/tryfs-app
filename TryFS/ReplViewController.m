@@ -190,7 +190,11 @@
         CGSize size = tableSize;
         size.width -= cellSize.width - labelSize.width;
 
-        CGFloat rowHeight = [label.text sizeWithFont:label.font constrainedToSize:size lineBreakMode:label.lineBreakMode].height;
+        UIFont *font = label.font;
+        CGFloat rowHeight = [label.text sizeWithFont:font constrainedToSize:size lineBreakMode:label.lineBreakMode].height;
+        if (rowHeight < font.lineHeight)
+            rowHeight = font.lineHeight;
+
         rowHeight += cellSize.height - labelSize.height;
         return rowHeight;
     }

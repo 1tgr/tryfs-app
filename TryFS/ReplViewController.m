@@ -11,6 +11,7 @@
 #import "KeyboardResizeMonitor.h"
 #import "Session.h"
 #import "Snippet.h"
+#import "SnippetViewModel.h"
 
 @interface ReplViewController ()
 
@@ -22,14 +23,12 @@
 {
     KeyboardResizeMonitor *_monitor;
     NSMutableArray *_lines;
-    Session *_session;
 }
 
+@synthesize viewModel = _viewModel;
 @synthesize textField = _textField;
 @synthesize textFieldCell = _textFieldCell;
 @synthesize tracker = _tracker;
-@synthesize snippet = _snippet;
-@synthesize session = _session;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -47,17 +46,30 @@
     [_monitor release];
     [_tracker release];
     [_lines release];
-    [_snippet release];
-    [_session release];
+    [_viewModel release];
     [super dealloc];
+}
+
+- (void)updateNavigationItem:(BOOL)animated
+{
+    SnippetViewModel *viewModel = self.viewModel;
+    if (!viewModel.isSplit)
+    {
+        [self.navigationItem setRightBarButtonItem:viewModel.replBarButtonItem animated:animated];
+        self.title = viewModel.snippet.title;
+    }
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.title = _snippet.title;
-    _monitor = [[KeyboardResizeMonitor alloc] initWithView:self.view scrollView:self.tableView];
-    _monitor.activeField = _textField;
+
+    if (!self.viewModel.isSplit)
+    {
+        _monitor = [[KeyboardResizeMonitor alloc] initWithView:self.view scrollView:self.tableView];
+        _monitor.activeField = _textField;
+    }
+
     [_textField becomeFirstResponder];
 }
 
@@ -65,19 +77,17 @@
 {
     [_monitor registerForKeyboardNotifications];
     [self.tracker start];
+    [self updateNavigationItem:animated];
+    [self.viewModel addObserver:self forKeyPath:@"session" options:0 context:NULL];
+    [self.viewModel addObserver:self forKeyPath:@"replBarButtonItem" options:0 context:NULL];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
     [_monitor cancelKeyboardNotifications];
+    [self.viewModel removeObserver:self forKeyPath:@"session"];
+    [self.viewModel removeObserver:self forKeyPath:@"replBarButtonItem"];
     [self.tracker stop];
-}
-
-- (void)viewDidUnload
-{
-    [super viewDidUnload];
-    [self.tracker stop];
-    self.tracker = nil;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -85,21 +95,28 @@
     return [UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad || interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown;
 }
 
-- (void)setSession:(Session *)session
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
-    NSLog(@"Subscribing to %@", session.sessionId);
+    if (object == self.viewModel)
+    {
+        if (keyPath == @"session")
+        {
+            Session *session = self.viewModel.session;
+            NSLog(@"Subscribing to %@", session.sessionId);
 
-    CouchChangeTracker *tracker = [session changeTrackerWithDelegate:self];
-    [tracker.filterParams setObject:@"true" forKey:@"include_docs"];
+            CouchChangeTracker *tracker = [session changeTrackerWithDelegate:self];
+            [tracker.filterParams setObject:@"true" forKey:@"include_docs"];
 
-    [self.tracker stop];
-    self.tracker = tracker;
-    [self.tracker start];
-    [_session release];
-    _session = [session retain];
+            [self.tracker stop];
+            self.tracker = tracker;
+            [self.tracker start];
 
-    UIBarButtonItem *restartButton = [[[UIBarButtonItem alloc] initWithTitle:@"Restart" style:UIBarButtonItemStyleBordered target:self action:@selector(didRestartButton)] autorelease];
-    [self.navigationItem setRightBarButtonItem:restartButton animated:YES];
+            UIBarButtonItem *restartButton = [[[UIBarButtonItem alloc] initWithTitle:@"Restart" style:UIBarButtonItemStyleBordered target:self action:@selector(didRestartButton)] autorelease];
+            self.viewModel.replBarButtonItem = restartButton;
+        }
+        else if (keyPath == @"replBarButtonItem")
+            [self updateNavigationItem:YES];
+    }
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -205,12 +222,12 @@
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
-    if (self.session.sessionId == nil)
+    if (self.viewModel.session.sessionId == nil)
         return NO;
     else
     {
         NSString *text = [textField.text stringByAppendingString:@";;"];
-        [self.session send:text];
+        [self.viewModel.session send:text];
         [self writeLine:text];
         textField.text = @"";
         return YES;
@@ -219,18 +236,18 @@
 
 - (void)didRestartButton
 {
-    if (self.session.sessionId != nil)
+    if (self.viewModel.session.sessionId != nil)
     {
         UIApplication *app = [UIApplication sharedApplication];
         app.networkActivityIndicatorVisible = YES;
 
-        RESTOperation *op = [self.session reset];
+        RESTOperation *op = [self.viewModel.session reset];
         [op onCompletion:^{
             app.networkActivityIndicatorVisible = NO;
             [self.tracker stop];
-            [self.tracker.filterParams setObject:self.session.sessionId forKey:@"sessionId"];
+            [self.tracker.filterParams setObject:self.viewModel.session.sessionId forKey:@"sessionId"];
             [self.tracker start];
-            [self.session send:@""];
+            [self.viewModel.session send:@""];
         }];
     }
 }

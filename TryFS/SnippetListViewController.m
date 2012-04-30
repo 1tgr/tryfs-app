@@ -7,15 +7,19 @@
 //
 
 #import "CouchCocoa.h"
-#import "SnippetViewController.h"
+#import "SnippetListViewController.h"
 #import "EditViewController.h"
 #import "Snippet.h"
+#import "MGSplitViewController.h"
+#import "ReplViewController.h"
+#import "SnippetViewModel.h"
+#import "EditReplSplitViewController.h"
 
-@interface SnippetViewController ()
+@interface SnippetListViewController ()
 
 @end
 
-@implementation SnippetViewController
+@implementation SnippetListViewController
 {
     Snippet *_emptySnippet;
     NSArray *_snippets;
@@ -53,13 +57,6 @@
 {
     [super viewDidLoad];
     self.title = @"Snippets";
-}
-
-- (void)viewDidUnload
-{
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -178,9 +175,28 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    EditViewController *controller = [[[EditViewController alloc] initWithNibName:@"EditViewController" bundle:nil] autorelease];
-    controller.database = _database;
-    controller.snippet = [_snippets objectAtIndex:(NSUInteger) indexPath.row];
+    Snippet *snippet = [_snippets objectAtIndex:(NSUInteger) indexPath.row];
+    BOOL isSplit = [UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad;
+    EditViewController *editController = [[[EditViewController alloc] initWithNibName:@"EditViewController" bundle:nil] autorelease];
+    ReplViewController *replController = [[[ReplViewController alloc] initWithNibName:@"ReplViewController" bundle:nil] autorelease];
+    SnippetViewModel *viewModel = [[[SnippetViewModel alloc] initWithDatabase:_database snippet:snippet isSplit:isSplit editViewController:editController replViewController:replController] autorelease];
+
+    editController.viewModel = viewModel;
+    replController.viewModel = viewModel;
+
+    UIViewController *controller;
+    if (isSplit)
+    {
+        EditReplSplitViewController *splitViewController = [[[EditReplSplitViewController alloc] init] autorelease];
+        splitViewController.showsMasterInPortrait = YES;
+        splitViewController.vertical = NO;
+        splitViewController.viewControllers = [NSArray arrayWithObjects:editController, replController, nil];
+        splitViewController.viewModel = viewModel;
+        controller = splitViewController;
+    }
+    else
+        controller = editController;
+
     [self.navigationController pushViewController:controller animated:YES];
 }
 

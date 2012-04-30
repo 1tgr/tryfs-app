@@ -8,7 +8,7 @@
 
 #import "CouchCocoa.h"
 #import "AppDelegate.h"
-#import "SnippetViewController.h"
+#import "SnippetListViewController.h"
 #import "QuickDialog.h"
 #import "Crittercism.h"
 
@@ -34,7 +34,7 @@
     return label;
 }
 
-+ (QRootElement *)aboutForm:(UINavigationController *)navigationController snippetsController:(SnippetViewController *)snippetsController
++ (QRootElement *)aboutForm:(UINavigationController *)navigationController snippetsController:(SnippetListViewController *)snippetsController
 {
     QLabelElement *snippetsElement = [[[QLabelElement alloc] initWithTitle:@"Snippets" Value:nil] autorelease];
     snippetsElement.controllerAction = @"";
@@ -76,7 +76,7 @@
                      andSecret:@"iv8nhmaqdoekq6zrwgnxxco1lc3lt4ty"];
 
     CouchServer *server = [[[CouchServer alloc] initWithURL:[NSURL URLWithString:@"http://tryfs.net"]] autorelease];
-    SnippetViewController *snippetsController = [[[SnippetViewController alloc] initWithNibName:@"SnippetViewController" bundle:nil] autorelease];
+    SnippetListViewController *snippetsController = [[[SnippetListViewController alloc] initWithNibName:@"SnippetListViewController" bundle:nil] autorelease];
     snippetsController.database = [server databaseNamed:@"tryfs"];
 
     UINavigationController *navigationController = [[[UINavigationController alloc] init] autorelease];

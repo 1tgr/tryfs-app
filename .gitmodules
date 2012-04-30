@@ -4,3 +4,6 @@
 [submodule "QuickDialog"]
 	path = QuickDialog
 	url = https://github.com/escoz/QuickDialog.git
+[submodule "MGSplitViewController"]
+	path = MGSplitViewController
+	url = https://github.com/mattgemmell/MGSplitViewController.git

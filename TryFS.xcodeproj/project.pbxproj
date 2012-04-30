@@ -119,6 +119,9 @@
 		892B982DBBF00613315B36DE /* CrittercismViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 892B982DBBF00613315B36DD /* CrittercismViewController.xib */; };
 		892B982DBBF00613315B36E0 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 892B982DBBF00613315B36DF /* QuartzCore.framework */; };
 		892B982DBBF00613315B36E2 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 892B982DBBF00613315B36E1 /* SystemConfiguration.framework */; };
+		892B982DBBF00613315B36ED /* MGSplitCornersView.m in Sources */ = {isa = PBXBuildFile; fileRef = 892B982DBBF00613315B36EC /* MGSplitCornersView.m */; };
+		892B982DBBF00613315B36F0 /* MGSplitDividerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 892B982DBBF00613315B36EF /* MGSplitDividerView.m */; };
+		892B982DBBF00613315B36F6 /* MGSplitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 892B982DBBF00613315B36F5 /* MGSplitViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -340,6 +343,12 @@
 		892B982DBBF00613315B36DD /* CrittercismViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = CrittercismViewController.xib; path = ../CrittercismSDK/Resources/Nibs/CrittercismViewController.xib; sourceTree = "<group>"; };
 		892B982DBBF00613315B36DF /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		892B982DBBF00613315B36E1 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		892B982DBBF00613315B36EB /* MGSplitCornersView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MGSplitCornersView.h; path = ../MGSplitViewController/Classes/MGSplitCornersView.h; sourceTree = "<group>"; };
+		892B982DBBF00613315B36EC /* MGSplitCornersView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MGSplitCornersView.m; path = ../MGSplitViewController/Classes/MGSplitCornersView.m; sourceTree = "<group>"; };
+		892B982DBBF00613315B36EE /* MGSplitDividerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MGSplitDividerView.h; path = ../MGSplitViewController/Classes/MGSplitDividerView.h; sourceTree = "<group>"; };
+		892B982DBBF00613315B36EF /* MGSplitDividerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MGSplitDividerView.m; path = ../MGSplitViewController/Classes/MGSplitDividerView.m; sourceTree = "<group>"; };
+		892B982DBBF00613315B36F4 /* MGSplitViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MGSplitViewController.h; path = ../MGSplitViewController/Classes/MGSplitViewController.h; sourceTree = "<group>"; };
+		892B982DBBF00613315B36F5 /* MGSplitViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MGSplitViewController.m; path = ../MGSplitViewController/Classes/MGSplitViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -416,6 +425,7 @@
 				892B982DBBF00613315B35D1 /* SnippetViewController.h */,
 				892B982DBBF00613315B35D2 /* SnippetViewController.m */,
 				892B982DBBF00613315B35D4 /* SnippetViewController.xib */,
+				892B982DBBF00613315B36E7 /* MGSplitViewController */,
 			);
 			path = TryFS;
 			sourceTree = "<group>";
@@ -604,6 +614,19 @@
 				892B982DBBF00613315B36CF /* CrittercismAboutViewController.xib */,
 			);
 			name = Nibs;
+			sourceTree = "<group>";
+		};
+		892B982DBBF00613315B36E7 /* MGSplitViewController */ = {
+			isa = PBXGroup;
+			children = (
+				892B982DBBF00613315B36F5 /* MGSplitViewController.m */,
+				892B982DBBF00613315B36F4 /* MGSplitViewController.h */,
+				892B982DBBF00613315B36EF /* MGSplitDividerView.m */,
+				892B982DBBF00613315B36EE /* MGSplitDividerView.h */,
+				892B982DBBF00613315B36EC /* MGSplitCornersView.m */,
+				892B982DBBF00613315B36EB /* MGSplitCornersView.h */,
+			);
+			name = MGSplitViewController;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -846,6 +869,9 @@
 				892B982DBBF00613315B35FF /* KeyboardResizeMonitor.m in Sources */,
 				892B982DBBF00613315B3602 /* Session.m in Sources */,
 				892B982DBBF00613315B3628 /* InsetLabel.m in Sources */,
+				892B982DBBF00613315B36ED /* MGSplitCornersView.m in Sources */,
+				892B982DBBF00613315B36F0 /* MGSplitDividerView.m in Sources */,
+				892B982DBBF00613315B36F6 /* MGSplitViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -917,7 +943,7 @@
 				INFOPLIST_FILE = "TryFS/TryFS-Info.plist";
 				LIBRARY_SEARCH_PATHS = "\"${PROJECT_DIR}/CrittercismSDK/**";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				USER_HEADER_SEARCH_PATHS = "\"${PROJECT_DIR}/CouchCocoa\"/** \"${PROJECT_DIR}/QuickDialog\"/**";
+				USER_HEADER_SEARCH_PATHS = "\"${PROJECT_DIR}/CouchCocoa\"/** \"${PROJECT_DIR}/QuickDialog\"/** \"${PROJECT_DIR}/MGSplitViewController/**";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -931,7 +957,7 @@
 				INFOPLIST_FILE = "TryFS/TryFS-Info.plist";
 				LIBRARY_SEARCH_PATHS = "\"${PROJECT_DIR}/CrittercismSDK/**";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				USER_HEADER_SEARCH_PATHS = "\"${PROJECT_DIR}/CouchCocoa\"/** \"${PROJECT_DIR}/QuickDialog\"/**";
+				USER_HEADER_SEARCH_PATHS = "\"${PROJECT_DIR}/CouchCocoa\"/** \"${PROJECT_DIR}/QuickDialog\"/** \"${PROJECT_DIR}/MGSplitViewController/**";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;

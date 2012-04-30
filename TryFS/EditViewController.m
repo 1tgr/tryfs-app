@@ -220,9 +220,13 @@ static UIColor *times(UIColor *colour, CGFloat f)
             app.networkActivityIndicatorVisible = NO;
             if (op.error == nil)
             {
+                if (viewModel.isSplit)
+                    viewModel.editBarButtonItem = nil;
+                else
+                    viewModel.editBarButtonItem.title = @"Continue";
+
                 viewModel.session = session;
                 [session send:@""];
-                viewModel.editBarButtonItem.title = @"Continue";
             }
             else
             {

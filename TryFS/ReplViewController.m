@@ -73,10 +73,33 @@
     [_textField becomeFirstResponder];
 }
 
+- (void)subscribe
+{
+    [self.tracker stop];
+    self.tracker = nil;
+
+    Session *session = self.viewModel.session;
+    if (session == nil)
+        self.viewModel.replBarButtonItem = nil;
+    else
+    {
+        NSLog(@"Subscribing to %@", session.sessionId);
+
+        CouchChangeTracker *tracker = [session changeTrackerWithDelegate:self];
+        [tracker.filterParams setObject:@"true" forKey:@"include_docs"];
+
+        self.tracker = tracker;
+        [self.tracker start];
+
+        UIBarButtonItem *restartButton = [[[UIBarButtonItem alloc] initWithTitle:@"Restart" style:UIBarButtonItemStyleBordered target:self action:@selector(didRestartButton)] autorelease];
+        self.viewModel.replBarButtonItem = restartButton;
+    }
+}
+
 - (void)viewWillAppear:(BOOL)animated
 {
     [_monitor registerForKeyboardNotifications];
-    [self.tracker start];
+    [self subscribe];
     [self updateNavigationItem:animated];
     [self.viewModel addObserver:self forKeyPath:@"session" options:0 context:NULL];
     [self.viewModel addObserver:self forKeyPath:@"replBarButtonItem" options:0 context:NULL];
@@ -100,20 +123,7 @@
     if (object == self.viewModel)
     {
         if (keyPath == @"session")
-        {
-            Session *session = self.viewModel.session;
-            NSLog(@"Subscribing to %@", session.sessionId);
-
-            CouchChangeTracker *tracker = [session changeTrackerWithDelegate:self];
-            [tracker.filterParams setObject:@"true" forKey:@"include_docs"];
-
-            [self.tracker stop];
-            self.tracker = tracker;
-            [self.tracker start];
-
-            UIBarButtonItem *restartButton = [[[UIBarButtonItem alloc] initWithTitle:@"Restart" style:UIBarButtonItemStyleBordered target:self action:@selector(didRestartButton)] autorelease];
-            self.viewModel.replBarButtonItem = restartButton;
-        }
+            [self subscribe];
         else if (keyPath == @"replBarButtonItem")
             [self updateNavigationItem:YES];
     }
@@ -244,9 +254,7 @@
         RESTOperation *op = [self.viewModel.session reset];
         [op onCompletion:^{
             app.networkActivityIndicatorVisible = NO;
-            [self.tracker stop];
-            [self.tracker.filterParams setObject:self.viewModel.session.sessionId forKey:@"sessionId"];
-            [self.tracker start];
+            [self subscribe];
             [self.viewModel.session send:@""];
         }];
     }

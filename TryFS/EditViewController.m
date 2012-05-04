@@ -138,6 +138,7 @@ static UIColor *times(UIColor *colour, CGFloat f)
         }
 
         self.viewModel.editBarButtonItem = runButton;
+        [textView becomeFirstResponder];
     }
     else
     {

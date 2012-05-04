@@ -8,9 +8,46 @@
 
 #import "CouchCocoa.h"
 #import "AppDelegate.h"
-#import "SnippetViewController.h"
+#import "SnippetListViewController.h"
 #import "QuickDialog.h"
 #import "Crittercism.h"
+
+@interface SmallLabelElement : QLabelElement
+
+@end
+
+@implementation SmallLabelElement
+{
+    UIFont *_font;
+}
+
+- (QLabelElement *)initWithTitle:(NSString *)string Value:(id)value
+{
+    self = [super initWithTitle:string Value:value];
+    if (self != nil)
+        _font = [[UIFont systemFontOfSize:[UIFont smallSystemFontSize]] retain];
+
+    return self;
+}
+
+- (void)dealloc
+{
+    [_font release];
+    [super dealloc];
+}
+
+- (UITableViewCell *)getCellForTableView:(QuickDialogTableView *)tableView controller:(QuickDialogController *)controller
+{
+    UITableViewCell *cell = [super getCellForTableView:tableView controller:controller];
+    cell.textLabel.font = _font;
+    return cell;
+}
+
+- (CGFloat)getRowHeightForTableView:(QuickDialogTableView *)tableView {
+    return _font.lineHeight * 2;
+}
+
+@end
 
 @implementation AppDelegate
 
@@ -34,7 +71,7 @@
     return label;
 }
 
-+ (QRootElement *)aboutForm:(UINavigationController *)navigationController snippetsController:(SnippetViewController *)snippetsController
++ (QRootElement *)aboutForm:(UINavigationController *)navigationController snippetsController:(SnippetListViewController *)snippetsController
 {
     QLabelElement *snippetsElement = [[[QLabelElement alloc] initWithTitle:@"Snippets" Value:nil] autorelease];
     snippetsElement.controllerAction = @"";
@@ -52,7 +89,7 @@
         [Crittercism showCrittercism:navigationController];
     };
 
-    QLabelElement *couchdbElement = [[[QLabelElement alloc] initWithTitle:@"Powered by CouchDB" Value:nil] autorelease];
+    QLabelElement *couchdbElement = [[[SmallLabelElement alloc] initWithTitle:@"Powered by CouchDB" Value:nil] autorelease];
     couchdbElement.image = [UIImage imageNamed:@"couchdb.png"];
 
     QSection *aboutSection = [[[QSection alloc] initWithTitle:@"About Try F#"] autorelease];
@@ -60,6 +97,9 @@
     [aboutSection addElement:[AppDelegate linkElementWithTitle:@"@tim_g_robinson" url:[NSURL URLWithString:@"http://twitter.com/tim_g_robinson"] image:[UIImage imageNamed:@"twitter.png"]]];
     [aboutSection addElement:feedbackElement];
     [aboutSection addElement:couchdbElement];
+
+    if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad)
+        [aboutSection addElement:[[[SmallLabelElement alloc] initWithTitle:@"Uses MGSplitViewController by Matt Gemmell" Value:nil] autorelease]];
 
     QRootElement *root = [[[QRootElement alloc] init] autorelease];
     root.title = @"Try F#";
@@ -76,7 +116,7 @@
                      andSecret:@"iv8nhmaqdoekq6zrwgnxxco1lc3lt4ty"];
 
     CouchServer *server = [[[CouchServer alloc] initWithURL:[NSURL URLWithString:@"http://tryfs.net"]] autorelease];
-    SnippetViewController *snippetsController = [[[SnippetViewController alloc] initWithNibName:@"SnippetViewController" bundle:nil] autorelease];
+    SnippetListViewController *snippetsController = [[[SnippetListViewController alloc] initWithNibName:@"SnippetListViewController" bundle:nil] autorelease];
     snippetsController.database = [server databaseNamed:@"tryfs"];
 
     UINavigationController *navigationController = [[[UINavigationController alloc] init] autorelease];

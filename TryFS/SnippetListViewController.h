@@ -10,7 +10,7 @@
 
 @class CouchDatabase;
 
-@interface SnippetViewController : UITableViewController
+@interface SnippetListViewController : UITableViewController
 
 @property(nonatomic, retain) CouchDatabase *database;
 @end

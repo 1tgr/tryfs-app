@@ -25,8 +25,8 @@
 		892B982DBBF00613315B35C8 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 892B982DBBF00613315B35C7 /* InfoPlist.strings */; };
 		892B982DBBF00613315B35CA /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 892B982DBBF00613315B35C9 /* main.m */; };
 		892B982DBBF00613315B35CE /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 892B982DBBF00613315B35CD /* AppDelegate.m */; };
-		892B982DBBF00613315B35D3 /* SnippetViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 892B982DBBF00613315B35D2 /* SnippetViewController.m */; };
-		892B982DBBF00613315B35D5 /* SnippetViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 892B982DBBF00613315B35D4 /* SnippetViewController.xib */; };
+		892B982DBBF00613315B35D3 /* SnippetListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 892B982DBBF00613315B35D2 /* SnippetListViewController.m */; };
+		892B982DBBF00613315B35D5 /* SnippetListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 892B982DBBF00613315B35D4 /* SnippetListViewController.xib */; };
 		892B982DBBF00613315B35DC /* EditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 892B982DBBF00613315B35DB /* EditViewController.m */; };
 		892B982DBBF00613315B35DE /* EditViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 892B982DBBF00613315B35DD /* EditViewController.xib */; };
 		892B982DBBF00613315B35E1 /* ReplViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 892B982DBBF00613315B35E0 /* ReplViewController.m */; };
@@ -119,6 +119,11 @@
 		892B982DBBF00613315B36DE /* CrittercismViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 892B982DBBF00613315B36DD /* CrittercismViewController.xib */; };
 		892B982DBBF00613315B36E0 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 892B982DBBF00613315B36DF /* QuartzCore.framework */; };
 		892B982DBBF00613315B36E2 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 892B982DBBF00613315B36E1 /* SystemConfiguration.framework */; };
+		892B982DBBF00613315B36ED /* MGSplitCornersView.m in Sources */ = {isa = PBXBuildFile; fileRef = 892B982DBBF00613315B36EC /* MGSplitCornersView.m */; };
+		892B982DBBF00613315B36F0 /* MGSplitDividerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 892B982DBBF00613315B36EF /* MGSplitDividerView.m */; };
+		892B982DBBF00613315B36F6 /* MGSplitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 892B982DBBF00613315B36F5 /* MGSplitViewController.m */; };
+		892B982DBBF00613315B36F8 /* SnippetViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 892B982DBBF00613315B36F7 /* SnippetViewModel.m */; };
+		892B982DBBF00613315B36FB /* EditReplSplitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 892B982DBBF00613315B36FA /* EditReplSplitViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -208,9 +213,9 @@
 		892B982DBBF00613315B35CB /* TryFS-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TryFS-Prefix.pch"; sourceTree = "<group>"; };
 		892B982DBBF00613315B35CC /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		892B982DBBF00613315B35CD /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		892B982DBBF00613315B35D1 /* SnippetViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SnippetViewController.h; sourceTree = "<group>"; };
-		892B982DBBF00613315B35D2 /* SnippetViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SnippetViewController.m; sourceTree = "<group>"; };
-		892B982DBBF00613315B35D4 /* SnippetViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SnippetViewController.xib; sourceTree = "<group>"; };
+		892B982DBBF00613315B35D1 /* SnippetListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SnippetListViewController.h; sourceTree = "<group>"; };
+		892B982DBBF00613315B35D2 /* SnippetListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SnippetListViewController.m; sourceTree = "<group>"; };
+		892B982DBBF00613315B35D4 /* SnippetListViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SnippetListViewController.xib; sourceTree = "<group>"; };
 		892B982DBBF00613315B35DA /* EditViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditViewController.h; sourceTree = "<group>"; };
 		892B982DBBF00613315B35DB /* EditViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditViewController.m; sourceTree = "<group>"; };
 		892B982DBBF00613315B35DD /* EditViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EditViewController.xib; sourceTree = "<group>"; };
@@ -340,6 +345,16 @@
 		892B982DBBF00613315B36DD /* CrittercismViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = CrittercismViewController.xib; path = ../CrittercismSDK/Resources/Nibs/CrittercismViewController.xib; sourceTree = "<group>"; };
 		892B982DBBF00613315B36DF /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		892B982DBBF00613315B36E1 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		892B982DBBF00613315B36EB /* MGSplitCornersView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MGSplitCornersView.h; path = ../MGSplitViewController/Classes/MGSplitCornersView.h; sourceTree = "<group>"; };
+		892B982DBBF00613315B36EC /* MGSplitCornersView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MGSplitCornersView.m; path = ../MGSplitViewController/Classes/MGSplitCornersView.m; sourceTree = "<group>"; };
+		892B982DBBF00613315B36EE /* MGSplitDividerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MGSplitDividerView.h; path = ../MGSplitViewController/Classes/MGSplitDividerView.h; sourceTree = "<group>"; };
+		892B982DBBF00613315B36EF /* MGSplitDividerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MGSplitDividerView.m; path = ../MGSplitViewController/Classes/MGSplitDividerView.m; sourceTree = "<group>"; };
+		892B982DBBF00613315B36F4 /* MGSplitViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MGSplitViewController.h; path = ../MGSplitViewController/Classes/MGSplitViewController.h; sourceTree = "<group>"; };
+		892B982DBBF00613315B36F5 /* MGSplitViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MGSplitViewController.m; path = ../MGSplitViewController/Classes/MGSplitViewController.m; sourceTree = "<group>"; };
+		892B982DBBF00613315B36F7 /* SnippetViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SnippetViewModel.m; sourceTree = "<group>"; };
+		892B982DBBF00613315B36F9 /* SnippetViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SnippetViewModel.h; sourceTree = "<group>"; };
+		892B982DBBF00613315B36FA /* EditReplSplitViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditReplSplitViewController.m; sourceTree = "<group>"; };
+		892B982DBBF00613315B36FC /* EditReplSplitViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditReplSplitViewController.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -395,6 +410,10 @@
 		892B982DBBF00613315B35C3 /* TryFS */ = {
 			isa = PBXGroup;
 			children = (
+				892B982DBBF00613315B36FC /* EditReplSplitViewController.h */,
+				892B982DBBF00613315B36FA /* EditReplSplitViewController.m */,
+				892B982DBBF00613315B36F9 /* SnippetViewModel.h */,
+				892B982DBBF00613315B36F7 /* SnippetViewModel.m */,
 				892B982DBBF00613315B362A /* CrittercismSDK */,
 				892B982DBBF00613315B35C4 /* Supporting Files */,
 				892B982DBBF00613315B35CC /* AppDelegate.h */,
@@ -413,9 +432,10 @@
 				892B982DBBF00613315B3601 /* Session.m */,
 				892B982DBBF00613315B35E6 /* Snippet.h */,
 				892B982DBBF00613315B35E4 /* Snippet.m */,
-				892B982DBBF00613315B35D1 /* SnippetViewController.h */,
-				892B982DBBF00613315B35D2 /* SnippetViewController.m */,
-				892B982DBBF00613315B35D4 /* SnippetViewController.xib */,
+				892B982DBBF00613315B35D1 /* SnippetListViewController.h */,
+				892B982DBBF00613315B35D2 /* SnippetListViewController.m */,
+				892B982DBBF00613315B35D4 /* SnippetListViewController.xib */,
+				892B982DBBF00613315B36E7 /* MGSplitViewController */,
 			);
 			path = TryFS;
 			sourceTree = "<group>";
@@ -606,6 +626,19 @@
 			name = Nibs;
 			sourceTree = "<group>";
 		};
+		892B982DBBF00613315B36E7 /* MGSplitViewController */ = {
+			isa = PBXGroup;
+			children = (
+				892B982DBBF00613315B36F5 /* MGSplitViewController.m */,
+				892B982DBBF00613315B36F4 /* MGSplitViewController.h */,
+				892B982DBBF00613315B36EF /* MGSplitDividerView.m */,
+				892B982DBBF00613315B36EE /* MGSplitDividerView.h */,
+				892B982DBBF00613315B36EC /* MGSplitCornersView.m */,
+				892B982DBBF00613315B36EB /* MGSplitCornersView.h */,
+			);
+			name = MGSplitViewController;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -733,7 +766,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				892B982DBBF00613315B35C8 /* InfoPlist.strings in Resources */,
-				892B982DBBF00613315B35D5 /* SnippetViewController.xib in Resources */,
+				892B982DBBF00613315B35D5 /* SnippetListViewController.xib in Resources */,
 				892B982DBBF00613315B35DE /* EditViewController.xib in Resources */,
 				892B982DBBF00613315B35E3 /* ReplViewController.xib in Resources */,
 				22D02865152CB53B00FB04D0 /* Icon.png in Resources */,
@@ -839,13 +872,18 @@
 			files = (
 				892B982DBBF00613315B35CA /* main.m in Sources */,
 				892B982DBBF00613315B35CE /* AppDelegate.m in Sources */,
-				892B982DBBF00613315B35D3 /* SnippetViewController.m in Sources */,
+				892B982DBBF00613315B35D3 /* SnippetListViewController.m in Sources */,
 				892B982DBBF00613315B35DC /* EditViewController.m in Sources */,
 				892B982DBBF00613315B35E1 /* ReplViewController.m in Sources */,
 				892B982DBBF00613315B35E5 /* Snippet.m in Sources */,
 				892B982DBBF00613315B35FF /* KeyboardResizeMonitor.m in Sources */,
 				892B982DBBF00613315B3602 /* Session.m in Sources */,
 				892B982DBBF00613315B3628 /* InsetLabel.m in Sources */,
+				892B982DBBF00613315B36ED /* MGSplitCornersView.m in Sources */,
+				892B982DBBF00613315B36F0 /* MGSplitDividerView.m in Sources */,
+				892B982DBBF00613315B36F6 /* MGSplitViewController.m in Sources */,
+				892B982DBBF00613315B36F8 /* SnippetViewModel.m in Sources */,
+				892B982DBBF00613315B36FB /* EditReplSplitViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -875,7 +913,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -902,7 +940,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -917,7 +955,7 @@
 				INFOPLIST_FILE = "TryFS/TryFS-Info.plist";
 				LIBRARY_SEARCH_PATHS = "\"${PROJECT_DIR}/CrittercismSDK/**";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				USER_HEADER_SEARCH_PATHS = "\"${PROJECT_DIR}/CouchCocoa\"/** \"${PROJECT_DIR}/QuickDialog\"/**";
+				USER_HEADER_SEARCH_PATHS = "\"${PROJECT_DIR}/CouchCocoa\"/** \"${PROJECT_DIR}/QuickDialog\"/** \"${PROJECT_DIR}/MGSplitViewController/**";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -931,7 +969,7 @@
 				INFOPLIST_FILE = "TryFS/TryFS-Info.plist";
 				LIBRARY_SEARCH_PATHS = "\"${PROJECT_DIR}/CrittercismSDK/**";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				USER_HEADER_SEARCH_PATHS = "\"${PROJECT_DIR}/CouchCocoa\"/** \"${PROJECT_DIR}/QuickDialog\"/**";
+				USER_HEADER_SEARCH_PATHS = "\"${PROJECT_DIR}/CouchCocoa\"/** \"${PROJECT_DIR}/QuickDialog\"/** \"${PROJECT_DIR}/MGSplitViewController/**";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;

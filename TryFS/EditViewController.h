@@ -6,14 +6,10 @@
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
-
-
-@class Snippet;
-@class CouchDatabase;
+@class SnippetViewModel;
 
 @interface EditViewController : UIViewController <UITextViewDelegate>
 
-@property(nonatomic, retain) CouchDatabase *database;
-@property(nonatomic, retain) Snippet *snippet;
+@property(nonatomic, retain) SnippetViewModel *viewModel;
 
 @end

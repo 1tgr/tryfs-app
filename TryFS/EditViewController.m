@@ -9,47 +9,27 @@
 #import <QuartzCore/QuartzCore.h>
 #import "CouchCocoa.h"
 #import "EditViewController.h"
-#import "ReplViewController.h"
-#import "Snippet.h"
 #import "KeyboardResizeMonitor.h"
 #import "Session.h"
+#import "SnippetViewModel.h"
 #import "InsetLabel.h"
-
-@interface EditViewController ()
-
-@property(nonatomic, retain) Session *session;
-
-@end
+#import "Snippet.h"
+#import "ReplViewController.h"
 
 @implementation EditViewController
 {
     KeyboardResizeMonitor *_monitor;
-    Snippet *_snippet;
-    ReplViewController *_replViewController;
     InsetLabel *_descriptionLabel;
+    BOOL _isObserving;
 }
 
-@synthesize database = _database;
-@synthesize snippet = _snippet;
-@synthesize session = _session;
-
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self)
-        _replViewController = [[ReplViewController alloc] initWithNibName:@"ReplViewController" bundle:nil];
-
-    return self;
-}
+@synthesize viewModel = _viewModel;
 
 - (void)dealloc
 {
-    [_replViewController release];
-    [_database release];
-    [_snippet release];
-    [_session release];
     [_monitor release];
     [_descriptionLabel release];
+    [_viewModel release];
     [super dealloc];
 }
 
@@ -92,23 +72,36 @@ static UIColor *times(UIColor *colour, CGFloat f)
     textView.contentInset = inset;
 }
 
+- (void)updateNavigationItem:(BOOL)animated
+{
+    SnippetViewModel *viewModel = self.viewModel;
+    if (!viewModel.isSplit)
+    {
+        [self.navigationItem setRightBarButtonItem:viewModel.editBarButtonItem animated:animated];
+        self.title = viewModel.snippet.title;
+    }
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.title = _snippet.title;
-    self.navigationItem.backBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:@"Edit" style:UIBarButtonItemStylePlain target:nil action:nil] autorelease];
-    _replViewController.snippet = _snippet;
 
+    Snippet *snippet = self.viewModel.snippet;
     UITextView *textView = self.textView;
-    
-    if (_snippet.description != nil && _snippet.description.length > 0)
+    if (!self.viewModel.isSplit)
+    {
+        self.navigationItem.backBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:@"Edit" style:UIBarButtonItemStylePlain target:nil action:nil] autorelease];
+        _monitor = [[KeyboardResizeMonitor alloc] initWithView:self.view scrollView:textView];
+    }
+
+    if (snippet.description != nil && snippet.description.length > 0)
     {
         InsetLabel *label = [[[InsetLabel alloc] init] autorelease];
         label.font = [UIFont systemFontOfSize:[UIFont systemFontSize]];
         label.inset = UIEdgeInsetsMake(8, 8, 8, 8);
         label.lineBreakMode = UILineBreakModeWordWrap;
         label.numberOfLines = 0;
-        label.text = _snippet.description;
+        label.text = snippet.description;
         label.textColor = textView.textColor;
 
         UIColor *colour = textView.backgroundColor;
@@ -126,16 +119,14 @@ static UIColor *times(UIColor *colour, CGFloat f)
         _descriptionLabel = [label retain];
     }
 
-    _monitor = [[KeyboardResizeMonitor alloc] initWithView:self.view scrollView:textView];
-
     UIBarButtonItem *runButton = [[[UIBarButtonItem alloc] initWithTitle:@"Run" style:UIBarButtonItemStyleBordered target:self action:@selector(didContinueButton)] autorelease];
-    if (_snippet.id == nil)
+    if (snippet.id == nil)
     {
         NSError *error = nil;
         NSURL *directoryURL = [[NSFileManager defaultManager] URLForDirectory:NSDocumentDirectory inDomain:NSUserDirectory appropriateForURL:nil create:NO error:&error];
         if (error == nil)
         {
-            NSString *filename = [_snippet.title stringByAppendingPathExtension:@"fsx"];
+            NSString *filename = [snippet.title stringByAppendingPathExtension:@"fsx"];
             NSURL *fileURL = [directoryURL URLByAppendingPathComponent:filename];
             NSString *code = [NSString stringWithContentsOfURL:fileURL encoding:NSUTF8StringEncoding error:&error];
 
@@ -146,11 +137,12 @@ static UIColor *times(UIColor *colour, CGFloat f)
             }
         }
 
-        self.navigationItem.rightBarButtonItem = runButton;
+        self.viewModel.editBarButtonItem = runButton;
+        [textView becomeFirstResponder];
     }
     else
     {
-        CouchDocument *doc = [_database documentWithID:_snippet.id];
+        CouchDocument *doc = [self.viewModel.database documentWithID:snippet.id];
         UIApplication *app = [UIApplication sharedApplication];
         app.networkActivityIndicatorVisible = YES;
 
@@ -159,7 +151,7 @@ static UIColor *times(UIColor *colour, CGFloat f)
             app.networkActivityIndicatorVisible = NO;
             textView.text = [doc propertyForKey:@"code"];
             textView.selectedTextRange = [textView textRangeFromPosition:textView.beginningOfDocument toPosition:textView.beginningOfDocument];
-            [self.navigationItem setRightBarButtonItem:runButton animated:YES];
+            self.viewModel.editBarButtonItem = runButton;
         }];
     }
 }
@@ -168,19 +160,33 @@ static UIColor *times(UIColor *colour, CGFloat f)
 {
     [_monitor registerForKeyboardNotifications];
     [self resizeViews];
+    [self updateNavigationItem:animated];
+
+    if (!_isObserving)
+    {
+        [self.viewModel addObserver:self forKeyPath:@"editBarButtonItem" options:0 context:NULL];
+        _isObserving = YES;
+    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
     [_monitor cancelKeyboardNotifications];
 
-    if (_snippet.id == nil)
+    if (_isObserving)
+    {
+        _isObserving = NO;
+        [self.viewModel removeObserver:self forKeyPath:@"editBarButtonItem"];
+    }
+
+    Snippet *snippet = self.viewModel.snippet;
+    if (snippet.id == nil)
     {
         NSError *error = nil;
         NSURL *directoryURL = [[NSFileManager defaultManager] URLForDirectory:NSDocumentDirectory inDomain:NSUserDirectory appropriateForURL:nil create:YES error:&error];
         if (error == nil)
         {
-            NSString *filename = [_snippet.title stringByAppendingPathExtension:@"fsx"];
+            NSString *filename = [snippet.title stringByAppendingPathExtension:@"fsx"];
             NSURL *fileURL = [directoryURL URLByAppendingPathComponent:filename];
             [self.textView.text writeToURL:fileURL atomically:NO encoding:NSUTF8StringEncoding error:&error];
         }
@@ -201,36 +207,49 @@ static UIColor *times(UIColor *colour, CGFloat f)
     [self resizeViews];
 }
 
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    if (object == self.viewModel && keyPath == @"editBarButtonItem")
+        [self updateNavigationItem:YES];
+}
+
 - (IBAction)didContinueButton
 {
-    if (self.session == nil)
-        self.session = [[[Session alloc] initWithDatabase:_database] autorelease];
+    SnippetViewModel *viewModel = self.viewModel;
+    Session *session = viewModel.session;
+    if (session == nil)
+        session = [[[Session alloc] initWithDatabase:viewModel.database] autorelease];
 
-    self.session.code = self.textView.text;
+    session.code = self.textView.text;
 
-    if (self.session.sessionId == nil)
+    if (session.sessionId == nil)
     {
         UIApplication *app = [UIApplication sharedApplication];
         app.networkActivityIndicatorVisible = YES;
 
-        RESTOperation *op = [self.session start];
+        RESTOperation *op = [session start];
         [op onCompletion:^{
             app.networkActivityIndicatorVisible = NO;
             if (op.error == nil)
             {
-                [self.session send:@""];
-                self.navigationItem.rightBarButtonItem.title = @"Continue";
-                _replViewController.session = self.session;
+                if (viewModel.isSplit)
+                    viewModel.editBarButtonItem = nil;
+                else
+                    viewModel.editBarButtonItem.title = @"Continue";
+
+                viewModel.session = session;
+                [session send:@""];
             }
             else
             {
-                self.session = nil;
+                viewModel.session = nil;
                 [[[[UIAlertView alloc] initWithTitle:op.error.localizedDescription message:nil delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] autorelease] show];
             }
         }];
     }
 
-    [self.navigationController pushViewController:_replViewController animated:YES];
+    if (!viewModel.isSplit)
+        [self.navigationController pushViewController:viewModel.replViewController animated:YES];
 }
 
 @end

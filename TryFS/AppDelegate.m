@@ -12,6 +12,43 @@
 #import "QuickDialog.h"
 #import "Crittercism.h"
 
+@interface SmallLabelElement : QLabelElement
+
+@end
+
+@implementation SmallLabelElement
+{
+    UIFont *_font;
+}
+
+- (QLabelElement *)initWithTitle:(NSString *)string Value:(id)value
+{
+    self = [super initWithTitle:string Value:value];
+    if (self != nil)
+        _font = [[UIFont systemFontOfSize:[UIFont smallSystemFontSize]] retain];
+
+    return self;
+}
+
+- (void)dealloc
+{
+    [_font release];
+    [super dealloc];
+}
+
+- (UITableViewCell *)getCellForTableView:(QuickDialogTableView *)tableView controller:(QuickDialogController *)controller
+{
+    UITableViewCell *cell = [super getCellForTableView:tableView controller:controller];
+    cell.textLabel.font = _font;
+    return cell;
+}
+
+- (CGFloat)getRowHeightForTableView:(QuickDialogTableView *)tableView {
+    return _font.lineHeight * 2;
+}
+
+@end
+
 @implementation AppDelegate
 
 @synthesize window = _window;
@@ -52,7 +89,7 @@
         [Crittercism showCrittercism:navigationController];
     };
 
-    QLabelElement *couchdbElement = [[[QLabelElement alloc] initWithTitle:@"Powered by CouchDB" Value:nil] autorelease];
+    QLabelElement *couchdbElement = [[[SmallLabelElement alloc] initWithTitle:@"Powered by CouchDB" Value:nil] autorelease];
     couchdbElement.image = [UIImage imageNamed:@"couchdb.png"];
 
     QSection *aboutSection = [[[QSection alloc] initWithTitle:@"About Try F#"] autorelease];
@@ -60,6 +97,9 @@
     [aboutSection addElement:[AppDelegate linkElementWithTitle:@"@tim_g_robinson" url:[NSURL URLWithString:@"http://twitter.com/tim_g_robinson"] image:[UIImage imageNamed:@"twitter.png"]]];
     [aboutSection addElement:feedbackElement];
     [aboutSection addElement:couchdbElement];
+
+    if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad)
+        [aboutSection addElement:[[[SmallLabelElement alloc] initWithTitle:@"Uses MGSplitViewController by Matt Gemmell" Value:nil] autorelease]];
 
     QRootElement *root = [[[QRootElement alloc] init] autorelease];
     root.title = @"Try F#";

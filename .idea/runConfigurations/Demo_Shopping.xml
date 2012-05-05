@@ -1,6 +1,0 @@
-<component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Demo-Shopping" type="AppleRunConfiguration" factoryName="Application" SCHEME_NAME="Demo-Shopping" PROJECT_NAME="CouchCocoa" TARGET_NAME="Demo-Shopping" CONFIG_NAME="Debug" DESTINATION_ID="iphonesimulator_5.1_1" RUN_TARGET_PROJECT_NAME="CouchCocoa" RUN_TARGET_NAME="Demo-Shopping" DEBUGGER="GDB" WORKING_DIR="" PASS_PARENT_ENVS="FALSE" MAKE_ACTIVE="TRUE" WAIT_FOR="FALSE">
-    <envs />
-    <method />
-  </configuration>
-</component>

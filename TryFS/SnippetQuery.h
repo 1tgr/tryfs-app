@@ -17,4 +17,5 @@
 - (id)initWithDatabase:(CouchDatabase *)database;
 - (void)refresh;
 
+- (SnippetQuery *)filterBySearchString:(NSString *)string;
 @end

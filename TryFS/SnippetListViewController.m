@@ -16,13 +16,21 @@
 #import "EditReplSplitViewController.h"
 #import "SnippetQuery.h"
 
+@interface SnippetListViewController ()
+
+@property(nonatomic, retain) SnippetQuery *searchQuery;
+
+@end
+
 @implementation SnippetListViewController
 
 @synthesize query = _query;
+@synthesize searchQuery = _searchQuery;
 
 - (void)dealloc
 {
     [_query release];
+    [_searchQuery release];
     [super dealloc];
 }
 
@@ -35,14 +43,14 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    [_query refresh];
-    [_query addObserver:self forKeyPath:@"snippets" options:0 context:NULL];
+    [self.query refresh];
+    [self.query addObserver:self forKeyPath:@"snippets" options:0 context:NULL];
 }
 
 - (void)viewDidDisappear:(BOOL)animated
 {
     [super viewDidDisappear:animated];
-    [_query removeObserver:self forKeyPath:@"snippets"];
+    [self.query removeObserver:self forKeyPath:@"snippets"];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -52,8 +60,16 @@
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
-    if (keyPath == @"snippets" && object == _query)
+    if (keyPath == @"snippets" && object == self.query)
         [self.tableView reloadData];
+}
+
+- (SnippetQuery *)snippetQueryForTableView:(UITableView *)tableView
+{
+    if (tableView == self.tableView)
+        return self.query;
+    else
+        return self.searchQuery;
 }
 
 #pragma mark - Table view data source
@@ -65,12 +81,12 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return _query.snippets.count;
+    return [self snippetQueryForTableView:tableView].snippets.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    Snippet *s = [_query.snippets objectAtIndex:(NSUInteger) indexPath.row];
+    Snippet *s = [[self snippetQueryForTableView:tableView].snippets objectAtIndex:(NSUInteger) indexPath.row];
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:s.id];
     if (cell == nil)
     {
@@ -126,11 +142,12 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    Snippet *snippet = [_query.snippets objectAtIndex:(NSUInteger) indexPath.row];
+    SnippetQuery *query = [self snippetQueryForTableView:tableView];
+    Snippet *snippet = [query.snippets objectAtIndex:(NSUInteger) indexPath.row];
     BOOL isSplit = [UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad;
     EditViewController *editController = [[[EditViewController alloc] initWithNibName:@"EditViewController" bundle:nil] autorelease];
     ReplViewController *replController = [[[ReplViewController alloc] initWithNibName:@"ReplViewController" bundle:nil] autorelease];
-    SnippetViewModel *viewModel = [[[SnippetViewModel alloc] initWithDatabase:_query.database snippet:snippet isSplit:isSplit editViewController:editController replViewController:replController] autorelease];
+    SnippetViewModel *viewModel = [[[SnippetViewModel alloc] initWithDatabase:query.database snippet:snippet isSplit:isSplit editViewController:editController replViewController:replController] autorelease];
 
     editController.viewModel = viewModel;
     replController.viewModel = viewModel;
@@ -150,6 +167,17 @@
         controller = editController;
 
     [self.navigationController pushViewController:controller animated:YES];
+}
+
+- (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString
+{
+    self.searchQuery = [self.query filterBySearchString:searchString];
+    return YES;
+}
+
+- (void)searchDisplayControllerDidEndSearch:(UISearchDisplayController *)controller
+{
+    self.searchQuery = nil;
 }
 
 @end

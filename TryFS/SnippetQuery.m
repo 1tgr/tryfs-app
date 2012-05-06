@@ -110,4 +110,9 @@
     }];
 }
 
+- (SnippetQuery *)filterBySearchString:(NSString *)string
+{
+     return [[[SnippetQuery alloc] initWithDatabase:self.database] autorelease];
+}
+
 @end

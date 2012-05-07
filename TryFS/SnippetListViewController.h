@@ -7,10 +7,10 @@
 //
 
 
-@class SnippetQuery;
+@class SnippetDBQuery;
 
 @interface SnippetListViewController : UITableViewController <UISearchDisplayDelegate>
 
-@property(nonatomic, retain) SnippetQuery *query;
+@property(nonatomic, retain) SnippetDBQuery *query;
 
 @end

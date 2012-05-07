@@ -18,7 +18,7 @@
 
 @interface SnippetListViewController ()
 
-@property(nonatomic, retain) SnippetQuery *searchQuery;
+@property(nonatomic, retain) SnippetFilterQuery *searchQuery;
 
 @end
 
@@ -45,12 +45,14 @@
     [super viewDidAppear:animated];
     [self.query refresh];
     [self.query addObserver:self forKeyPath:@"snippets" options:0 context:NULL];
+    [self.searchQuery subscribe];
 }
 
 - (void)viewDidDisappear:(BOOL)animated
 {
     [super viewDidDisappear:animated];
     [self.query removeObserver:self forKeyPath:@"snippets"];
+    [self.searchQuery unsubscribe];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -147,7 +149,7 @@
     BOOL isSplit = [UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad;
     EditViewController *editController = [[[EditViewController alloc] initWithNibName:@"EditViewController" bundle:nil] autorelease];
     ReplViewController *replController = [[[ReplViewController alloc] initWithNibName:@"ReplViewController" bundle:nil] autorelease];
-    SnippetViewModel *viewModel = [[[SnippetViewModel alloc] initWithDatabase:query.database snippet:snippet isSplit:isSplit editViewController:editController replViewController:replController] autorelease];
+    SnippetViewModel *viewModel = [[[SnippetViewModel alloc] initWithDatabase:self.query.database snippet:snippet isSplit:isSplit editViewController:editController replViewController:replController] autorelease];
 
     editController.viewModel = viewModel;
     replController.viewModel = viewModel;
@@ -171,12 +173,19 @@
 
 - (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString
 {
-    self.searchQuery = [self.query filterBySearchString:searchString];
+    SnippetFilterQuery *query = [[[SnippetFilterQuery alloc] init] autorelease];
+    query.query = self.query;
+    query.searchString = searchString;
+
+    [self.searchQuery unsubscribe];
+    self.searchQuery = query;
+    [self.searchQuery subscribe];
     return YES;
 }
 
 - (void)searchDisplayControllerDidEndSearch:(UISearchDisplayController *)controller
 {
+    [self.searchQuery unsubscribe];
     self.searchQuery = nil;
 }
 

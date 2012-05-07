@@ -95,7 +95,7 @@
 
     QSection *aboutSection = [[[QSection alloc] initWithTitle:@"About Try F#"] autorelease];
     [aboutSection addElement:[AppDelegate linkElementWithTitle:@"timrobinson/try-fsharp" url:[NSURL URLWithString:@"https://github.com/timrobinson/try-fsharp"] image:[UIImage imageNamed:@"github.png"]]];
-    [aboutSection addElement:[AppDelegate linkElementWithTitle:@"@tim_g_robinson" url:[NSURL URLWithString:@"http://twitter.com/tim_g_robinson"] image:[UIImage imageNamed:@"twitter.png"]]];
+    [aboutSection addElement:[AppDelegate linkElementWithTitle:@"@1tgr" url:[NSURL URLWithString:@"http://twitter.com/tim_g_robinson"] image:[UIImage imageNamed:@"twitter.png"]]];
     [aboutSection addElement:feedbackElement];
     [aboutSection addElement:couchdbElement];
 

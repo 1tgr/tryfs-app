@@ -75,6 +75,7 @@
 
 - (void)subscribe
 {
+    NSUInteger lastSequenceNumber = self.tracker.lastSequenceNumber;
     [self.tracker stop];
     self.tracker = nil;
 
@@ -87,6 +88,9 @@
 
         CouchChangeTracker *tracker = [session changeTrackerWithDelegate:self];
         [tracker.filterParams setObject:@"true" forKey:@"include_docs"];
+
+        if (lastSequenceNumber > 0)
+            tracker.lastSequenceNumber = lastSequenceNumber;
 
         self.tracker = tracker;
         [self.tracker start];

@@ -117,7 +117,7 @@
                      andSecret:@"iv8nhmaqdoekq6zrwgnxxco1lc3lt4ty"];
 
     CouchServer *server = [[[CouchServer alloc] initWithURL:[NSURL URLWithString:@"http://tryfs.net"]] autorelease];
-    SnippetQuery *query = [[[SnippetQuery alloc] initWithDatabase:[server databaseNamed:@"tryfs"]] autorelease];
+    SnippetDBQuery *query = [[[SnippetDBQuery alloc] initWithDatabase:[server databaseNamed:@"tryfs"]] autorelease];
     [query refresh];
 
     SnippetListViewController *snippetsController = [[[SnippetListViewController alloc] initWithNibName:@"SnippetListViewController" bundle:nil] autorelease];

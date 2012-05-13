@@ -48,30 +48,6 @@ static UIColor *times(UIColor *colour, CGFloat f)
     return [UIColor colorWithRed:red green:green blue:blue alpha:alpha];
 }
 
-- (void)resizeViews
-{
-    if (_descriptionLabel == nil)
-        return;
-
-    UITextView *textView = self.textView;
-    UIEdgeInsets margin = UIEdgeInsetsMake(4, 4, 8, 4);
-    CGRect frame = { { 0, 0 }, textView.frame.size };
-    frame = UIEdgeInsetsInsetRect(frame, margin);
-
-    UIEdgeInsets padding = _descriptionLabel.inset;
-    frame.size.width -= padding.left + padding.right;
-    frame.size.height -= padding.top + padding.bottom;
-    frame.size.height = [_descriptionLabel.text sizeWithFont:_descriptionLabel.font constrainedToSize:frame.size lineBreakMode:_descriptionLabel.lineBreakMode].height;
-    frame.size.width += padding.left + padding.right;
-    frame.size.height += padding.top + padding.bottom;
-    frame.origin.y = -(frame.size.height + margin.bottom);
-    _descriptionLabel.frame = frame;
-
-    UIEdgeInsets inset = textView.contentInset;
-    inset.top = margin.top - frame.origin.y;
-    textView.contentInset = inset;
-}
-
 - (void)updateNavigationItem:(BOOL)animated
 {
     SnippetViewModel *viewModel = self.viewModel;
@@ -159,7 +135,6 @@ static UIColor *times(UIColor *colour, CGFloat f)
 - (void)viewWillAppear:(BOOL)animated
 {
     [_monitor registerForKeyboardNotifications];
-    [self resizeViews];
     [self updateNavigationItem:animated];
 
     if (!_isObserving)
@@ -201,10 +176,30 @@ static UIColor *times(UIColor *colour, CGFloat f)
     return [UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad || interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown;
 }
 
-- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+- (void)viewDidLayoutSubviews
 {
-    [super willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
-    [self resizeViews];
+    [super viewDidLayoutSubviews];
+
+    if (_descriptionLabel != nil)
+    {
+        UITextView *textView = self.textView;
+        UIEdgeInsets margin = UIEdgeInsetsMake(4, 4, 8, 4);
+        CGRect frame = { { 0, 0 }, textView.frame.size };
+        frame = UIEdgeInsetsInsetRect(frame, margin);
+
+        UIEdgeInsets padding = _descriptionLabel.inset;
+        frame.size.width -= padding.left + padding.right;
+        frame.size.height -= padding.top + padding.bottom;
+        frame.size.height = [_descriptionLabel.text sizeWithFont:_descriptionLabel.font constrainedToSize:frame.size lineBreakMode:_descriptionLabel.lineBreakMode].height;
+        frame.size.width += padding.left + padding.right;
+        frame.size.height += padding.top + padding.bottom;
+        frame.origin.y = -(frame.size.height + margin.bottom);
+        _descriptionLabel.frame = frame;
+
+        UIEdgeInsets inset = textView.contentInset;
+        inset.top = margin.top - frame.origin.y;
+        textView.contentInset = inset;
+    }
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context

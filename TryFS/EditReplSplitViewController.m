@@ -26,7 +26,13 @@
 {
     self = [super init];
     if (self != nil)
+    {
         self.delegate = self;
+        self.masterBeforeDetail = NO;
+        self.showsMasterInPortrait = YES;
+        self.splitWidth = 2;
+        self.vertical = NO;
+    }
 
     return self;
 }

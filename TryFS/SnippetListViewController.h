@@ -9,8 +9,9 @@
 
 @class SnippetDBQuery;
 
-@interface SnippetListViewController : UITableViewController <UISearchDisplayDelegate>
+@interface SnippetListViewController : UIViewController <UISearchDisplayDelegate, UITableViewDataSource, UITableViewDelegate>
 
+@property(nonatomic, retain) IBOutlet UITableView *tableView;
 @property(nonatomic, retain) SnippetDBQuery *query;
 
 @end

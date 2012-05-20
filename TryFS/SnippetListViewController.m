@@ -24,6 +24,7 @@
 
 @implementation SnippetListViewController
 
+@synthesize tableView = _tableView;
 @synthesize query = _query;
 @synthesize searchQuery = _searchQuery;
 
@@ -31,6 +32,7 @@
 {
     [_query release];
     [_searchQuery release];
+    [_tableView release];
     [super dealloc];
 }
 
@@ -38,6 +40,14 @@
 {
     [super viewDidLoad];
     self.title = @"Snippets";
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+
+    for (NSIndexPath *indexPath in self.tableView .indexPathsForSelectedRows)
+        [self.tableView deselectRowAtIndexPath:indexPath animated:NO];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -63,7 +73,10 @@
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
     if (keyPath == @"snippets" && object == self.query)
+    {
         [self.tableView reloadData];
+        [self.tableView flashScrollIndicators];
+    }
 }
 
 - (SnippetQuery *)snippetQueryForTableView:(UITableView *)tableView

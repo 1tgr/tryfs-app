@@ -14,7 +14,9 @@
 #import "ReplViewController.h"
 #import "SnippetViewModel.h"
 #import "EditReplSplitViewController.h"
-#import "SnippetQuery.h"
+#import "SnippetFilterQuery.h"
+#import "SnippetDBQuery.h"
+#import "SnippetListViewModel.h"
 
 @interface SnippetListViewController ()
 
@@ -25,14 +27,20 @@
 @implementation SnippetListViewController
 
 @synthesize tableView = _tableView;
+@synthesize tabBar = _tabBar;
+@synthesize recentTabBarItem = _recentTabBarItem;
+@synthesize authorTabBarItem = _authorTabBarItem;
 @synthesize query = _query;
 @synthesize searchQuery = _searchQuery;
 
 - (void)dealloc
 {
+    [_tableView release];
+    [_tabBar release];
+    [_authorTabBarItem release];
+    [_recentTabBarItem release];
     [_query release];
     [_searchQuery release];
-    [_tableView release];
     [super dealloc];
 }
 
@@ -40,6 +48,9 @@
 {
     [super viewDidLoad];
     self.title = @"Snippets";
+    self.recentTabBarItem.tag = SnippetQuerySortModeRecent;
+    self.authorTabBarItem.tag = SnippetQuerySortModeAuthor;
+    self.tabBar.selectedItem = self.recentTabBarItem;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -53,15 +64,15 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    [self.query refresh];
-    [self.query addObserver:self forKeyPath:@"snippets" options:0 context:NULL];
+    [self.query refreshWithActivityOn:[UIApplication sharedApplication]];
+    [self.query addObserver:self forKeyPath:@"viewModel" options:0 context:NULL];
     [self.searchQuery subscribe];
 }
 
 - (void)viewDidDisappear:(BOOL)animated
 {
     [super viewDidDisappear:animated];
-    [self.query removeObserver:self forKeyPath:@"snippets"];
+    [self.query removeObserver:self forKeyPath:@"viewModel"];
     [self.searchQuery unsubscribe];
 }
 
@@ -72,36 +83,47 @@
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
-    if (keyPath == @"snippets" && object == self.query)
+    if (keyPath == @"viewModel" && object == self.query)
     {
         [self.tableView reloadData];
         [self.tableView flashScrollIndicators];
     }
 }
 
-- (SnippetQuery *)snippetQueryForTableView:(UITableView *)tableView
+- (SnippetListViewModel *)viewModelForTableView:(UITableView *)tableView
 {
     if (tableView == self.tableView)
-        return self.query;
+        return self.query.viewModel;
     else
-        return self.searchQuery;
+        return self.searchQuery.viewModel;
 }
 
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 1;
+    SnippetListViewModel *model = [self viewModelForTableView:tableView];
+    return model.sectionTitles.count;
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+    SnippetListViewModel *model = [self viewModelForTableView:tableView];
+    return [model.sectionTitles objectAtIndex:(NSUInteger) section];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [self snippetQueryForTableView:tableView].snippets.count;
+    SnippetListViewModel *model = [self viewModelForTableView:tableView];
+    NSNumber *offsetA = [model.sectionOffsets objectAtIndex:(NSUInteger) section];
+    NSNumber *offsetB = [model.sectionOffsets objectAtIndex:(NSUInteger) (section + 1)];
+    return offsetB.unsignedIntegerValue - offsetA.unsignedIntegerValue;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    Snippet *s = [[self snippetQueryForTableView:tableView].snippets objectAtIndex:(NSUInteger) indexPath.row];
+    SnippetListViewModel *model = [self viewModelForTableView:tableView];
+    Snippet *s = [model snippetAtIndexPath:indexPath];
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:s.id];
     if (cell == nil)
     {
@@ -114,55 +136,16 @@
     return cell;
 }
 
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
-
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    }   
-    else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
-{
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
-
 #pragma mark - Table view delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    SnippetQuery *query = [self snippetQueryForTableView:tableView];
-    Snippet *snippet = [query.snippets objectAtIndex:(NSUInteger) indexPath.row];
+    SnippetListViewModel *model = [self viewModelForTableView:tableView];
+    Snippet *s = [model snippetAtIndexPath:indexPath];
     BOOL isSplit = [UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad;
     EditViewController *editController = [[[EditViewController alloc] initWithNibName:@"EditViewController" bundle:nil] autorelease];
     ReplViewController *replController = [[[ReplViewController alloc] initWithNibName:@"ReplViewController" bundle:nil] autorelease];
-    SnippetViewModel *viewModel = [[[SnippetViewModel alloc] initWithDatabase:self.query.database snippet:snippet isSplit:isSplit editViewController:editController replViewController:replController] autorelease];
+    SnippetViewModel *viewModel = [[[SnippetViewModel alloc] initWithDatabase:self.query.database snippet:s isSplit:isSplit editViewController:editController replViewController:replController] autorelease];
 
     editController.viewModel = viewModel;
     replController.viewModel = viewModel;
@@ -197,6 +180,16 @@
 {
     [self.searchQuery unsubscribe];
     self.searchQuery = nil;
+}
+
+- (void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item
+{
+    SnippetQuerySortMode mode = (SnippetQuerySortMode) item.tag;
+    if (mode != self.query.sortMode)
+    {
+        self.query.sortMode = mode;
+        [self.query refreshWithActivityOn:[UIApplication sharedApplication]];
+    }
 }
 
 @end

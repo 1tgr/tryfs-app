@@ -11,7 +11,7 @@
 #import "SnippetListViewController.h"
 #import "QuickDialog.h"
 #import "Crittercism.h"
-#import "SnippetQuery.h"
+#import "SnippetDBQuery.h"
 
 @interface SmallLabelElement : QLabelElement
 
@@ -118,7 +118,7 @@
 
     CouchServer *server = [[[CouchServer alloc] initWithURL:[NSURL URLWithString:@"http://tryfs.net"]] autorelease];
     SnippetDBQuery *query = [[[SnippetDBQuery alloc] initWithDatabase:[server databaseNamed:@"tryfs"]] autorelease];
-    [query refresh];
+    [query refreshWithActivityOn:application];
 
     SnippetListViewController *snippetsController = [[[SnippetListViewController alloc] initWithNibName:@"SnippetListViewController" bundle:nil] autorelease];
     snippetsController.query = query;

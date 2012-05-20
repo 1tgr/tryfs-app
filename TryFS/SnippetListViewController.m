@@ -112,6 +112,46 @@
     return [model.sectionTitles objectAtIndex:(NSUInteger) section];
 }
 
+- (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView
+{
+    SnippetListViewModel *model = [self viewModelForTableView:tableView];
+    if (model.groupedOn == nil)
+        return nil;
+    else
+    {
+        NSMutableSet *set = [[[NSMutableSet alloc] init] autorelease];
+        for (NSString *title in model.sectionTitles)
+        {
+            if (title.length > 0)
+            {
+                NSString *prefix = [title substringToIndex:1].uppercaseString;
+                [set addObject:prefix];
+            }
+        }
+
+        return [set sortedArrayUsingDescriptors:[NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:nil ascending:YES]]];
+    }
+}
+
+- (NSInteger)tableView:(UITableView *)tableView sectionForSectionIndexTitle:(NSString *)sectionIndexTitle atIndex:(NSInteger)index
+{
+    SnippetListViewModel *model = [self viewModelForTableView:tableView];
+    NSInteger i = 0;
+    for (NSString *title in model.sectionTitles)
+    {
+        if (title.length > 0)
+        {
+            NSString *prefix = [title substringToIndex:1].uppercaseString;
+            if ([prefix isEqualToString:sectionIndexTitle])
+                return i;
+        }
+
+        i++;
+    }
+
+    return 0;
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     SnippetListViewModel *model = [self viewModelForTableView:tableView];

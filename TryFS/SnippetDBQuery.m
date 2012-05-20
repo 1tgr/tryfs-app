@@ -21,6 +21,8 @@
 {
     CouchDatabase *_database;
     Snippet *_emptySnippet;
+    NSArray *_queries;
+    NSMutableArray *_viewModels;
 }
 
 @synthesize database = _database;
@@ -34,8 +36,6 @@
     if (self != nil)
     {
         _database = [database retain];
-        self.sortMode = SnippetQuerySortModeRecent;
-
         _emptySnippet = [[Snippet alloc] initWithId:nil
                                                 rev:nil
                                              author:@""
@@ -43,7 +43,16 @@
                                         description:@""
                                                date:[NSDate date]];
 
-        self.viewModel = [[SnippetListViewModel alloc] initWithSnippets:[NSArray arrayWithObject:_emptySnippet] groupedOn:nil];
+        CouchDesignDocument *ddoc = [_database designDocumentWithName:@"app"];
+        CouchQuery *recentQuery = [ddoc queryViewNamed:@"snippets"];
+        recentQuery.descending = YES;
+
+        CouchQuery *authorQuery = [ddoc queryViewNamed:@"snippets-by-author"];
+        _queries = [[NSArray arrayWithObjects:recentQuery, authorQuery, nil] retain];
+
+        SnippetListViewModel *emptyModel = [[[SnippetListViewModel alloc] initWithSnippets:[NSArray arrayWithObject:_emptySnippet] groupedOn:nil] autorelease];
+        _viewModels = [[NSMutableArray arrayWithObjects:emptyModel, emptyModel, nil] retain];
+        self.sortMode = SnippetQuerySortModeRecent;
     }
 
     return self;
@@ -53,33 +62,17 @@
 {
     [_database release];
     [_query release];
+    [_queries release];
+    [_viewModels release];
     [_emptySnippet release];
     [_op release];
     [super dealloc];
 }
 
-- (CouchQuery *)couchQueryForSortMode:(SnippetQuerySortMode)mode
-{
-    CouchDesignDocument *ddoc = [_database designDocumentWithName:@"app"];
-    CouchQuery *query;
-    switch (mode)
-    {
-        case SnippetQuerySortModeRecent:
-            query = [ddoc queryViewNamed:@"snippets"];
-            query.descending = YES;
-            return query;
-
-        case SnippetQuerySortModeAuthor:
-            return [ddoc queryViewNamed:@"snippets-by-author"];
-
-        default:
-            @throw [NSException exceptionWithName:NSInvalidArgumentException reason:@"Invalid SnippetQuerySortMode" userInfo:nil];
-    }
-}
-
 - (void)setSortMode:(SnippetQuerySortMode)mode
 {
-    self.query = [self couchQueryForSortMode:mode];
+    self.query = [_queries objectAtIndex:mode];
+    self.viewModel = [_viewModels objectAtIndex:mode];
     _sortMode = mode;
 }
 
@@ -96,6 +89,7 @@
 
     CouchQuery *query = self.query;
     NSString *oldETag = query.eTag;
+    SnippetQuerySortMode mode = self.sortMode;
     app.networkActivityIndicatorVisible = YES;
 
     RESTOperation *op = [query start];
@@ -134,7 +128,9 @@
                 }
             }
 
-            self.viewModel = [self viewModelForSnippets:snippets];
+            SnippetListViewModel *model = [self viewModelForSnippets:snippets];
+            [_viewModels replaceObjectAtIndex:mode withObject:model];
+            self.viewModel = model;
         }
     }];
 }

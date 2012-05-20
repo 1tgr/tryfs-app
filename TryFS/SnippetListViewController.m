@@ -57,7 +57,7 @@
 {
     [super viewWillAppear:animated];
 
-    for (NSIndexPath *indexPath in self.tableView .indexPathsForSelectedRows)
+    for (NSIndexPath *indexPath in self.tableView.indexPathsForSelectedRows)
         [self.tableView deselectRowAtIndexPath:indexPath animated:NO];
 }
 

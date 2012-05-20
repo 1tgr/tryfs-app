@@ -164,13 +164,18 @@
 {
     SnippetListViewModel *model = [self viewModelForTableView:tableView];
     Snippet *s = [model snippetAtIndexPath:indexPath];
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:s.id];
+    NSString *reuseId = [NSString stringWithFormat:@"%@-%@", s.id, model.groupedOn];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseId];
     if (cell == nil)
     {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:s.id] autorelease];
-        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        UITableViewCellStyle style = model.groupedOn == @"author"
+                ? UITableViewCellStyleDefault
+                : UITableViewCellStyleSubtitle;
+
+        cell = [[[UITableViewCell alloc] initWithStyle:style reuseIdentifier:reuseId] autorelease];
     }
 
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     cell.textLabel.text = s.title;
     cell.detailTextLabel.text = s.author;
     return cell;

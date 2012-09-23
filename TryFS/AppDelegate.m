@@ -72,6 +72,8 @@
     return label;
 }
 
+#undef SCREENSHOT
+
 + (QRootElement *)aboutForm:(UINavigationController *)navigationController snippetsController:(SnippetListViewController *)snippetsController
 {
     QLabelElement *snippetsElement = [[[QLabelElement alloc] initWithTitle:@"Snippets" Value:nil] autorelease];
@@ -126,10 +128,14 @@
     UINavigationController *navigationController = [[[UINavigationController alloc] init] autorelease];
     navigationController.navigationBar.tintColor = [UIColor colorWithRed:1 green:0.7 blue:0 alpha:1];
 
+#ifdef SCREENSHOT
+    [navigationController pushViewController:[[[UITableViewController alloc] init] autorelease] animated:NO];
+#else
     QRootElement *root = [AppDelegate aboutForm:navigationController snippetsController:snippetsController];
     QuickDialogController *aboutController = [[[QuickDialogController alloc] initWithRoot:root] autorelease];
     [navigationController pushViewController:aboutController animated:NO];
     [navigationController pushViewController:snippetsController animated:NO];
+#endif
 
     UIWindow *window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
     window.rootViewController = navigationController;

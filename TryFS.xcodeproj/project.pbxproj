@@ -125,6 +125,14 @@
 		892B982DBBF00613315B36F6 /* MGSplitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 892B982DBBF00613315B36F5 /* MGSplitViewController.m */; };
 		892B982DBBF00613315B36F8 /* SnippetViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 892B982DBBF00613315B36F7 /* SnippetViewModel.m */; };
 		892B982DBBF00613315B36FB /* EditReplSplitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 892B982DBBF00613315B36FA /* EditReplSplitViewController.m */; };
+		892B982DBBF00613315B36FE /* SnippetFilterQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 892B982DBBF00613315B36FD /* SnippetFilterQuery.m */; };
+		892B982DBBF00613315B3701 /* SnippetDBQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 892B982DBBF00613315B3700 /* SnippetDBQuery.m */; };
+		892B982DBBF00613315B3705 /* SnippetListViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 892B982DBBF00613315B3704 /* SnippetListViewModel.m */; };
+		892B982DBBF00613315B3707 /* SnippetListViewModel.h in Resources */ = {isa = PBXBuildFile; fileRef = 892B982DBBF00613315B3706 /* SnippetListViewModel.h */; };
+		892B982DBBF00613315B3709 /* author.png in Resources */ = {isa = PBXBuildFile; fileRef = 892B982DBBF00613315B3708 /* author.png */; };
+		892B982DBBF00613315B370B /* author@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 892B982DBBF00613315B370A /* author@2x.png */; };
+		892B982DBBF00613315B370D /* recent.png in Resources */ = {isa = PBXBuildFile; fileRef = 892B982DBBF00613315B370C /* recent.png */; };
+		892B982DBBF00613315B370F /* recent@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 892B982DBBF00613315B370E /* recent@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -358,6 +366,17 @@
 		892B982DBBF00613315B36F9 /* SnippetViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SnippetViewModel.h; sourceTree = "<group>"; };
 		892B982DBBF00613315B36FA /* EditReplSplitViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditReplSplitViewController.m; sourceTree = "<group>"; };
 		892B982DBBF00613315B36FC /* EditReplSplitViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditReplSplitViewController.h; sourceTree = "<group>"; };
+		892B982DBBF00613315B36FD /* SnippetFilterQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SnippetFilterQuery.m; sourceTree = "<group>"; };
+		892B982DBBF00613315B36FF /* SnippetFilterQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SnippetFilterQuery.h; sourceTree = "<group>"; };
+		892B982DBBF00613315B3700 /* SnippetDBQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SnippetDBQuery.m; sourceTree = "<group>"; };
+		892B982DBBF00613315B3702 /* SnippetDBQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SnippetDBQuery.h; sourceTree = "<group>"; };
+		892B982DBBF00613315B3703 /* SnippetQueryProtected.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SnippetQueryProtected.h; sourceTree = "<group>"; };
+		892B982DBBF00613315B3704 /* SnippetListViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SnippetListViewModel.m; sourceTree = "<group>"; };
+		892B982DBBF00613315B3706 /* SnippetListViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SnippetListViewModel.h; sourceTree = "<group>"; };
+		892B982DBBF00613315B3708 /* author.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = author.png; sourceTree = "<group>"; };
+		892B982DBBF00613315B370A /* author@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "author@2x.png"; sourceTree = "<group>"; };
+		892B982DBBF00613315B370C /* recent.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = recent.png; sourceTree = "<group>"; };
+		892B982DBBF00613315B370E /* recent@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "recent@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -434,11 +453,18 @@
 				892B982DBBF00613315B3601 /* Session.m */,
 				892B982DBBF00613315B35E6 /* Snippet.h */,
 				892B982DBBF00613315B35E4 /* Snippet.m */,
+				892B982DBBF00613315B3702 /* SnippetDBQuery.h */,
+				892B982DBBF00613315B3700 /* SnippetDBQuery.m */,
+				892B982DBBF00613315B36FF /* SnippetFilterQuery.h */,
+				892B982DBBF00613315B36FD /* SnippetFilterQuery.m */,
 				892B982DBBF00613315B35D1 /* SnippetListViewController.h */,
 				892B982DBBF00613315B35D2 /* SnippetListViewController.m */,
 				892B982DBBF00613315B35D4 /* SnippetListViewController.xib */,
+				892B982DBBF00613315B3706 /* SnippetListViewModel.h */,
+				892B982DBBF00613315B3704 /* SnippetListViewModel.m */,
 				222856011557074A006D8A02 /* SnippetQuery.h */,
 				222856021557074A006D8A02 /* SnippetQuery.m */,
+				892B982DBBF00613315B3703 /* SnippetQueryProtected.h */,
 				892B982DBBF00613315B36F9 /* SnippetViewModel.h */,
 				892B982DBBF00613315B36F7 /* SnippetViewModel.m */,
 			);
@@ -448,6 +474,8 @@
 		892B982DBBF00613315B35C4 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				892B982DBBF00613315B3708 /* author.png */,
+				892B982DBBF00613315B370A /* author@2x.png */,
 				892B982DBBF00613315B360A /* couchdb.png */,
 				892B982DBBF00613315B3612 /* couchdb@2x.png */,
 				22D02889152CCF2700FB04D0 /* Default-Landscape@2x~ipad.png */,
@@ -466,6 +494,8 @@
 				892B982DBBF00613315B3620 /* mail.png */,
 				892B982DBBF00613315B3622 /* mail@2x.png */,
 				892B982DBBF00613315B35C9 /* main.m */,
+				892B982DBBF00613315B370C /* recent.png */,
+				892B982DBBF00613315B370E /* recent@2x.png */,
 				892B982DBBF00613315B35C5 /* TryFS-Info.plist */,
 				892B982DBBF00613315B35CB /* TryFS-Prefix.pch */,
 				892B982DBBF00613315B3618 /* twitter.png */,
@@ -865,6 +895,11 @@
 				892B982DBBF00613315B36DA /* CrittercismGridViewController.xib in Resources */,
 				892B982DBBF00613315B36DC /* CrittercismRootViewController.xib in Resources */,
 				892B982DBBF00613315B36DE /* CrittercismViewController.xib in Resources */,
+				892B982DBBF00613315B3707 /* SnippetListViewModel.h in Resources */,
+				892B982DBBF00613315B3709 /* author.png in Resources */,
+				892B982DBBF00613315B370B /* author@2x.png in Resources */,
+				892B982DBBF00613315B370D /* recent.png in Resources */,
+				892B982DBBF00613315B370F /* recent@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -890,6 +925,9 @@
 				892B982DBBF00613315B36F8 /* SnippetViewModel.m in Sources */,
 				892B982DBBF00613315B36FB /* EditReplSplitViewController.m in Sources */,
 				222856031557074A006D8A02 /* SnippetQuery.m in Sources */,
+				892B982DBBF00613315B36FE /* SnippetFilterQuery.m in Sources */,
+				892B982DBBF00613315B3701 /* SnippetDBQuery.m in Sources */,
+				892B982DBBF00613315B3705 /* SnippetListViewModel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
